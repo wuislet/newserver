@@ -5,7 +5,7 @@ import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy
 
 String dsPrd = '''
 com.mysql.jdbc.Driver
-jdbc:mysql://127.0.0.1:3506/mj?useUnicode=true&characterEncoding=UTF-8&autoReconnectForPools=true&allowMultiQueries=true&connectTimeout=3000
+jdbc:mysql://127.0.0.1:3306/mj?useUnicode=true&characterEncoding=UTF-8&autoReconnectForPools=true&allowMultiQueries=true&connectTimeout=3000
 root
 root
 
@@ -16,7 +16,7 @@ maxIdleTime=30
 
 String dsLocal = '''
 com.mysql.jdbc.Driver
-jdbc:mysql://114.215.135.213:3506/mj?useUnicode=true&characterEncoding=UTF-8&autoReconnectForPools=true&allowMultiQueries=true&connectTimeout=3000
+jdbc:mysql://114.215.135.213:3306/mj?useUnicode=true&characterEncoding=UTF-8&autoReconnectForPools=true&allowMultiQueries=true&connectTimeout=3000
 dqmj3d
 dqmj3d20170523
 
