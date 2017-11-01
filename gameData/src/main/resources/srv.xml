@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="userDao" class="com.buding.db.dao.UserDaoImpl" />
+	<bean id="itemDao" class="com.buding.db.dao.ItemDaoImpl" />
+	<bean id="userDataDao" class="com.buding.db.dao.UserDataDaoImpl" />
+	<bean id="taskDao" class="com.buding.db.dao.TaskDaoImpl" />
+	<bean id="robotDao" class="com.buding.db.dao.RobotDaoImpl" />
+	<bean id="userOrderDao" class="com.buding.db.dao.UserOrderDaoImpl" />
+	<bean id="userRankDao" class="com.buding.db.dao.UserRankDaoImpl" />
+	<bean id="rankAuditDao" class="com.buding.db.dao.RankAuditDaoImpl" />
+	<bean id="msgDao" class="com.buding.db.dao.MsgDaoImpl" />
+	<bean id="awardDao" class="com.buding.db.dao.AwardDaoImpl" />
+	<bean id="exchangeDao" class="com.buding.db.dao.ExchangeDaoImpl" />
+	<bean id="userRoomDao" class="com.buding.db.dao.UserRoomDaoImpl" />	
+	<bean id="confDao" class="com.buding.db.dao.ConfDaoImpl" />
+	<bean id="currencyLogDao" class="com.buding.db.dao.CurrencyLogDaoImpl" />
+	
+</beans>
