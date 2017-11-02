@@ -57,7 +57,7 @@ public class GameData extends GameDataBase {
 	public int quanNum = 1;//
 	
 	// 总共多少圈的房间
-//	public int quanTotal = 0;
+//	public int quanTotal = 0; //TODO WXD check
 
 	// 本局开始时间-结束时间
 	public long handStartTime = 0L;
@@ -67,7 +67,7 @@ public class GameData extends GameDataBase {
 	// 当前操作玩家位置
 	private int currentOpertaionPlayerIndex;
 
-	public byte currentCard = 0; // 当前打出来的牌
+	private byte currentCard = 0; // 当前打出来的牌
 	private int cardOpPlayerIndex = 0; // 当前打牌的玩家
 	private long waitingStartTime = 0L;
 	public long startChangeBaoTime = 0;
@@ -149,21 +149,6 @@ public class GameData extends GameDataBase {
 		this.baoChangeNum = baoChangeNum;
 	}
 
-	// 最后一个牌能胡
-	public boolean isNextInFinalStage() {
-		int iNum = 12;
-
-		// 如果是换过宝，就多一只
-		if (this.getBaoChangeNum() % 2 == 1) {
-			iNum = 13;
-		}
-
-		if (getCardLeftNum() <= (iNum - 1))
-			return true;
-
-		return false;
-	}
-
 	// 是否已经进入最后阶段，最后要剩8，9张牌
 	public boolean isInFinalStage() {
 		int iNum = 12;
@@ -194,10 +179,6 @@ public class GameData extends GameDataBase {
 	}
 
 	public void setWaitingPlayerOperate(ActionWaitingModel waitingPlayerOperate) {
-		System.out.println("======================================= [ " + waitingPlayerOperate);
-		//Exception e = new Exception("   LOG   set  waiting  ");
-		//e.printStackTrace();
-		System.out.println("======================================= ] ");
 		this.waitingPlayerOperate = waitingPlayerOperate;
 		
 	}
@@ -207,6 +188,15 @@ public class GameData extends GameDataBase {
 		Byte b = 0;
 		if (this.mDeskCard.cards.size() > 0)
 			b = this.mDeskCard.cards.remove(0);
+
+		return b;
+	}
+	
+	public byte popGangCard() {
+		Byte b = 0;
+		int len = this.mDeskCard.cards.size();
+		if (len > 0)
+			b = this.mDeskCard.cards.remove(len - 1);
 
 		return b;
 	}
@@ -253,14 +243,7 @@ public class GameData extends GameDataBase {
 	}
 
 	public boolean has3SameCards(byte card, int position) {
-		// 判断是否手牌有3张与目标牌一样
-		int sames = 0;
-		for (byte tempCard : getCardsInHand(position)) {
-			if (tempCard == card) {
-				sames++;
-			}
-		}
-		if (sames == 3) {
+		if (getXCardNumInHand(card, position) == 3) {
 			return true;
 		}
 
@@ -349,7 +332,7 @@ public class GameData extends GameDataBase {
 	}
 
 	// 查询手里的第几张牌
-	public Byte findCardInHand(int value, int position) {
+	public Byte findCardInHand(int value, int position) { //TODO WXD check 函数用途不明？
 		Byte b = 0;
 		List<Byte> cardsInHand = getCardsInHand(position);
 		for (int i = 0; i < cardsInHand.size(); i++) {
@@ -363,11 +346,29 @@ public class GameData extends GameDataBase {
 		return b;
 	}
 	
-	// 在玩家门前放一张吃碰杠牌
-	public int addCardDown(int c1, int c2, int c3, boolean isChi, int position) {
+	/**
+	 * 在玩家门前放一张吃碰杠牌
+	 * @param chipoint 被吃的牌点数。
+	 * @param point1 其他两张牌，吃有用，其他情况置0。
+	 * @param point2 其他两张牌，吃有用，其他情况置0。
+	 * @param type 1-碰 2-吃 3-杠
+	 * @param position
+	 * @return
+	 */
+	public int addCardDown(int chipoint, int point1, int point2, int type, int position) {
 		List<Integer> list = getCardsDown(position);
 		
-		int card = MJHelper.addCardDown(c1, c2, c3, isChi, list);
+		int point = chipoint;
+		if(type == 2) {//挑出最小的点数
+			if(point1 < point) {
+				point = point1;
+			}
+			if(point2 < point) {
+				point = point2;
+			}
+		}
+		
+		int card = MJHelper.addCardDown(point, chipoint, type, list);
 		return card;
 	}
 
@@ -376,6 +377,22 @@ public class GameData extends GameDataBase {
 		if (getCardsDown(position).size() <= 0)
 			return true;
 		//
+		return false;
+	}
+	
+	public boolean tryBuGang(int card, int position) {
+		for (int i = 0; i < getCardsDown(position).size(); i++) {
+			int bb = getCardsDown(position).get(i);
+			byte b1 = (byte) (bb & 0xff);
+			byte b2 = (byte) ((bb >> 8) & 0xff);
+			byte b3 = (byte) ((bb >> 16) & 0xff);
+
+			if (b1 == card && b2 == card && b3 == card) {
+				Integer gang = (MJConstants.MAHJONG_CODE_GANG_CARD << 16) | (0 << 8) | b1;
+				this.mPlayerCards[position].cardsDown.set(i, gang);
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -400,6 +417,9 @@ public class GameData extends GameDataBase {
 				num++;
 			if (b3 == b)
 				num++;
+			if (b3 == MJConstants.MAHJONG_CODE_GANG_CARD && b1 == b) { //如果是杠，则额外加3（上面已经加1了）。
+				num += 3;
+			}
 		}
 		List<Byte> cardsBefore = getCardsBefore(position);
 		for (int i = 0; i < cardsBefore.size(); i++) {

@@ -163,6 +163,5 @@ public class MJStateRun extends MJStateCommon {
 
 	@Override
 	public void handlePlayerHangup(int position) {
-//		this.mCardLogic.playerAutoOper(this.mGameData, this.mDesk, position);
 	}
 }

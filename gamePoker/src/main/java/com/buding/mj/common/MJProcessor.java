@@ -28,9 +28,6 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 		int cd = card & 0xff;
 		ActionWaitingModel result = null;
 		
-		if (gameData.getCardNumInHand(pl.position) <= 3)
-			return null;
-		
 		int same_card_num = gameData.getXCardNumInHand(card, pl.position);
 
 		if (same_card_num >= 2) {
@@ -43,22 +40,55 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 		return result;
 	}
 	
-	// 杠
-	public ActionWaitingModel check_ming_gang(GameData gameData, byte card, PlayerInfo pl) {
-		int cd = card & 0xff;
+	// 暗杠
+	public ActionWaitingModel check_an_gang(GameData gameData, PlayerInfo pl) {
 		ActionWaitingModel result = null;
 		
-		if (gameData.getCardNumInHand(pl.position) <= 3)
-			return null;
+		List<Byte> cardsInHand = gameData.getCardsInHand(pl.position);
+		for (int i = 0; i < cardsInHand.size(); i++) {
+			byte card = cardsInHand.get(i);
+			int same_card_num = gameData.getXCardNumInHand(card, pl.position);
+			if (same_card_num >= 4) {
+				if(result == null) {
+					result = new ActionWaitingModel();
+					result.playerTableIndex = pl.position;
+					result.opertaion = MJConstants.MAHJONG_OPERTAION_AN_GANG;
+				}
+				result.gangList.add(card);
+			}
+		}
+		return result;
+	}
+	
+	// 补杠
+	public ActionWaitingModel check_bu_gang(GameData gameData, PlayerInfo pl) {
+		ActionWaitingModel result = null;
+		
+		List<Byte> cardsInHand = gameData.getCardsInHand(pl.position);
+		for (int i = 0; i < cardsInHand.size(); i++) {
+			byte card = cardsInHand.get(i);
+			if (gameData.isPengCard(card, pl.position)) {
+				if(result == null) {
+					result = new ActionWaitingModel();
+					result.playerTableIndex = pl.position;
+					result.opertaion = MJConstants.MAHJONG_OPERTAION_AN_GANG;
+				}
+				result.gangList.add(card);
+			}
+		}
+		return result;
+	}
+	
+	// 直杠
+	public ActionWaitingModel check_zhi_gang(GameData gameData, byte card, PlayerInfo pl) {
+		ActionWaitingModel result = null;
 		
 		int same_card_num = gameData.getXCardNumInHand(card, pl.position);
-
 		if (same_card_num >= 3) {
 			result = new ActionWaitingModel();
-			result.targetCard = card;
-			result.peng_card_value = cd | (cd << 8);
+			result.gangList.add(card);
 			result.playerTableIndex = pl.position;
-			result.opertaion = MJConstants.MAHJONG_OPERTAION_BU_GANG; //TODO WXD 区分杠法
+			result.opertaion = MJConstants.MAHJONG_OPERTAION_ZHI_GANG;
 		}
 		return result;
 	}
@@ -328,6 +358,9 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 		for (int i = 0; i < cardsDown.size(); i++) {
 			byte card = (byte)(cardsDown.get(i) & 0xff);
 			if (!MJHelper.isNormalCard(card)) {
+				continue;
+			}
+			if(card == (byte)MJConstants.MAHJONG_CODE_GANG_CARD){
 				continue;
 			}
 			int color = MJHelper.getCardColor(card);

@@ -41,7 +41,7 @@ public interface ICardLogic<T extends Desk> {
 	public boolean isFinishQuan(GameData gameData, T gt);
 	
 	//服务器托管自动操作
-	public void playerAutoOper(GameData gameData, T gt, int position);
+	//public void playerAutoOper(GameData gameData, T gt, int position);
 	
 	//重新推送玩家数据,用于断线重连
 	public void repushGameData(GameData gameData, T desk, int position);

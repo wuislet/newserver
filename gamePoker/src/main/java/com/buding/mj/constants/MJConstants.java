@@ -54,6 +54,7 @@ public class MJConstants {
 	public static final int MAHJONG_CODE_COLOR_SHIFTS =4;//花色部分的移位，花色，【0，1，2】
 	public static final int MAHJONG_CODE_COLOR_MASK =0xf0;//花色部分的掩码
 	public static final int MAHJONG_CODE_NUMBER_MASK =0x0f;//数字部分的掩码
+	public static final int MAHJONG_CODE_GANG_CARD =0x0f;//杠的特殊数字标识！ //TODO 技术债务
 	/**玩家牌局结果*/
 	public static final int MAHJONG_HU_CODE_MEN_QING =0x0001;//门清
 	public static final int MAHJONG_HU_CODE_DIAN_PAO =0x0002;//点炮
@@ -105,11 +106,12 @@ public class MJConstants {
 	public static final int GAME_TABLE_SUB_STATE_SHOW_INIT_CARDS=5;//客户端在播发牌动画
 	public static final int GAME_TABLE_SUB_STATE_SHOW_CHANGE_BAO=6;//客户端在播换宝动画
 	public static final int GAME_TABLE_SUB_STATE_WAIT_CHANGE_BAO=7;//准备推送上宝/换宝动画
+	public static final int GAME_TABLE_SUB_STATE_PLAYING_GANG_ANIMATION=8;//客户端在播杠牌动画
 		
 	public static final int SEND_TYPE_SINGLE = 1;//发给单人
 	public static final int SEND_TYPE_ALL = 2;//发给所有人
 	public static final int SEND_TYPE_EXCEPT_ONE = 3;//发给除某人外其他人
 	
-	public static final int MAHJONG_CANCEL_OPER_CHI_PENG = 0x01;	
-	public static final int MAHJONG_CANCEL_OPER_TING = 0x02;
+	public static final int MAHJONG_CANCEL_OPER_OTHER_TURN = 0x01;	 //取消了其他人回合的操作。如碰，吃。
+	public static final int MAHJONG_CANCEL_OPER_SELF_TURN = 0x02;    //取消了自己回合的操作。如暗杠，听
 }

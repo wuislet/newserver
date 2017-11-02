@@ -19,16 +19,11 @@ public class ActionWaitingModel {
 
 	//可碰牌，2张牌byte拼成一个int, 和targetCard一起组合刻子
 	public int peng_card_value = 0;
-
-	//可吃牌，2张牌byte拼成一个int, 和targetCard一起组合顺子
-//	public int chi_card_value = 0;
-
-	// 吃听标位符
-//	public int chi_flag = 0;
 	
+	//吃牌
 	public List<CardCombo> chiCombos = new ArrayList<CardCombo>();
 
-	// 吃碰杠的目标牌,即别的玩家打出的会导致你可以吃碰杠的牌
+	// 吃碰的目标牌,即别的玩家打出的会导致你可以吃碰的牌
 	public byte targetCard = 0;
 	
 	//刚摸到的牌
@@ -39,10 +34,13 @@ public class ActionWaitingModel {
 
 	// 打出哪些牌可以听
 	public List<Byte> tingList = new ArrayList<Byte>();
-
-	public ChuTingModel chuAndTingModel = null;
 	
-	public ChuTingModel pengChuAndTingModel = null;
+	// 可以杠的牌
+	public List<Byte> gangList = new ArrayList<Byte>();
+
+	public ChuTingModel chuAndTingModel = null; //TODO WXD check usage
+	
+	public ChuTingModel pengChuAndTingModel = null; //TODO WXD check usage
 	
 	//3,4,5
 	public Map<CardCombo, ChuTingModel> chiChuAndTingModelMap = new HashMap<CardCombo, ChuTingModel>();

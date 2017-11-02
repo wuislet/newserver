@@ -4892,9 +4892,35 @@ public final class MJ {
      */
     int getTingList(int index);
 
-    // repeated sint32 tingDzs = 5;
+    // repeated sint32 gangList = 5;
     /**
-     * <code>repeated sint32 tingDzs = 5;</code>
+     * <code>repeated sint32 gangList = 5;</code>
+     *
+     * <pre>
+     *任何一张都能杠
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getGangListList();
+    /**
+     * <code>repeated sint32 gangList = 5;</code>
+     *
+     * <pre>
+     *任何一张都能杠
+     * </pre>
+     */
+    int getGangListCount();
+    /**
+     * <code>repeated sint32 gangList = 5;</code>
+     *
+     * <pre>
+     *任何一张都能杠
+     * </pre>
+     */
+    int getGangList(int index);
+
+    // repeated sint32 tingDzs = 6;
+    /**
+     * <code>repeated sint32 tingDzs = 6;</code>
      *
      * <pre>
      *支对提醒时，告诉客户端有哪些对子
@@ -4902,7 +4928,7 @@ public final class MJ {
      */
     java.util.List<java.lang.Integer> getTingDzsList();
     /**
-     * <code>repeated sint32 tingDzs = 5;</code>
+     * <code>repeated sint32 tingDzs = 6;</code>
      *
      * <pre>
      *支对提醒时，告诉客户端有哪些对子
@@ -4910,7 +4936,7 @@ public final class MJ {
      */
     int getTingDzsCount();
     /**
-     * <code>repeated sint32 tingDzs = 5;</code>
+     * <code>repeated sint32 tingDzs = 6;</code>
      *
      * <pre>
      *支对提醒时，告诉客户端有哪些对子
@@ -4918,34 +4944,34 @@ public final class MJ {
      */
     int getTingDzs(int index);
 
-    // repeated .packet.mj.GameOperChiArg chiArg = 6;
+    // repeated .packet.mj.GameOperChiArg chiArg = 7;
     /**
-     * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+     * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
      */
     java.util.List<packet.mj.MJ.GameOperChiArg> 
         getChiArgList();
     /**
-     * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+     * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
      */
     packet.mj.MJ.GameOperChiArg getChiArg(int index);
     /**
-     * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+     * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
      */
     int getChiArgCount();
     /**
-     * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+     * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
      */
     java.util.List<? extends packet.mj.MJ.GameOperChiArgOrBuilder> 
         getChiArgOrBuilderList();
     /**
-     * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+     * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
      */
     packet.mj.MJ.GameOperChiArgOrBuilder getChiArgOrBuilder(
         int index);
 
-    // optional sint32 pengArg = 7;
+    // optional sint32 pengArg = 8;
     /**
-     * <code>optional sint32 pengArg = 7;</code>
+     * <code>optional sint32 pengArg = 8;</code>
      *
      * <pre>
      *可以碰的牌，这里只传一张牌
@@ -4953,7 +4979,7 @@ public final class MJ {
      */
     boolean hasPengArg();
     /**
-     * <code>optional sint32 pengArg = 7;</code>
+     * <code>optional sint32 pengArg = 8;</code>
      *
      * <pre>
      *可以碰的牌，这里只传一张牌
@@ -4961,9 +4987,9 @@ public final class MJ {
      */
     int getPengArg();
 
-    // optional sint32 lastActionPosition = 8;
+    // optional sint32 lastActionPosition = 9;
     /**
-     * <code>optional sint32 lastActionPosition = 8;</code>
+     * <code>optional sint32 lastActionPosition = 9;</code>
      *
      * <pre>
      *上一个行动的玩家位置
@@ -4971,7 +4997,7 @@ public final class MJ {
      */
     boolean hasLastActionPosition();
     /**
-     * <code>optional sint32 lastActionPosition = 8;</code>
+     * <code>optional sint32 lastActionPosition = 9;</code>
      *
      * <pre>
      *上一个行动的玩家位置
@@ -4979,9 +5005,9 @@ public final class MJ {
      */
     int getLastActionPosition();
 
-    // optional sint32 lastActionCard = 9;
+    // optional sint32 lastActionCard = 10;
     /**
-     * <code>optional sint32 lastActionCard = 9;</code>
+     * <code>optional sint32 lastActionCard = 10;</code>
      *
      * <pre>
      *上一个行动的牌值
@@ -4989,7 +5015,7 @@ public final class MJ {
      */
     boolean hasLastActionCard();
     /**
-     * <code>optional sint32 lastActionCard = 9;</code>
+     * <code>optional sint32 lastActionCard = 10;</code>
      *
      * <pre>
      *上一个行动的牌值
@@ -4997,9 +5023,9 @@ public final class MJ {
      */
     int getLastActionCard();
 
-    // optional sint32 mustZhiDui = 10;
+    // optional sint32 mustZhiDui = 11;
     /**
-     * <code>optional sint32 mustZhiDui = 10;</code>
+     * <code>optional sint32 mustZhiDui = 11;</code>
      *
      * <pre>
      *是否必须支队,非必须为0,必须为1
@@ -5007,7 +5033,7 @@ public final class MJ {
      */
     boolean hasMustZhiDui();
     /**
-     * <code>optional sint32 mustZhiDui = 10;</code>
+     * <code>optional sint32 mustZhiDui = 11;</code>
      *
      * <pre>
      *是否必须支队,非必须为0,必须为1
@@ -5126,18 +5152,39 @@ public final class MJ {
             }
             case 40: {
               if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
-                tingDzs_ = new java.util.ArrayList<java.lang.Integer>();
+                gangList_ = new java.util.ArrayList<java.lang.Integer>();
                 mutable_bitField0_ |= 0x00000010;
               }
-              tingDzs_.add(input.readSInt32());
+              gangList_.add(input.readSInt32());
               break;
             }
             case 42: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
               if (!((mutable_bitField0_ & 0x00000010) == 0x00000010) && input.getBytesUntilLimit() > 0) {
-                tingDzs_ = new java.util.ArrayList<java.lang.Integer>();
+                gangList_ = new java.util.ArrayList<java.lang.Integer>();
                 mutable_bitField0_ |= 0x00000010;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                gangList_.add(input.readSInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+            case 48: {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+                tingDzs_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              tingDzs_.add(input.readSInt32());
+              break;
+            }
+            case 50: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020) && input.getBytesUntilLimit() > 0) {
+                tingDzs_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000020;
               }
               while (input.getBytesUntilLimit() > 0) {
                 tingDzs_.add(input.readSInt32());
@@ -5145,30 +5192,30 @@ public final class MJ {
               input.popLimit(limit);
               break;
             }
-            case 50: {
-              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+            case 58: {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
                 chiArg_ = new java.util.ArrayList<packet.mj.MJ.GameOperChiArg>();
-                mutable_bitField0_ |= 0x00000020;
+                mutable_bitField0_ |= 0x00000040;
               }
               chiArg_.add(input.readMessage(packet.mj.MJ.GameOperChiArg.PARSER, extensionRegistry));
               break;
             }
-            case 56: {
+            case 64: {
               bitField0_ |= 0x00000008;
               pengArg_ = input.readSInt32();
               break;
             }
-            case 64: {
+            case 72: {
               bitField0_ |= 0x00000010;
               lastActionPosition_ = input.readSInt32();
               break;
             }
-            case 72: {
+            case 80: {
               bitField0_ |= 0x00000020;
               lastActionCard_ = input.readSInt32();
               break;
             }
-            case 80: {
+            case 88: {
               bitField0_ |= 0x00000040;
               mustZhiDui_ = input.readSInt32();
               break;
@@ -5190,9 +5237,12 @@ public final class MJ {
           tingList_ = java.util.Collections.unmodifiableList(tingList_);
         }
         if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
-          tingDzs_ = java.util.Collections.unmodifiableList(tingDzs_);
+          gangList_ = java.util.Collections.unmodifiableList(gangList_);
         }
         if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+          tingDzs_ = java.util.Collections.unmodifiableList(tingDzs_);
+        }
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           chiArg_ = java.util.Collections.unmodifiableList(chiArg_);
         }
         this.unknownFields = unknownFields.build();
@@ -5334,11 +5384,46 @@ public final class MJ {
       return tingList_.get(index);
     }
 
-    // repeated sint32 tingDzs = 5;
-    public static final int TINGDZS_FIELD_NUMBER = 5;
+    // repeated sint32 gangList = 5;
+    public static final int GANGLIST_FIELD_NUMBER = 5;
+    private java.util.List<java.lang.Integer> gangList_;
+    /**
+     * <code>repeated sint32 gangList = 5;</code>
+     *
+     * <pre>
+     *任何一张都能杠
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getGangListList() {
+      return gangList_;
+    }
+    /**
+     * <code>repeated sint32 gangList = 5;</code>
+     *
+     * <pre>
+     *任何一张都能杠
+     * </pre>
+     */
+    public int getGangListCount() {
+      return gangList_.size();
+    }
+    /**
+     * <code>repeated sint32 gangList = 5;</code>
+     *
+     * <pre>
+     *任何一张都能杠
+     * </pre>
+     */
+    public int getGangList(int index) {
+      return gangList_.get(index);
+    }
+
+    // repeated sint32 tingDzs = 6;
+    public static final int TINGDZS_FIELD_NUMBER = 6;
     private java.util.List<java.lang.Integer> tingDzs_;
     /**
-     * <code>repeated sint32 tingDzs = 5;</code>
+     * <code>repeated sint32 tingDzs = 6;</code>
      *
      * <pre>
      *支对提醒时，告诉客户端有哪些对子
@@ -5349,7 +5434,7 @@ public final class MJ {
       return tingDzs_;
     }
     /**
-     * <code>repeated sint32 tingDzs = 5;</code>
+     * <code>repeated sint32 tingDzs = 6;</code>
      *
      * <pre>
      *支对提醒时，告诉客户端有哪些对子
@@ -5359,7 +5444,7 @@ public final class MJ {
       return tingDzs_.size();
     }
     /**
-     * <code>repeated sint32 tingDzs = 5;</code>
+     * <code>repeated sint32 tingDzs = 6;</code>
      *
      * <pre>
      *支对提醒时，告诉客户端有哪些对子
@@ -5369,47 +5454,47 @@ public final class MJ {
       return tingDzs_.get(index);
     }
 
-    // repeated .packet.mj.GameOperChiArg chiArg = 6;
-    public static final int CHIARG_FIELD_NUMBER = 6;
+    // repeated .packet.mj.GameOperChiArg chiArg = 7;
+    public static final int CHIARG_FIELD_NUMBER = 7;
     private java.util.List<packet.mj.MJ.GameOperChiArg> chiArg_;
     /**
-     * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+     * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
      */
     public java.util.List<packet.mj.MJ.GameOperChiArg> getChiArgList() {
       return chiArg_;
     }
     /**
-     * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+     * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
      */
     public java.util.List<? extends packet.mj.MJ.GameOperChiArgOrBuilder> 
         getChiArgOrBuilderList() {
       return chiArg_;
     }
     /**
-     * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+     * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
      */
     public int getChiArgCount() {
       return chiArg_.size();
     }
     /**
-     * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+     * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
      */
     public packet.mj.MJ.GameOperChiArg getChiArg(int index) {
       return chiArg_.get(index);
     }
     /**
-     * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+     * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
      */
     public packet.mj.MJ.GameOperChiArgOrBuilder getChiArgOrBuilder(
         int index) {
       return chiArg_.get(index);
     }
 
-    // optional sint32 pengArg = 7;
-    public static final int PENGARG_FIELD_NUMBER = 7;
+    // optional sint32 pengArg = 8;
+    public static final int PENGARG_FIELD_NUMBER = 8;
     private int pengArg_;
     /**
-     * <code>optional sint32 pengArg = 7;</code>
+     * <code>optional sint32 pengArg = 8;</code>
      *
      * <pre>
      *可以碰的牌，这里只传一张牌
@@ -5419,7 +5504,7 @@ public final class MJ {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional sint32 pengArg = 7;</code>
+     * <code>optional sint32 pengArg = 8;</code>
      *
      * <pre>
      *可以碰的牌，这里只传一张牌
@@ -5429,11 +5514,11 @@ public final class MJ {
       return pengArg_;
     }
 
-    // optional sint32 lastActionPosition = 8;
-    public static final int LASTACTIONPOSITION_FIELD_NUMBER = 8;
+    // optional sint32 lastActionPosition = 9;
+    public static final int LASTACTIONPOSITION_FIELD_NUMBER = 9;
     private int lastActionPosition_;
     /**
-     * <code>optional sint32 lastActionPosition = 8;</code>
+     * <code>optional sint32 lastActionPosition = 9;</code>
      *
      * <pre>
      *上一个行动的玩家位置
@@ -5443,7 +5528,7 @@ public final class MJ {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional sint32 lastActionPosition = 8;</code>
+     * <code>optional sint32 lastActionPosition = 9;</code>
      *
      * <pre>
      *上一个行动的玩家位置
@@ -5453,11 +5538,11 @@ public final class MJ {
       return lastActionPosition_;
     }
 
-    // optional sint32 lastActionCard = 9;
-    public static final int LASTACTIONCARD_FIELD_NUMBER = 9;
+    // optional sint32 lastActionCard = 10;
+    public static final int LASTACTIONCARD_FIELD_NUMBER = 10;
     private int lastActionCard_;
     /**
-     * <code>optional sint32 lastActionCard = 9;</code>
+     * <code>optional sint32 lastActionCard = 10;</code>
      *
      * <pre>
      *上一个行动的牌值
@@ -5467,7 +5552,7 @@ public final class MJ {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional sint32 lastActionCard = 9;</code>
+     * <code>optional sint32 lastActionCard = 10;</code>
      *
      * <pre>
      *上一个行动的牌值
@@ -5477,11 +5562,11 @@ public final class MJ {
       return lastActionCard_;
     }
 
-    // optional sint32 mustZhiDui = 10;
-    public static final int MUSTZHIDUI_FIELD_NUMBER = 10;
+    // optional sint32 mustZhiDui = 11;
+    public static final int MUSTZHIDUI_FIELD_NUMBER = 11;
     private int mustZhiDui_;
     /**
-     * <code>optional sint32 mustZhiDui = 10;</code>
+     * <code>optional sint32 mustZhiDui = 11;</code>
      *
      * <pre>
      *是否必须支队,非必须为0,必须为1
@@ -5491,7 +5576,7 @@ public final class MJ {
       return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional sint32 mustZhiDui = 10;</code>
+     * <code>optional sint32 mustZhiDui = 11;</code>
      *
      * <pre>
      *是否必须支队,非必须为0,必须为1
@@ -5530,6 +5615,7 @@ public final class MJ {
       actions_ = 0;
       newCard_ = 0;
       tingList_ = java.util.Collections.emptyList();
+      gangList_ = java.util.Collections.emptyList();
       tingDzs_ = java.util.Collections.emptyList();
       chiArg_ = java.util.Collections.emptyList();
       pengArg_ = 0;
@@ -5576,23 +5662,26 @@ public final class MJ {
       for (int i = 0; i < tingList_.size(); i++) {
         output.writeSInt32(4, tingList_.get(i));
       }
+      for (int i = 0; i < gangList_.size(); i++) {
+        output.writeSInt32(5, gangList_.get(i));
+      }
       for (int i = 0; i < tingDzs_.size(); i++) {
-        output.writeSInt32(5, tingDzs_.get(i));
+        output.writeSInt32(6, tingDzs_.get(i));
       }
       for (int i = 0; i < chiArg_.size(); i++) {
-        output.writeMessage(6, chiArg_.get(i));
+        output.writeMessage(7, chiArg_.get(i));
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeSInt32(7, pengArg_);
+        output.writeSInt32(8, pengArg_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeSInt32(8, lastActionPosition_);
+        output.writeSInt32(9, lastActionPosition_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeSInt32(9, lastActionCard_);
+        output.writeSInt32(10, lastActionCard_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeSInt32(10, mustZhiDui_);
+        output.writeSInt32(11, mustZhiDui_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeSInt32(100, seq_);
@@ -5629,6 +5718,15 @@ public final class MJ {
       }
       {
         int dataSize = 0;
+        for (int i = 0; i < gangList_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeSInt32SizeNoTag(gangList_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getGangListList().size();
+      }
+      {
+        int dataSize = 0;
         for (int i = 0; i < tingDzs_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
             .computeSInt32SizeNoTag(tingDzs_.get(i));
@@ -5638,23 +5736,23 @@ public final class MJ {
       }
       for (int i = 0; i < chiArg_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, chiArg_.get(i));
+          .computeMessageSize(7, chiArg_.get(i));
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeSInt32Size(7, pengArg_);
+          .computeSInt32Size(8, pengArg_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeSInt32Size(8, lastActionPosition_);
+          .computeSInt32Size(9, lastActionPosition_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeSInt32Size(9, lastActionCard_);
+          .computeSInt32Size(10, lastActionCard_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeSInt32Size(10, mustZhiDui_);
+          .computeSInt32Size(11, mustZhiDui_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
@@ -5789,24 +5887,26 @@ public final class MJ {
         bitField0_ = (bitField0_ & ~0x00000004);
         tingList_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000008);
-        tingDzs_ = java.util.Collections.emptyList();
+        gangList_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000010);
+        tingDzs_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
         if (chiArgBuilder_ == null) {
           chiArg_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000040);
         } else {
           chiArgBuilder_.clear();
         }
         pengArg_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000040);
-        lastActionPosition_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
-        lastActionCard_ = 0;
+        lastActionPosition_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
-        mustZhiDui_ = 0;
+        lastActionCard_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
-        seq_ = 0;
+        mustZhiDui_ = 0;
         bitField0_ = (bitField0_ & ~0x00000400);
+        seq_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -5853,36 +5953,41 @@ public final class MJ {
         }
         result.tingList_ = tingList_;
         if (((bitField0_ & 0x00000010) == 0x00000010)) {
-          tingDzs_ = java.util.Collections.unmodifiableList(tingDzs_);
+          gangList_ = java.util.Collections.unmodifiableList(gangList_);
           bitField0_ = (bitField0_ & ~0x00000010);
+        }
+        result.gangList_ = gangList_;
+        if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          tingDzs_ = java.util.Collections.unmodifiableList(tingDzs_);
+          bitField0_ = (bitField0_ & ~0x00000020);
         }
         result.tingDzs_ = tingDzs_;
         if (chiArgBuilder_ == null) {
-          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
             chiArg_ = java.util.Collections.unmodifiableList(chiArg_);
-            bitField0_ = (bitField0_ & ~0x00000020);
+            bitField0_ = (bitField0_ & ~0x00000040);
           }
           result.chiArg_ = chiArg_;
         } else {
           result.chiArg_ = chiArgBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000008;
         }
         result.pengArg_ = pengArg_;
-        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000010;
         }
         result.lastActionPosition_ = lastActionPosition_;
-        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
           to_bitField0_ |= 0x00000020;
         }
         result.lastActionCard_ = lastActionCard_;
-        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
           to_bitField0_ |= 0x00000040;
         }
         result.mustZhiDui_ = mustZhiDui_;
-        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
           to_bitField0_ |= 0x00000080;
         }
         result.seq_ = seq_;
@@ -5921,10 +6026,20 @@ public final class MJ {
           }
           onChanged();
         }
+        if (!other.gangList_.isEmpty()) {
+          if (gangList_.isEmpty()) {
+            gangList_ = other.gangList_;
+            bitField0_ = (bitField0_ & ~0x00000010);
+          } else {
+            ensureGangListIsMutable();
+            gangList_.addAll(other.gangList_);
+          }
+          onChanged();
+        }
         if (!other.tingDzs_.isEmpty()) {
           if (tingDzs_.isEmpty()) {
             tingDzs_ = other.tingDzs_;
-            bitField0_ = (bitField0_ & ~0x00000010);
+            bitField0_ = (bitField0_ & ~0x00000020);
           } else {
             ensureTingDzsIsMutable();
             tingDzs_.addAll(other.tingDzs_);
@@ -5935,7 +6050,7 @@ public final class MJ {
           if (!other.chiArg_.isEmpty()) {
             if (chiArg_.isEmpty()) {
               chiArg_ = other.chiArg_;
-              bitField0_ = (bitField0_ & ~0x00000020);
+              bitField0_ = (bitField0_ & ~0x00000040);
             } else {
               ensureChiArgIsMutable();
               chiArg_.addAll(other.chiArg_);
@@ -5948,7 +6063,7 @@ public final class MJ {
               chiArgBuilder_.dispose();
               chiArgBuilder_ = null;
               chiArg_ = other.chiArg_;
-              bitField0_ = (bitField0_ & ~0x00000020);
+              bitField0_ = (bitField0_ & ~0x00000040);
               chiArgBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getChiArgFieldBuilder() : null;
@@ -6254,16 +6369,110 @@ public final class MJ {
         return this;
       }
 
-      // repeated sint32 tingDzs = 5;
-      private java.util.List<java.lang.Integer> tingDzs_ = java.util.Collections.emptyList();
-      private void ensureTingDzsIsMutable() {
+      // repeated sint32 gangList = 5;
+      private java.util.List<java.lang.Integer> gangList_ = java.util.Collections.emptyList();
+      private void ensureGangListIsMutable() {
         if (!((bitField0_ & 0x00000010) == 0x00000010)) {
-          tingDzs_ = new java.util.ArrayList<java.lang.Integer>(tingDzs_);
+          gangList_ = new java.util.ArrayList<java.lang.Integer>(gangList_);
           bitField0_ |= 0x00000010;
          }
       }
       /**
-       * <code>repeated sint32 tingDzs = 5;</code>
+       * <code>repeated sint32 gangList = 5;</code>
+       *
+       * <pre>
+       *任何一张都能杠
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getGangListList() {
+        return java.util.Collections.unmodifiableList(gangList_);
+      }
+      /**
+       * <code>repeated sint32 gangList = 5;</code>
+       *
+       * <pre>
+       *任何一张都能杠
+       * </pre>
+       */
+      public int getGangListCount() {
+        return gangList_.size();
+      }
+      /**
+       * <code>repeated sint32 gangList = 5;</code>
+       *
+       * <pre>
+       *任何一张都能杠
+       * </pre>
+       */
+      public int getGangList(int index) {
+        return gangList_.get(index);
+      }
+      /**
+       * <code>repeated sint32 gangList = 5;</code>
+       *
+       * <pre>
+       *任何一张都能杠
+       * </pre>
+       */
+      public Builder setGangList(
+          int index, int value) {
+        ensureGangListIsMutable();
+        gangList_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated sint32 gangList = 5;</code>
+       *
+       * <pre>
+       *任何一张都能杠
+       * </pre>
+       */
+      public Builder addGangList(int value) {
+        ensureGangListIsMutable();
+        gangList_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated sint32 gangList = 5;</code>
+       *
+       * <pre>
+       *任何一张都能杠
+       * </pre>
+       */
+      public Builder addAllGangList(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureGangListIsMutable();
+        super.addAll(values, gangList_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated sint32 gangList = 5;</code>
+       *
+       * <pre>
+       *任何一张都能杠
+       * </pre>
+       */
+      public Builder clearGangList() {
+        gangList_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000010);
+        onChanged();
+        return this;
+      }
+
+      // repeated sint32 tingDzs = 6;
+      private java.util.List<java.lang.Integer> tingDzs_ = java.util.Collections.emptyList();
+      private void ensureTingDzsIsMutable() {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+          tingDzs_ = new java.util.ArrayList<java.lang.Integer>(tingDzs_);
+          bitField0_ |= 0x00000020;
+         }
+      }
+      /**
+       * <code>repeated sint32 tingDzs = 6;</code>
        *
        * <pre>
        *支对提醒时，告诉客户端有哪些对子
@@ -6274,7 +6483,7 @@ public final class MJ {
         return java.util.Collections.unmodifiableList(tingDzs_);
       }
       /**
-       * <code>repeated sint32 tingDzs = 5;</code>
+       * <code>repeated sint32 tingDzs = 6;</code>
        *
        * <pre>
        *支对提醒时，告诉客户端有哪些对子
@@ -6284,7 +6493,7 @@ public final class MJ {
         return tingDzs_.size();
       }
       /**
-       * <code>repeated sint32 tingDzs = 5;</code>
+       * <code>repeated sint32 tingDzs = 6;</code>
        *
        * <pre>
        *支对提醒时，告诉客户端有哪些对子
@@ -6294,7 +6503,7 @@ public final class MJ {
         return tingDzs_.get(index);
       }
       /**
-       * <code>repeated sint32 tingDzs = 5;</code>
+       * <code>repeated sint32 tingDzs = 6;</code>
        *
        * <pre>
        *支对提醒时，告诉客户端有哪些对子
@@ -6308,7 +6517,7 @@ public final class MJ {
         return this;
       }
       /**
-       * <code>repeated sint32 tingDzs = 5;</code>
+       * <code>repeated sint32 tingDzs = 6;</code>
        *
        * <pre>
        *支对提醒时，告诉客户端有哪些对子
@@ -6321,7 +6530,7 @@ public final class MJ {
         return this;
       }
       /**
-       * <code>repeated sint32 tingDzs = 5;</code>
+       * <code>repeated sint32 tingDzs = 6;</code>
        *
        * <pre>
        *支对提醒时，告诉客户端有哪些对子
@@ -6335,7 +6544,7 @@ public final class MJ {
         return this;
       }
       /**
-       * <code>repeated sint32 tingDzs = 5;</code>
+       * <code>repeated sint32 tingDzs = 6;</code>
        *
        * <pre>
        *支对提醒时，告诉客户端有哪些对子
@@ -6343,18 +6552,18 @@ public final class MJ {
        */
       public Builder clearTingDzs() {
         tingDzs_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000020);
         onChanged();
         return this;
       }
 
-      // repeated .packet.mj.GameOperChiArg chiArg = 6;
+      // repeated .packet.mj.GameOperChiArg chiArg = 7;
       private java.util.List<packet.mj.MJ.GameOperChiArg> chiArg_ =
         java.util.Collections.emptyList();
       private void ensureChiArgIsMutable() {
-        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
           chiArg_ = new java.util.ArrayList<packet.mj.MJ.GameOperChiArg>(chiArg_);
-          bitField0_ |= 0x00000020;
+          bitField0_ |= 0x00000040;
          }
       }
 
@@ -6362,7 +6571,7 @@ public final class MJ {
           packet.mj.MJ.GameOperChiArg, packet.mj.MJ.GameOperChiArg.Builder, packet.mj.MJ.GameOperChiArgOrBuilder> chiArgBuilder_;
 
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public java.util.List<packet.mj.MJ.GameOperChiArg> getChiArgList() {
         if (chiArgBuilder_ == null) {
@@ -6372,7 +6581,7 @@ public final class MJ {
         }
       }
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public int getChiArgCount() {
         if (chiArgBuilder_ == null) {
@@ -6382,7 +6591,7 @@ public final class MJ {
         }
       }
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public packet.mj.MJ.GameOperChiArg getChiArg(int index) {
         if (chiArgBuilder_ == null) {
@@ -6392,7 +6601,7 @@ public final class MJ {
         }
       }
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public Builder setChiArg(
           int index, packet.mj.MJ.GameOperChiArg value) {
@@ -6409,7 +6618,7 @@ public final class MJ {
         return this;
       }
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public Builder setChiArg(
           int index, packet.mj.MJ.GameOperChiArg.Builder builderForValue) {
@@ -6423,7 +6632,7 @@ public final class MJ {
         return this;
       }
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public Builder addChiArg(packet.mj.MJ.GameOperChiArg value) {
         if (chiArgBuilder_ == null) {
@@ -6439,7 +6648,7 @@ public final class MJ {
         return this;
       }
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public Builder addChiArg(
           int index, packet.mj.MJ.GameOperChiArg value) {
@@ -6456,7 +6665,7 @@ public final class MJ {
         return this;
       }
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public Builder addChiArg(
           packet.mj.MJ.GameOperChiArg.Builder builderForValue) {
@@ -6470,7 +6679,7 @@ public final class MJ {
         return this;
       }
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public Builder addChiArg(
           int index, packet.mj.MJ.GameOperChiArg.Builder builderForValue) {
@@ -6484,7 +6693,7 @@ public final class MJ {
         return this;
       }
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public Builder addAllChiArg(
           java.lang.Iterable<? extends packet.mj.MJ.GameOperChiArg> values) {
@@ -6498,12 +6707,12 @@ public final class MJ {
         return this;
       }
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public Builder clearChiArg() {
         if (chiArgBuilder_ == null) {
           chiArg_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000040);
           onChanged();
         } else {
           chiArgBuilder_.clear();
@@ -6511,7 +6720,7 @@ public final class MJ {
         return this;
       }
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public Builder removeChiArg(int index) {
         if (chiArgBuilder_ == null) {
@@ -6524,14 +6733,14 @@ public final class MJ {
         return this;
       }
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public packet.mj.MJ.GameOperChiArg.Builder getChiArgBuilder(
           int index) {
         return getChiArgFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public packet.mj.MJ.GameOperChiArgOrBuilder getChiArgOrBuilder(
           int index) {
@@ -6541,7 +6750,7 @@ public final class MJ {
         }
       }
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public java.util.List<? extends packet.mj.MJ.GameOperChiArgOrBuilder> 
            getChiArgOrBuilderList() {
@@ -6552,14 +6761,14 @@ public final class MJ {
         }
       }
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public packet.mj.MJ.GameOperChiArg.Builder addChiArgBuilder() {
         return getChiArgFieldBuilder().addBuilder(
             packet.mj.MJ.GameOperChiArg.getDefaultInstance());
       }
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public packet.mj.MJ.GameOperChiArg.Builder addChiArgBuilder(
           int index) {
@@ -6567,7 +6776,7 @@ public final class MJ {
             index, packet.mj.MJ.GameOperChiArg.getDefaultInstance());
       }
       /**
-       * <code>repeated .packet.mj.GameOperChiArg chiArg = 6;</code>
+       * <code>repeated .packet.mj.GameOperChiArg chiArg = 7;</code>
        */
       public java.util.List<packet.mj.MJ.GameOperChiArg.Builder> 
            getChiArgBuilderList() {
@@ -6580,7 +6789,7 @@ public final class MJ {
           chiArgBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               packet.mj.MJ.GameOperChiArg, packet.mj.MJ.GameOperChiArg.Builder, packet.mj.MJ.GameOperChiArgOrBuilder>(
                   chiArg_,
-                  ((bitField0_ & 0x00000020) == 0x00000020),
+                  ((bitField0_ & 0x00000040) == 0x00000040),
                   getParentForChildren(),
                   isClean());
           chiArg_ = null;
@@ -6588,20 +6797,20 @@ public final class MJ {
         return chiArgBuilder_;
       }
 
-      // optional sint32 pengArg = 7;
+      // optional sint32 pengArg = 8;
       private int pengArg_ ;
       /**
-       * <code>optional sint32 pengArg = 7;</code>
+       * <code>optional sint32 pengArg = 8;</code>
        *
        * <pre>
        *可以碰的牌，这里只传一张牌
        * </pre>
        */
       public boolean hasPengArg() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
-       * <code>optional sint32 pengArg = 7;</code>
+       * <code>optional sint32 pengArg = 8;</code>
        *
        * <pre>
        *可以碰的牌，这里只传一张牌
@@ -6611,46 +6820,46 @@ public final class MJ {
         return pengArg_;
       }
       /**
-       * <code>optional sint32 pengArg = 7;</code>
+       * <code>optional sint32 pengArg = 8;</code>
        *
        * <pre>
        *可以碰的牌，这里只传一张牌
        * </pre>
        */
       public Builder setPengArg(int value) {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
         pengArg_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional sint32 pengArg = 7;</code>
+       * <code>optional sint32 pengArg = 8;</code>
        *
        * <pre>
        *可以碰的牌，这里只传一张牌
        * </pre>
        */
       public Builder clearPengArg() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         pengArg_ = 0;
         onChanged();
         return this;
       }
 
-      // optional sint32 lastActionPosition = 8;
+      // optional sint32 lastActionPosition = 9;
       private int lastActionPosition_ ;
       /**
-       * <code>optional sint32 lastActionPosition = 8;</code>
+       * <code>optional sint32 lastActionPosition = 9;</code>
        *
        * <pre>
        *上一个行动的玩家位置
        * </pre>
        */
       public boolean hasLastActionPosition() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
-       * <code>optional sint32 lastActionPosition = 8;</code>
+       * <code>optional sint32 lastActionPosition = 9;</code>
        *
        * <pre>
        *上一个行动的玩家位置
@@ -6660,46 +6869,46 @@ public final class MJ {
         return lastActionPosition_;
       }
       /**
-       * <code>optional sint32 lastActionPosition = 8;</code>
+       * <code>optional sint32 lastActionPosition = 9;</code>
        *
        * <pre>
        *上一个行动的玩家位置
        * </pre>
        */
       public Builder setLastActionPosition(int value) {
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000100;
         lastActionPosition_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional sint32 lastActionPosition = 8;</code>
+       * <code>optional sint32 lastActionPosition = 9;</code>
        *
        * <pre>
        *上一个行动的玩家位置
        * </pre>
        */
       public Builder clearLastActionPosition() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000100);
         lastActionPosition_ = 0;
         onChanged();
         return this;
       }
 
-      // optional sint32 lastActionCard = 9;
+      // optional sint32 lastActionCard = 10;
       private int lastActionCard_ ;
       /**
-       * <code>optional sint32 lastActionCard = 9;</code>
+       * <code>optional sint32 lastActionCard = 10;</code>
        *
        * <pre>
        *上一个行动的牌值
        * </pre>
        */
       public boolean hasLastActionCard() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>optional sint32 lastActionCard = 9;</code>
+       * <code>optional sint32 lastActionCard = 10;</code>
        *
        * <pre>
        *上一个行动的牌值
@@ -6709,46 +6918,46 @@ public final class MJ {
         return lastActionCard_;
       }
       /**
-       * <code>optional sint32 lastActionCard = 9;</code>
+       * <code>optional sint32 lastActionCard = 10;</code>
        *
        * <pre>
        *上一个行动的牌值
        * </pre>
        */
       public Builder setLastActionCard(int value) {
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000200;
         lastActionCard_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional sint32 lastActionCard = 9;</code>
+       * <code>optional sint32 lastActionCard = 10;</code>
        *
        * <pre>
        *上一个行动的牌值
        * </pre>
        */
       public Builder clearLastActionCard() {
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000200);
         lastActionCard_ = 0;
         onChanged();
         return this;
       }
 
-      // optional sint32 mustZhiDui = 10;
+      // optional sint32 mustZhiDui = 11;
       private int mustZhiDui_ ;
       /**
-       * <code>optional sint32 mustZhiDui = 10;</code>
+       * <code>optional sint32 mustZhiDui = 11;</code>
        *
        * <pre>
        *是否必须支队,非必须为0,必须为1
        * </pre>
        */
       public boolean hasMustZhiDui() {
-        return ((bitField0_ & 0x00000200) == 0x00000200);
+        return ((bitField0_ & 0x00000400) == 0x00000400);
       }
       /**
-       * <code>optional sint32 mustZhiDui = 10;</code>
+       * <code>optional sint32 mustZhiDui = 11;</code>
        *
        * <pre>
        *是否必须支队,非必须为0,必须为1
@@ -6758,27 +6967,27 @@ public final class MJ {
         return mustZhiDui_;
       }
       /**
-       * <code>optional sint32 mustZhiDui = 10;</code>
+       * <code>optional sint32 mustZhiDui = 11;</code>
        *
        * <pre>
        *是否必须支队,非必须为0,必须为1
        * </pre>
        */
       public Builder setMustZhiDui(int value) {
-        bitField0_ |= 0x00000200;
+        bitField0_ |= 0x00000400;
         mustZhiDui_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional sint32 mustZhiDui = 10;</code>
+       * <code>optional sint32 mustZhiDui = 11;</code>
        *
        * <pre>
        *是否必须支队,非必须为0,必须为1
        * </pre>
        */
       public Builder clearMustZhiDui() {
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000400);
         mustZhiDui_ = 0;
         onChanged();
         return this;
@@ -6794,7 +7003,7 @@ public final class MJ {
        * </pre>
        */
       public boolean hasSeq() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
+        return ((bitField0_ & 0x00000800) == 0x00000800);
       }
       /**
        * <code>optional sint32 seq = 100;</code>
@@ -6814,7 +7023,7 @@ public final class MJ {
        * </pre>
        */
       public Builder setSeq(int value) {
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000800;
         seq_ = value;
         onChanged();
         return this;
@@ -6827,7 +7036,7 @@ public final class MJ {
        * </pre>
        */
       public Builder clearSeq() {
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000800);
         seq_ = 0;
         onChanged();
         return this;
@@ -13923,36 +14132,36 @@ public final class MJ {
       "\002(\021\"6\n\020GameOperActorSyn\022\020\n\010position\030\001 \002(" +
       "\021\022\020\n\010timeLeft\030\002 \002(\021\"[\n\027GameOperPlayerAct" +
       "ionSyn\022\020\n\010position\030\001 \002(\021\022\016\n\006action\030\002 \002(\021" +
-      "\022\021\n\tcardValue\030\003 \003(\021\022\013\n\003seq\030\005 \001(\021\"\204\002\n\032Gam" +
+      "\022\021\n\tcardValue\030\003 \003(\021\022\013\n\003seq\030\005 \001(\021\"\226\002\n\032Gam" +
       "eOperPlayerActionNotify\022\020\n\010position\030\001 \002(" +
       "\021\022\017\n\007actions\030\002 \002(\021\022\017\n\007newCard\030\003 \001(\021\022\020\n\010t" +
-      "ingList\030\004 \003(\021\022\017\n\007tingDzs\030\005 \003(\021\022)\n\006chiArg" +
-      "\030\006 \003(\0132\031.packet.mj.GameOperChiArg\022\017\n\007pen" +
-      "gArg\030\007 \001(\021\022\032\n\022lastActionPosition\030\010 \001(\021\022\026" +
-      "\n\016lastActionCard\030\t \001(\021\022\022\n\nmustZhiDui\030\n \001",
-      "(\021\022\013\n\003seq\030d \001(\021\"\"\n\022GameOperAutoChuArg\022\014\n" +
-      "\004card\030\001 \002(\021\"F\n\016GameOperChiArg\022\017\n\007myCard1" +
-      "\030\001 \002(\021\022\017\n\007myCard2\030\002 \002(\021\022\022\n\ntargetCard\030\003 " +
-      "\002(\021\"F\n\024GameOperBaoChangeSyn\022\016\n\006oldBao\030\001 " +
-      "\002(\021\022\020\n\010position\030\002 \001(\021\022\014\n\004dice\030\003 \001(\021\"\303\001\n\023" +
-      "GameOperPlayerHuSyn\022\020\n\010position\030\001 \002(\021\022\014\n" +
-      "\004card\030\002 \001(\021\022\013\n\003bao\030\003 \001(\021\022/\n\006detail\030\004 \003(\013" +
-      "2\037.packet.mj.GameOperPlayerSettle\022\022\n\nres" +
-      "ultType\030\005 \001(\021\022\023\n\013paoPosition\030\006 \001(\021\022\024\n\014sk" +
-      "ipHuSettle\030\007 \001(\010\022\017\n\007winType\030\010 \001(\021\"\213\001\n\024Ga",
-      "meOperPlayerSettle\022\020\n\010position\030\001 \001(\021\022\020\n\010" +
-      "handcard\030\002 \003(\021\022\017\n\007fanType\030\004 \001(\021\022\016\n\006fanNu" +
-      "m\030\005 \001(\021\022\021\n\tfanDetail\030\006 \003(\t\022\014\n\004coin\030\007 \001(\021" +
-      "\022\r\n\005score\030\010 \001(\021\"Z\n\026GameOperFinalSettleSy" +
-      "n\022\022\n\nsettleDate\030\001 \001(\t\022,\n\006detail\030\002 \003(\0132\034." +
-      "packet.mj.PlayerFinalResult\"\376\001\n\021PlayerFi" +
-      "nalResult\022\020\n\010playerId\030\001 \001(\022\022\022\n\nplayerNam" +
-      "e\030\002 \001(\t\022\020\n\010position\030\003 \001(\021\022\021\n\theadImage\030\004" +
-      " \001(\t\022\r\n\005score\030\005 \001(\021\022\023\n\013bankerCount\030\006 \001(\021" +
-      "\022\017\n\007huCount\030\007 \001(\021\022\020\n\010paoCount\030\010 \001(\021\022\022\n\nm",
-      "oBaoCount\030\t \001(\021\022\030\n\020baoZhongBaoCount\030\n \001(" +
-      "\021\022\026\n\016kaiPaiZhaCount\030\013 \001(\021\022\021\n\troomOwner\030\014" +
-      " \001(\010"
+      "ingList\030\004 \003(\021\022\020\n\010gangList\030\005 \003(\021\022\017\n\007tingD" +
+      "zs\030\006 \003(\021\022)\n\006chiArg\030\007 \003(\0132\031.packet.mj.Gam" +
+      "eOperChiArg\022\017\n\007pengArg\030\010 \001(\021\022\032\n\022lastActi" +
+      "onPosition\030\t \001(\021\022\026\n\016lastActionCard\030\n \001(\021",
+      "\022\022\n\nmustZhiDui\030\013 \001(\021\022\013\n\003seq\030d \001(\021\"\"\n\022Gam" +
+      "eOperAutoChuArg\022\014\n\004card\030\001 \002(\021\"F\n\016GameOpe" +
+      "rChiArg\022\017\n\007myCard1\030\001 \002(\021\022\017\n\007myCard2\030\002 \002(" +
+      "\021\022\022\n\ntargetCard\030\003 \002(\021\"F\n\024GameOperBaoChan" +
+      "geSyn\022\016\n\006oldBao\030\001 \002(\021\022\020\n\010position\030\002 \001(\021\022" +
+      "\014\n\004dice\030\003 \001(\021\"\303\001\n\023GameOperPlayerHuSyn\022\020\n" +
+      "\010position\030\001 \002(\021\022\014\n\004card\030\002 \001(\021\022\013\n\003bao\030\003 \001" +
+      "(\021\022/\n\006detail\030\004 \003(\0132\037.packet.mj.GameOperP" +
+      "layerSettle\022\022\n\nresultType\030\005 \001(\021\022\023\n\013paoPo" +
+      "sition\030\006 \001(\021\022\024\n\014skipHuSettle\030\007 \001(\010\022\017\n\007wi",
+      "nType\030\010 \001(\021\"\213\001\n\024GameOperPlayerSettle\022\020\n\010" +
+      "position\030\001 \001(\021\022\020\n\010handcard\030\002 \003(\021\022\017\n\007fanT" +
+      "ype\030\004 \001(\021\022\016\n\006fanNum\030\005 \001(\021\022\021\n\tfanDetail\030\006" +
+      " \003(\t\022\014\n\004coin\030\007 \001(\021\022\r\n\005score\030\010 \001(\021\"Z\n\026Gam" +
+      "eOperFinalSettleSyn\022\022\n\nsettleDate\030\001 \001(\t\022" +
+      ",\n\006detail\030\002 \003(\0132\034.packet.mj.PlayerFinalR" +
+      "esult\"\376\001\n\021PlayerFinalResult\022\020\n\010playerId\030" +
+      "\001 \001(\022\022\022\n\nplayerName\030\002 \001(\t\022\020\n\010position\030\003 " +
+      "\001(\021\022\021\n\theadImage\030\004 \001(\t\022\r\n\005score\030\005 \001(\021\022\023\n" +
+      "\013bankerCount\030\006 \001(\021\022\017\n\007huCount\030\007 \001(\021\022\020\n\010p",
+      "aoCount\030\010 \001(\021\022\022\n\nmoBaoCount\030\t \001(\021\022\030\n\020bao" +
+      "ZhongBaoCount\030\n \001(\021\022\026\n\016kaiPaiZhaCount\030\013 " +
+      "\001(\021\022\021\n\troomOwner\030\014 \001(\010"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -13994,7 +14203,7 @@ public final class MJ {
           internal_static_packet_mj_GameOperPlayerActionNotify_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_mj_GameOperPlayerActionNotify_descriptor,
-              new java.lang.String[] { "Position", "Actions", "NewCard", "TingList", "TingDzs", "ChiArg", "PengArg", "LastActionPosition", "LastActionCard", "MustZhiDui", "Seq", });
+              new java.lang.String[] { "Position", "Actions", "NewCard", "TingList", "GangList", "TingDzs", "ChiArg", "PengArg", "LastActionPosition", "LastActionCard", "MustZhiDui", "Seq", });
           internal_static_packet_mj_GameOperAutoChuArg_descriptor =
             getDescriptor().getMessageTypes().get(6);
           internal_static_packet_mj_GameOperAutoChuArg_fieldAccessorTable = new

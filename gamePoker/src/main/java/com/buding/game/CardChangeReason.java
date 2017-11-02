@@ -8,8 +8,12 @@ package com.buding.game;
 public enum CardChangeReason {
 	MO,
 	CHU,
+	GANG,
 	PENG,
 	CHI,
 	CHECK_HU_ADD,
 	CHECK_HU_REMOVE,
+	
+	//金昌麻将
+	SHUAI_JIU_YAO,
 }

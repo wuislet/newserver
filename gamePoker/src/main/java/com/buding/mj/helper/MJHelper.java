@@ -134,6 +134,9 @@ public class MJHelper {
 		if (card == 0) {
 			return "";
 		}
+		if (card == MJConstants.MAHJONG_CODE_GANG_CARD){
+			return "杠";
+		}
 		return singleCardMap.get(card);
 	}
 
@@ -162,18 +165,16 @@ public class MJHelper {
 		act = convertAct(ret, act, MJConstants.MAHJONG_OPERTAION_HU, "胡");
 		act = convertAct(ret, act, MJConstants.MAHJONG_OPERTAION_TING, "听");
 		act = convertAct(ret, act, MJConstants.MAHJONG_OPERTAION_CANCEL, "取消");
-		// act = convertAct(ret, act,
-		// MJConstants.MAHJONG_OPERTAION_OVERTIME_AUTO_CHU, "自动出");
-		// act = convertAct(ret, act,
-		// MJConstants.MAHJONG_OPERTAION_ADD_CHU_CARD, "已出");
-		// act = convertAct(ret, act, MJConstants.MAHJONG_OPERTAION_QIANG_TING,
-		// "抢听");
 		act = convertAct(ret, act, MJConstants.MAHJONG_OPERTAION_MO, "摸牌");
+		
+		//大庆麻将
 		act = convertAct(ret, act, MJConstants.MAHJONG_OPERTAION_CHI_TING, "吃听");
 		act = convertAct(ret, act, MJConstants.MAHJONG_OPERTAION_PENG_TING, "碰听");
 		act = convertAct(ret, act, MJConstants.MAHJONG_OPERTAION_ZD_TING, "支对");
-		act = convertAct(ret, act, MJConstants.MAHJONG_OPERTAION_SHOUPAO, "收炮");
 		act = convertAct(ret, act, MJConstants.MAHJONG_OPERTAION_CHNAGE_BAO, "换宝");
+		
+		//金昌麻将
+		act = convertAct(ret, act, MJConstants.MAHJONG_OPERTAION_SHOUPAO, "收炮");
 		act = convertAct(ret, act, MJConstants.MAHJONG_OPERTAION_SHUAIJIUYAO, "甩九幺");
 
 		if (act > 0) {
@@ -194,27 +195,6 @@ public class MJHelper {
 			msg.addChiArg(gb);
 		}
 	}
-
-	// public static void copyHuArg(byte newCard,
-	// GameOperPlayerActionNotify.Builder msg) {
-	// if (newCard <= 0) {
-	// return;
-	// }
-	// // GameOperHuArg.Builder ab = GameOperHuArg.newBuilder();
-	// // ab.setTargetCard(newCard);
-	// // msg.setHuArg(ab);
-	// msg.setHuArg(newCard);
-	// }
-	//
-	// public static void copyAutoChuArg(byte newCard,
-	// GameOperPlayerActionNotify.Builder msg) {
-	// if (newCard <= 0) {
-	// return;
-	// }
-	// GameOperAutoChuArg.Builder ab = GameOperAutoChuArg.newBuilder();
-	// ab.setCard(newCard);
-	// msg.setAutoChuArg(ab);
-	// }
 
 	public static void copyPengArg(int newCard, GameOperPlayerActionNotify.Builder msg) {
 		if (newCard <= 0) {
@@ -605,62 +585,27 @@ public class MJHelper {
 		return ret;
 	}
 
-	public static int addCardDown(int c1, int c2, int c3, boolean isChi, List<Integer> list) {
+	/**
+	 * 往 门前牌 里加牌
+	 * @param point 最小的牌点数。
+	 * @param chipoint 被吃的牌点数。
+	 * @param type 1-碰 2-吃 3-杠
+	 * @param list 门前牌堆
+	 * @return
+	 */
+	public static int addCardDown(int point, int chipoint, int type, List<Integer> list) {
 		int card = 0;
-		if (c3 >= c2 && c2 >= c1)// 321
-		{
-			card = (c3 << 16) | (c2 << 8) | c1;
-		}
-		if (c3 >= c1 && c1 >= c2)// 312
-		{
-			card = (c3 << 16) | (c1 << 8) | c2;
-		} else if (c1 >= c2 && c2 >= c3)// 123
-		{
-			card = (c1 << 16) | (c2 << 8) | c3;
-		} else if (c1 >= c3 && c3 >= c2)// 132
-		{
-			card = (c1 << 16) | (c3 << 8) | c2;
-		} else if (c2 >= c3 && c3 >= c1)// 231
-		{
-			card = (c2 << 16) | (c3 << 8) | c1;
-		} else if (c2 >= c1 && c1 >= c3)// 213
-		{
-			card = (c2 << 16) | (c1 << 8) | c3;
-		}
-
-		if (isChi) {
-			card = card | (c1 << 24);
+		if(type == 1) {//碰
+			card = (point << 16) | (point << 8) | point;
+		} else if(type == 2) {//吃
+			card = (chipoint << 24) | ((point + 2) << 16) | ((point + 1) << 8) | point;
+		} else if(type == 3) {//杠
+			card = (MJConstants.MAHJONG_CODE_GANG_CARD << 16) | (0 << 8) | point;
+			//card = (point << 24) | (point << 16) | (point << 8) | point;
 		}
 
 		list.add(card);
 		return card;
-	}
-
-	public static boolean isHas3SameV2(byte b, List<Byte> comboList) {
-		int sames = 0;
-		for (byte tempCard : comboList) {
-			if (tempCard == b) {
-				sames++;
-			}
-		}
-		if (sames == 3) {
-			return true;
-		}
-		return false;
-	}
-
-	public static boolean isHas3Same(byte b, List<Integer> comboList) {
-		for (int i = 0; i < comboList.size(); i++) {
-			int bb = comboList.get(i);
-			byte b1 = (byte) (bb & 0xff);
-			byte b2 = (byte) ((bb >> 8) & 0xff);
-			byte b3 = (byte) ((bb >> 16) & 0xff);
-
-			if (b1 == b && b2 == b && b3 == b) {
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	public static int getCardNum(byte b){
@@ -672,6 +617,9 @@ public class MJHelper {
 	}
 	
 	public static boolean isNormalCard(byte b){
+		if(b == MJConstants.MAHJONG_CODE_GANG_CARD) {
+			return false;
+		}
 		return getCardColor(b) < 3;
 	}
 }
