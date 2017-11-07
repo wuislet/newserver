@@ -34,7 +34,7 @@
 		</commentGenerator>
 
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://114.215.135.213:3306/mj" userId="dqmj3d"
+			connectionURL="jdbc:mysql://114.215.135.213:3506/mj" userId="dqmj3d"
 			password="dqmj3d20170523">
 		</jdbcConnection>
 

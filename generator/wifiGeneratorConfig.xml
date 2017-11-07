@@ -33,7 +33,7 @@
 		</commentGenerator>
 
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://121.40.177.10:3306/wifi" userId="kedouwan"
+			connectionURL="jdbc:mysql://121.40.177.10:3506/wifi" userId="kedouwan"
 			password="djd1w5cj">
 		</jdbcConnection>
 
