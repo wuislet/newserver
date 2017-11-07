@@ -23,8 +23,8 @@ public class MJDeskImpl extends RobotSupportDeskImpl implements MJDesk<byte[]> {
 	}
 	
 	@Override
-	public boolean canQiXiaoDui() {
-		return true;
+	public int getTingType() {
+		return 3;
 	}
 	
 	@Override
@@ -35,6 +35,21 @@ public class MJDeskImpl extends RobotSupportDeskImpl implements MJDesk<byte[]> {
 	@Override
 	public int getWanfa() {
 		return wanfa;
+	}
+	
+	@Override
+	public boolean canQiXiaoDui() {
+		return true;
+	}
+
+	@Override
+	public boolean canShuaiJiuYao() {
+		return true;
+	}
+
+	@Override
+	public boolean canShouPao() {
+		return true;
 	}
 
 	@Override

@@ -35,7 +35,7 @@ import com.buding.hall.module.user.helper.UserHelper;
 import com.buding.mj.model.GamingData;
 import com.google.gson.Gson;
 
-public class VipDesk extends DQMJDeskImpl {
+public class VipDesk extends MJDeskImpl {
 	UserRoom userRoom = null;
 	private int vipRoomType;
 	private int quanNum;

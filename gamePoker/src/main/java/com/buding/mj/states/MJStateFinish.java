@@ -149,10 +149,10 @@ public class MJStateFinish extends MJStateCommon {
 			for (byte card : gameData.getCardsInHand(p.position)) {
 				bb.addHandcard(card);
 			}
-			//if((bb.getFanType() & MJConstants.MAHJONG_HU_CODE_DIAN_PAO) == MJConstants.MAHJONG_HU_CODE_DIAN_PAO) { //TODO del
+			//if((bb.getFanType() & MJConstants.MAHJONG_HU_CODE_DIAN_PAO) != 0) { //TODO del
 			//	gb.setPaoPosition(p.position);
 			//}
-			if((bb.getFanType() & MJConstants.MAHJONG_HU_CODE_WIN) == MJConstants.MAHJONG_HU_CODE_WIN) {
+			if((bb.getFanType() & MJConstants.MAHJONG_HU_CODE_WIN) != 0) {
 				gb.setWinType(MJHelper.getHuType(bb.getFanType()));
 			}
 			bb.setScore(gameData.mPlayerFinalResult.playDetail[p.position].score);

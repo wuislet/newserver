@@ -80,8 +80,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		int fanType = pao_pl == null?MJConstants.MAHJONG_HU_CODE_ZI_MO:0;
 		fanType = mjProc.isJiaHu(handCards, newCard)?MJConstants.MJ_HU_TYPE_ZIMO_JIA_HU:fanType;
 		
-		boolean canShouPao = false;//TODO WXD global
-		if(canShouPao && pao_pl != null && pl.playerId != pao_pl.playerId) { //收炮 //TODO WXD 非泛用
+		if(desk.canShouPao() && pao_pl != null && pl.playerId != pao_pl.playerId) { //收炮 //TODO WXD 非泛用
 			if(!gameData.mTingCards[paoPosition].tingCard){ //没有报听的人打出的牌才能触发收炮
 				//游戏中的记录
 				gameData.recorder.recordPlayerAction(gameData.genSeq(), position, MJConstants.MAHJONG_OPERTAION_SHOUPAO, newCard, 0, "收炮", 1);
@@ -152,13 +151,13 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 	public int CalFanNum(int fanType)
 	{
 		int fanNum = 1;// 基础1翻
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_JIA_HU) == MJConstants.MAHJONG_HU_CODE_JIA_HU) {
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_JIA_HU) != 0) {
 			fanNum *= 2;// 卡胡加一翻
 		}
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_MEN_QING) == MJConstants.MAHJONG_HU_CODE_MEN_QING) {
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_MEN_QING) != 0) {
 			fanNum *= 2;// 门清加一翻
 		}
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_ZI_MO) == MJConstants.MAHJONG_HU_CODE_ZI_MO) {
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_ZI_MO) != 0) {
 			fanNum *= 2;// 自摸加一翻
 		}
 		fanNum = Math.min(fanNum, 8);
@@ -469,7 +468,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			PlayFinalResult finalRes = gameData.mPlayerFinalResult.playDetail[position];
 			PlayHandResult handRes = gameData.mPlayerHandResult.playDetail[position]; //引用变量，下面的设置操作会修改引用的对象。
 			//如果玩家输了，将score和fanNum改为负数
-			if ((handRes.fanType & MJConstants.MAHJONG_HU_CODE_LOSE) == MJConstants.MAHJONG_HU_CODE_LOSE) {
+			if ((handRes.fanType & MJConstants.MAHJONG_HU_CODE_LOSE) != 0) {
 				handRes.result = PlayHandResult.GAME_RESULT_LOSE;
 				handRes.score = -handRes.score;
 				handRes.fanNum = -handRes.fanNum;
@@ -477,7 +476,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			//将每局结果记入到总结算中
 			gameData.mergeHandResult(finalRes, handRes);
 			//累加计算点炮总数
-			if(p.playerId == pao_pl.playerId) {
+			if((pao_pl != null) && (p.playerId == pao_pl.playerId)) {
 				finalRes.paoCount++;
 			}
 			
@@ -766,7 +765,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		gameData.setCurrentOpertaionPlayerIndex(pl.getTablePos());
 		
 		//暗杠逻辑
-		if((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_AN_GANG) == MJConstants.MAHJONG_OPERTAION_AN_GANG){
+		if((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_AN_GANG) != 0){
 			gameData.removeCardInHand(v1, pl.getTablePos(), CardChangeReason.GANG);
 			gameData.removeCardInHand(v1, pl.getTablePos(), CardChangeReason.GANG);
 			gameData.removeCardInHand(v1, pl.getTablePos(), CardChangeReason.GANG);
@@ -778,7 +777,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			gameData.addCardDown(v1, 0, 0, 3, pl.position);
 		}
 		//补杠逻辑
-		if((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_BU_GANG) == MJConstants.MAHJONG_OPERTAION_BU_GANG){
+		if((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_BU_GANG) != 0){
 			if(!gameData.tryBuGang(v1, pl.getTablePos())) {
 				gt.sendErrorMsg(pl.position, "补杠错误,补杠提交杠牌参数错误");
 				logger.error("act=gang;stage=gaming;error=gangCardInvalid;expect={};actual={};position={};deskId={};", waiting.gangList, v1, pl.getTablePos(), gt.getDeskID());
@@ -789,7 +788,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			//gameData.addCardDown(v1, 0, 0, 3, pl.getTablePos());
 		}
 		//直杠逻辑
-		if((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_ZHI_GANG) == MJConstants.MAHJONG_OPERTAION_ZHI_GANG){
+		if((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_ZHI_GANG) != 0){
 			gameData.removeCardInHand(v1, pl.getTablePos(), CardChangeReason.GANG);
 			gameData.removeCardInHand(v1, pl.getTablePos(), CardChangeReason.GANG);
 			gameData.removeCardInHand(v1, pl.getTablePos(), CardChangeReason.GANG);
@@ -840,22 +839,22 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			return;// 当前不是在等这个玩家操作
 		}
 
-		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_TING) > 0
-				||(waiting.opertaion & MJConstants.MAHJONG_OPERTAION_AN_GANG) > 0
-				||(waiting.opertaion & MJConstants.MAHJONG_OPERTAION_BU_GANG) > 0) {
+		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_TING) != 0
+				||(waiting.opertaion & MJConstants.MAHJONG_OPERTAION_AN_GANG) != 0
+				||(waiting.opertaion & MJConstants.MAHJONG_OPERTAION_BU_GANG) != 0) {
 			gameData.mOpCancel[pl.position].cancelOp |= MJConstants.MAHJONG_CANCEL_OPER_SELF_TURN;
 		}
 
-		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_PENG) > 0
-				|| (waiting.opertaion & MJConstants.MAHJONG_OPERTAION_CHI) > 0
-				|| (waiting.opertaion & MJConstants.MAHJONG_OPERTAION_ZHI_GANG) > 0) {
+		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_PENG) != 0
+				|| (waiting.opertaion & MJConstants.MAHJONG_OPERTAION_CHI) != 0
+				|| (waiting.opertaion & MJConstants.MAHJONG_OPERTAION_ZHI_GANG) != 0) {
 			gameData.mOpCancel[pl.position].cancelOp |= MJConstants.MAHJONG_CANCEL_OPER_OTHER_TURN;
 			List<PlayerInfo> nextPlayer = desk.loopGetPlayer(gameData.getCardOpPlayerIndex(), 1, 0);
 			gameData.setCurrentOpertaionPlayerIndex(nextPlayer.get(0).position);  // 如果是取消吃碰 直杠，则下一个操作人应该是出牌人的下家
 		}
 		
 		//取消的是别人打出来牌胡的情况。//一定要额外判断card > 0，不然天胡会错。天胡错误原因是CardOpPlayerIndex默认是0，进入这个判断变成1了。
-		if(gameData.getCurrentCard() > 0 && (waiting.opertaion & MJConstants.MAHJONG_OPERTAION_HU) > 0) {
+		if(gameData.getCurrentCard() > 0 && (waiting.opertaion & MJConstants.MAHJONG_OPERTAION_HU) != 0) {
 			gameData.mOpCancel[pl.position].cancelOp |= MJConstants.MAHJONG_CANCEL_OPER_OTHER_TURN;
 			List<PlayerInfo> nextPlayer = desk.loopGetPlayer(gameData.getCardOpPlayerIndex(), 1, 0);
 			gameData.setCurrentOpertaionPlayerIndex(nextPlayer.get(0).position);  //下一个操作人应该是出牌人的下家
@@ -874,7 +873,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 
 	private void notifyPlayerWaitingOperation(GameData gameData, MJDesk desk, PlayerInfo pl, ActionWaitingModel waiting) {
 		//如果已经听牌了，则截获胡牌协议的发送，直接完成胡牌。
-		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_HU) == MJConstants.MAHJONG_OPERTAION_HU
+		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_HU) != 0
 				&& gameData.mTingCards[pl.position].tingCard) { //已经听牌了直接胡
 			player_hu(gameData, desk);
 			return;
@@ -892,30 +891,30 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			msg.setLastActionPosition(gameData.getCardOpPlayerIndex());
 		}
 
-		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_CHU) > 0) {
+		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_CHU) != 0) {
 			for (byte a : waiting.tingList) {
 				msg.addTingList(a); // 告诉客户端，你只能出这些牌
 			}
 		}
-		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_AN_GANG) > 0) {
+		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_AN_GANG) != 0) {
 			for (byte a : waiting.gangList) {
 				msg.addGangList(a); // 告诉客户端，你只能杠这些牌
 			}
 		}
-		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_BU_GANG) > 0) {
+		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_BU_GANG) != 0) {
 			for (byte a : waiting.gangList) {
 				msg.addGangList(a); // 告诉客户端，你只能杠这些牌
 			}
 		}
-		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_ZHI_GANG) > 0) {
+		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_ZHI_GANG) != 0) {
 			for (byte a : waiting.gangList) {
 				msg.addGangList(a); // 告诉客户端，你只能杠这些牌
 			}
 		}
-		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_PENG) > 0) {
+		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_PENG) != 0) {
 			MJHelper.copyPengArg(waiting.peng_card_value, msg);
 		}
-		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_CHI) > 0) {
+		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_CHI) != 0) {
 			MJHelper.copyChiArg(waiting.chiCombos, msg);
 		}
 
@@ -976,7 +975,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 
 		gameData.recorder.recordPlayerAction(gameData.genSeq(), pl_pos, msg.getAction(), card_v, 0,
 				MJHelper.getActionName(msg.getAction()) + ":" + MJHelper.getSingleCardName(card_v) + ",带听:"
-						+ ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_TING) > 0), 0);
+						+ ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_TING) != 0), 0);
 
 		if (card_v != card_value || pl_pos != pl.getTablePos()) {
 			desk.sendErrorMsg(pl.position, "出牌错误,不存在的牌");
@@ -1299,7 +1298,8 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			}
 
 			// 4看看有没有吃的玩家
-			boolean cancelChi = (gameData.mOpCancel[plx.position].cancelOp & MJConstants.MAHJONG_CANCEL_OPER_OTHER_TURN) > 0;
+			boolean cancelChi = (gameData.mOpCancel[plx.position].cancelOp 
+							& MJConstants.MAHJONG_CANCEL_OPER_OTHER_TURN) != 0;
 			if (gameData.mTingCards[plx.position].tingCard == false && !cancelChi) {
 				result = check_chi(gameData, card, plx.getTablePos());
 				if (result != null) {
@@ -1324,13 +1324,12 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 	private boolean checkPlayHu(GameData gameData, MJDesk desk, int position, int paoPosition, byte card){
 		boolean flag = false;
 		MyGame_Player_Ting_Cards tingModel = gameData.mTingCards[position];
-		int tingType = 3; //0x1-有直接胡，0x2-有听。 e.p. 3-无限制, 2-必须听了才能胡, 1-没有听，直接胡, 0-不能胡  //TODO wxd global
 		if (tingModel.tingCard) {
-			if((tingType & 0x2) != 0) {
+			if((desk.getTingType() & 0x2) != 0) {
 				flag = tingModel.cards.contains(card);
 			}
 		} else {
-			if((tingType & 0x1) != 0) {
+			if((desk.getTingType() & 0x1) != 0) {
 				flag = mjProc.canHu(new MjCheckContext(gameData, desk, card, position));
 			}
 		}
@@ -1348,7 +1347,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 	private ActionWaitingModel loopCheckHu(GameData gameData, MJDesk desk, byte card, int cardOpPosition) {
 		List<PlayerInfo> list = desk.loopGetPlayer(cardOpPosition, -1, 0);
 		for (PlayerInfo pl : list) {
-			if ((gameData.mOpCancel[pl.getTablePos()].cancelOp & MJConstants.MAHJONG_CANCEL_OPER_OTHER_TURN) == MJConstants.MAHJONG_CANCEL_OPER_OTHER_TURN) {
+			if ((gameData.mOpCancel[pl.getTablePos()].cancelOp & MJConstants.MAHJONG_CANCEL_OPER_OTHER_TURN) != 0) {
 				continue;
 			}
 			if(checkPlayHu(gameData, desk, pl.getTablePos(), cardOpPosition, card)) {
@@ -1368,7 +1367,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			if (tingModel.tingCard) {
 				continue;
 			}
-			if ((gameData.mOpCancel[pl.getTablePos()].cancelOp & MJConstants.MAHJONG_CANCEL_OPER_OTHER_TURN) == MJConstants.MAHJONG_CANCEL_OPER_OTHER_TURN) {
+			if ((gameData.mOpCancel[pl.getTablePos()].cancelOp & MJConstants.MAHJONG_CANCEL_OPER_OTHER_TURN) != 0) {
 				continue;
 			}
 			ActionWaitingModel code = mjProc.check_zhi_gang(gameData, card, pl.getTablePos());
@@ -1386,7 +1385,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			if (tingModel.tingCard) {
 				continue;
 			}
-			if ((gameData.mOpCancel[pl.getTablePos()].cancelOp & MJConstants.MAHJONG_CANCEL_OPER_OTHER_TURN) == MJConstants.MAHJONG_CANCEL_OPER_OTHER_TURN) {
+			if ((gameData.mOpCancel[pl.getTablePos()].cancelOp & MJConstants.MAHJONG_CANCEL_OPER_OTHER_TURN) != 0) {
 				continue;
 			}
 			ActionWaitingModel code = mjProc.check_peng(gameData, card, pl.getTablePos());
@@ -1405,52 +1404,52 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		logger.info("act=playerOperation;code={};position={};deskId={};", msg.getAction(), pl.position, gt.getDeskID());
 
 		// 玩家出牌
-		if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_CHU) == MJConstants.MAHJONG_OPERTAION_CHU) {
+		if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_CHU) != 0) {
 			player_op_chu(gameData, gt, msg, pl);
 		}
 
 		// 玩家吃牌
-		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_CHI) == MJConstants.MAHJONG_OPERTAION_CHI) {
+		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_CHI) != 0) {
 			player_op_chi(gameData, gt, msg, pl);
 		}
 
 		// 玩家碰牌
-		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_PENG) == MJConstants.MAHJONG_OPERTAION_PENG) {
+		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_PENG) != 0) {
 			player_op_peng(gameData, gt, msg, pl);
 		}
 
 		// 玩家暗杠牌
-		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_AN_GANG) == MJConstants.MAHJONG_OPERTAION_AN_GANG) {
+		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_AN_GANG) != 0) {
 			player_op_gang(gameData, gt, msg, pl);
 		}
 
 		// 玩家补杠牌
-		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_BU_GANG) == MJConstants.MAHJONG_OPERTAION_BU_GANG) {
+		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_BU_GANG) != 0) {
 			player_op_gang(gameData, gt, msg, pl);
 		}
 
 		// 玩家直杠牌
-		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_ZHI_GANG) == MJConstants.MAHJONG_OPERTAION_ZHI_GANG) {
+		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_ZHI_GANG) != 0) {
 			player_op_gang(gameData, gt, msg, pl);
 		}
 
 		// 玩家胡牌
-		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_HU) == MJConstants.MAHJONG_OPERTAION_HU) {
+		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_HU) != 0) {
 			player_op_hu(gameData, gt, msg, pl);
 		}
 
 		// 玩家取消操作牌
-		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_CANCEL) == MJConstants.MAHJONG_OPERTAION_CANCEL) {
+		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_CANCEL) != 0) {
 			player_cancel(gameData, gt, msg, pl);
 		}
 
 		// 玩家听牌
-		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_TING) == MJConstants.MAHJONG_OPERTAION_TING) {
+		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_TING) != 0) {
 			player_op_ting(gameData, gt, msg, pl);
 		}
 		
 		// 玩家甩九幺
-		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_SHUAIJIUYAO) == MJConstants.MAHJONG_OPERTAION_SHUAIJIUYAO) {
+		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_SHUAIJIUYAO) != 0) {
 			player_op_shuaijiuyao(gameData, gt, msg, pl);
 		}
 
@@ -1487,19 +1486,19 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		// 自动吃碰听
 		if (waiting != null) {
 			// 杠
-			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_AN_GANG) == MJConstants.MAHJONG_OPERTAION_AN_GANG) {
+			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_AN_GANG) != 0) {
 				msg.setAction(MJConstants.MAHJONG_OPERTAION_AN_GANG);
 				msg.addCardValue(waiting.gangList.get(0) & 0xFF);
 				this.playerOperation(gt, desk, msg, pl);
 				return;
 			}
-			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_BU_GANG) == MJConstants.MAHJONG_OPERTAION_BU_GANG) {
+			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_BU_GANG) != 0) {
 				msg.setAction(MJConstants.MAHJONG_OPERTAION_BU_GANG);
 				msg.addCardValue(waiting.gangList.get(0) & 0xFF);
 				this.playerOperation(gt, desk, msg, pl);
 				return;
 			}
-			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_ZHI_GANG) == MJConstants.MAHJONG_OPERTAION_ZHI_GANG) {
+			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_ZHI_GANG) != 0) {
 				msg.setAction(MJConstants.MAHJONG_OPERTAION_ZHI_GANG);
 				msg.addCardValue(waiting.gangList.get(0) & 0xFF);
 				this.playerOperation(gt, desk, msg, pl);
@@ -1507,7 +1506,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			}
 			
 			// 碰
-			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_PENG) == MJConstants.MAHJONG_OPERTAION_PENG) {
+			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_PENG) != 0) {
 				msg.setAction(MJConstants.MAHJONG_OPERTAION_PENG);
 				msg.addCardValue(waiting.peng_card_value);
 				this.playerOperation(gt, desk, msg, pl);
@@ -1515,7 +1514,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			}
 
 			// 吃
-			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_CHI) == MJConstants.MAHJONG_OPERTAION_CHI) {
+			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_CHI) != 0) {
 				msg.setAction(MJConstants.MAHJONG_OPERTAION_CHI);
 				CardCombo combo = waiting.chiCombos.get(0);
 				msg.addCardValue(combo.card1 & 0xFF);
@@ -1525,14 +1524,14 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			}
 
 			// 听
-			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_TING) == MJConstants.MAHJONG_OPERTAION_TING) {
+			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_TING) != 0) {
 				msg.setAction(MJConstants.MAHJONG_OPERTAION_TING); //TODO WXD gang list 为什么不用设牌？
 				this.playerOperation(gt, desk, msg, pl);
 				return;
 			}
 
 			// 出
-			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_CHU) == MJConstants.MAHJONG_OPERTAION_CHU) {
+			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_CHU) != 0) {
 				msg.setAction(MJConstants.MAHJONG_OPERTAION_CHU);
 				if (waiting.tingList.size() > 0) { //TODO WXD gang list ？？
 					msg.addCardValue(waiting.tingList.get(0));
