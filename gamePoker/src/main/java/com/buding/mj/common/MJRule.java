@@ -4,6 +4,8 @@ import java.util.List;
 
 
 public interface MJRule {
-	public MjCheckResult canHu(MJContext context);
+	public boolean canHu(List<Byte> list);
+	public boolean canHu(List<Byte> list, MjCheckResult result);
+	public boolean canChengPai(List<Byte> list);
 	public boolean canChengPai(List<Byte> list, MjCheckResult result);
 }

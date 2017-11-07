@@ -1,6 +1,8 @@
 package com.buding.mj.common;
 
 import java.util.*;
+import java.util.Map.Entry;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.buding.api.player.PlayerInfo;
@@ -24,34 +26,33 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 	}
 
 	// 碰
-	public ActionWaitingModel check_peng(GameData gameData, byte card, PlayerInfo pl) {
-		int cd = card & 0xff;
+	public ActionWaitingModel check_peng(GameData gameData, byte card, int position) {
 		ActionWaitingModel result = null;
 		
-		int same_card_num = gameData.getXCardNumInHand(card, pl.position);
+		int same_card_num = gameData.getXCardNumInHand(card, position);
 
 		if (same_card_num >= 2) {
 			result = new ActionWaitingModel();
 			result.targetCard = card;
-			result.peng_card_value = cd | (cd << 8);
-			result.playerTableIndex = pl.position;
+			result.peng_card_value = card;
+			result.playerTableIndex = position;
 			result.opertaion = MJConstants.MAHJONG_OPERTAION_PENG;
 		}
 		return result;
 	}
 	
 	// 暗杠
-	public ActionWaitingModel check_an_gang(GameData gameData, PlayerInfo pl) {
+	public ActionWaitingModel check_an_gang(GameData gameData, int position) {
 		ActionWaitingModel result = null;
 		
-		List<Byte> cardsInHand = gameData.getCardsInHand(pl.position);
+		List<Byte> cardsInHand = gameData.getCardsInHand(position);
 		for (int i = 0; i < cardsInHand.size(); i++) {
 			byte card = cardsInHand.get(i);
-			int same_card_num = gameData.getXCardNumInHand(card, pl.position);
+			int same_card_num = gameData.getXCardNumInHand(card, position);
 			if (same_card_num >= 4) {
 				if(result == null) {
 					result = new ActionWaitingModel();
-					result.playerTableIndex = pl.position;
+					result.playerTableIndex = position;
 					result.opertaion = MJConstants.MAHJONG_OPERTAION_AN_GANG;
 				}
 				result.gangList.add(card);
@@ -61,16 +62,16 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 	}
 	
 	// 补杠
-	public ActionWaitingModel check_bu_gang(GameData gameData, PlayerInfo pl) {
+	public ActionWaitingModel check_bu_gang(GameData gameData, int position) {
 		ActionWaitingModel result = null;
 		
-		List<Byte> cardsInHand = gameData.getCardsInHand(pl.position);
+		List<Byte> cardsInHand = gameData.getCardsInHand(position);
 		for (int i = 0; i < cardsInHand.size(); i++) {
 			byte card = cardsInHand.get(i);
-			if (gameData.isPengCard(card, pl.position)) {
+			if (gameData.isPengCard(card, position)) {
 				if(result == null) {
 					result = new ActionWaitingModel();
-					result.playerTableIndex = pl.position;
+					result.playerTableIndex = position;
 					result.opertaion = MJConstants.MAHJONG_OPERTAION_AN_GANG;
 				}
 				result.gangList.add(card);
@@ -80,172 +81,45 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 	}
 	
 	// 直杠
-	public ActionWaitingModel check_zhi_gang(GameData gameData, byte card, PlayerInfo pl) {
+	public ActionWaitingModel check_zhi_gang(GameData gameData, byte card, int position) {
 		ActionWaitingModel result = null;
 		
-		int same_card_num = gameData.getXCardNumInHand(card, pl.position);
+		int same_card_num = gameData.getXCardNumInHand(card, position);
 		if (same_card_num >= 3) {
 			result = new ActionWaitingModel();
 			result.gangList.add(card);
-			result.playerTableIndex = pl.position;
+			result.playerTableIndex = position;
 			result.opertaion = MJConstants.MAHJONG_OPERTAION_ZHI_GANG;
 		}
 		return result;
 	}
-
-	public boolean checkHuBaseRule(List<Byte> handcards, List<Integer> cardsDown, MjCheckContext ctx) {
-		return true;
-	}
-
-	public MjCheckResult canTingThisCard(List<Byte> handCards, List<Integer> cardsDown,  byte card2Remove, byte card2Ting, MjCheckContext ctx) {
-		List<Byte> list = new ArrayList<Byte>();
-		list.addAll(handCards);
-		list.remove((Object) card2Remove);// 打出这一张牌
-		
-		//打出一张牌后，依然要满足基本上听条件
-		if(!checkTingBaseRule(list, cardsDown, ctx)) {
-			logger.info("checkHu:ting={};remove={};result={};", MJHelper.getSingleCardName(card2Ting), MJHelper.getSingleCardName(card2Remove), "基本检测不通过");
-			return null;
-		}
-		
-		MJHelper.add2SortedList(card2Ting, list);// 加一张牌
-		logger.info("checkHu:ting={};remove={};hand={};down={};", MJHelper.getSingleCardName(card2Ting), MJHelper.getSingleCardName(card2Remove), MJHelper.getSingleCardListName(list), MJHelper.getCompositeCardListName(cardsDown));
-		
-		if(checkHuBaseRule(list, cardsDown, ctx) == false) {
-			logger.info("checkHu:ting={};remove={};result={};", MJHelper.getSingleCardName(card2Ting), MJHelper.getSingleCardName(card2Remove), "基本检测不通过");
-			return null;
-		}
-				
-		MJContext c = new MJContext();
-		c.cardsInCard.addAll(list);
-		return mjRule.canHu(c);
-	}
-
-	public ChuTingModel canTingInternal(List<Byte> handCards, List<Integer> cardsDown, MjCheckContext c) {
-		Map<Byte, Set<Byte>> chuAndTingMap = new HashMap<Byte, Set<Byte>>();
-		Set<Byte> allCards = MJHelper.getAllUniqCard();
-		Set<Byte> set = MJHelper.getUniqCardList(handCards);
-		for (byte card2Remove : set) {
-			if(c.card2Remove > 0 && c.card2Remove != card2Remove) {
-				continue; //只检查指定情况的
-			}
-			for (byte card2Ting : allCards) {
-				if(c.card2Ting > 0 && c.card2Ting != card2Ting) {
-					continue;//检查指定情况的
-				}
-				boolean canTingAndCheckRule = canTingAndCheckRule(handCards, cardsDown, card2Remove, card2Ting,c);
-				if(!canTingAndCheckRule) {
-					continue;
-				}
-				// 可以胡
-				if (chuAndTingMap.get(card2Remove) == null) {
-					chuAndTingMap.put(card2Remove, new HashSet<Byte>());
-				}
-				chuAndTingMap.get(card2Remove).add(card2Ting);
-			}
-		}
-		ChuTingModel model = new ChuTingModel();
-		model.chuAndTingMap = chuAndTingMap;
-		return model;
-	}
-
+	
+	// =============== 听牌 ===============
 	/**
-	 * 校验是否可以听牌
-	 * 1.选举出所有可以成为将牌的牌
-	 * 2.遍历将牌集合,删除他可以成牌.
-	 * @param handCards 手牌(包含即将打出去的牌)
-	 * @param cardsDown 吃/碰/杠/粘的牌
-	 * @param card2Remove 即将打出去的牌
-	 * @param card2Ting 检测可以听的牌
+	 * 检查听的基础的前置规则
+	 * @param handcards  把手牌跟新牌放入另一个数组，并在这传进来，避免影响全局数据。
+	 * @param ctx        全局数据。
 	 * @return
 	 */
-	private boolean canTingAndCheckRule(List<Byte> handCards, List<Integer> cardsDown, byte card2Remove, byte card2Ting , MjCheckContext c) {
-		List<Byte> jiangPaiList = new ArrayList<Byte>();
-		List<Byte> shouPaiTemp = new ArrayList<Byte>();
-		shouPaiTemp.addAll(handCards);
-		shouPaiTemp.remove(Byte.valueOf(card2Remove+""));
-		shouPaiTemp.add(card2Ting);
-		Collections.sort(shouPaiTemp);
-		Map<Byte, Byte> maps = new HashMap<Byte, Byte>();
-		for(Byte b : shouPaiTemp){
-			Byte t = maps.get(b);
-			if(t == null){
-				maps.put(b, (byte)1);
-			} else{
-				t++;
-				maps.put(b, t);
-			}
-		}
-		for(Map.Entry<Byte,Byte> e:maps.entrySet()){
-			if(e.getValue()>=2){
-				jiangPaiList.add(e.getKey());
-			}
-		}
-		for(Byte b:jiangPaiList){
-			List shouPaiTemp2 = new ArrayList();
-			shouPaiTemp2.addAll(shouPaiTemp);
-			shouPaiTemp2.remove(Byte.valueOf(b+""));
-			shouPaiTemp2.remove(Byte.valueOf(b+""));
-			if(mjRule.canChengPai(shouPaiTemp2,new MjCheckResult())){
-				if(checkHuRule(shouPaiTemp,cardsDown,b)){
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * @param handcards
-	 * @param cardsDown
-	 * @return
-	 */
-	private boolean checkHuRule(List<Byte> handcards, List<Integer> cardsDown , Byte b) {
-		List shouPaiTemp = new ArrayList();
-		shouPaiTemp.addAll(handcards);
-		shouPaiTemp.remove(Byte.valueOf(b+"")); //去除将牌
-		shouPaiTemp.remove(Byte.valueOf(b+""));
+	protected boolean checkTingBaseRule(List<Byte> handcards, MjCheckContext ctx) {
 		return true;
-	}
-
-	protected MjCheckResult canHu(List<Byte> cards) {
-		MJContext ctx = new MJContext();
-		ctx.cardsInCard = cards;
-		MjCheckResult ret = mjRule.canHu(ctx);
-		return ret;
 	}
 	
-	/**
-	 * 判断是否是夹胡
-	 */
-	public boolean isJiaHu(List<Byte> handcards, byte card) {
-		List<Byte> cards = new ArrayList<Byte>();
-		cards.addAll(handcards);
-		cards.add(card);
-		Byte card2 = (byte) (card + 1);
-		Byte card3 = (byte) (card - 1);
-		if (cards.remove((Byte) card) && cards.remove(card2) && cards.remove(card3)) {
-			if (canHu(cards) != null)
-				return true;
-		}
-		return false;
-	}
-
 	public boolean canTing(MjCheckContext c) {
 		List<Byte> handCards = new ArrayList<Byte>();
-		handCards.addAll(c.gameData.mPlayerCards[c.position].cardsInHand);
+		handCards.addAll(c.gameData.getCardsInHand(c.position));
 		if (c.card != 0) {
 			MJHelper.add2SortedList(c.card, handCards);
 		}
 
-		List<Integer> cardsDown = c.gameData.mPlayerCards[c.position].cardsDown;
+		List<Integer> cardsDown = c.gameData.getCardsDown(c.position);
 		logger.info("act=canTing;handcards={};downcards={}", MJHelper.getSingleCardListName(handCards), MJHelper.getCompositeCardListName(cardsDown));
 
-		if (!checkTingBaseRule(handCards, cardsDown, c)) {
+		if (!checkTingBaseRule(handCards, c)) {
 			return false;
 		}
 
-		ChuTingModel model = canTingInternal(handCards, cardsDown, c);
+		ChuTingModel model = canTingInternal(handCards, c);
 
 		if (model == null || model.chuAndTingMap.isEmpty()) {
 			return false;
@@ -256,10 +130,104 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 		return true;
 	}
 
-	private boolean checkTingBaseRule(List<Byte> c1, List<Integer> c2, MjCheckContext c) {
+	public ChuTingModel canTingInternal(List<Byte> handCards, MjCheckContext c) {
+		List<Integer> cardsDown = c.gameData.getCardsDown(c.position);
+		Map<Byte, Set<Byte>> chuAndTingMap = new HashMap<Byte, Set<Byte>>();
+		Set<Byte> allCards = MJHelper.getAllUniqCard();
+		Set<Byte> set = MJHelper.getUniqCardList(handCards);
+		for (byte card2Remove : set) { //测试打掉每个牌
+			if(c.cardCantRemove.contains(card2Remove)) {
+				continue; //只检查指定情况的
+			}
+			for (byte card2Ting : allCards) {  //测试每种要听的牌
+				if(c.cardCantTing.contains(card2Ting)) {
+					continue;//检查指定情况的
+				}
+
+				List<Byte> shouPaiTemp = new ArrayList<Byte>();
+				shouPaiTemp.addAll(handCards);
+				shouPaiTemp.remove((Byte)card2Remove);
+				MJHelper.add2SortedList(card2Ting, shouPaiTemp);
+				if(!finalCheckHu(shouPaiTemp, c)) { //不可以胡
+					continue;
+				}
+				
+				if (chuAndTingMap.get(card2Remove) == null) {
+					chuAndTingMap.put(card2Remove, new HashSet<Byte>());
+				}
+				chuAndTingMap.get(card2Remove).add(card2Ting);
+			}
+		}
+		ChuTingModel model = new ChuTingModel();
+		model.chuAndTingMap = chuAndTingMap;
+		return model;
+	}
+	
+	// =============== 胡牌 ===============
+	/**
+	 * 检查胡的基础的前置规则
+	 * @param handcards  把手牌跟新牌放入另一个数组，并在这传进来，避免影响全局数据。
+	 * @param ctx        全局数据。
+	 * @return
+	 */
+	protected boolean checkHuBaseRule(List<Byte> handcards, MjCheckContext ctx) {
 		return true;
 	}
+	
+	public boolean canHu(MjCheckContext c) {
+		List<Byte> handCards = new ArrayList<Byte>();
+		handCards.addAll(c.gameData.getCardsInHand(c.position));
+		if (c.card != 0) {
+			MJHelper.add2SortedList(c.card, handCards);
+		}
 
+		List<Integer> cardsDown = c.gameData.getCardsDown(c.position);
+		logger.info("act=canHu;handcards={};downcards={}", MJHelper.getSingleCardListName(handCards), MJHelper.getCompositeCardListName(cardsDown));
+
+		if (!checkHuBaseRule(handCards, c)) {
+			return false;
+		}
+		
+		logger.info("act=checkHu;deskId={};cards={};newcard={}", c.desk.getDeskID(), new Gson().toJson(handCards), c.card);
+		return finalCheckHu(handCards, c);
+	}
+	
+	/**
+	 * 校验是否可以胡牌
+	 * @param handCards 手牌
+	 * @param newCard 假装加入的牌
+	 * @return
+	 */
+	private boolean finalCheckHu(List<Byte> handCards, MjCheckContext c) {
+		if(c.desk.canQiXiaoDui() && mjRule.canHuQiXiaoDui(handCards)){
+			return true;
+		}
+		return mjRule.canHu(handCards);
+	}
+	
+	// =============== 胡型检查相关 ===============
+	/**
+	 * 判断是否是夹胡
+	 */
+	public boolean isJiaHu(List<Byte> handcards, byte card) {
+		List<Byte> cards = new ArrayList<Byte>();
+		cards.addAll(handcards);
+		Byte card1 = (byte) (card + 1);
+		Byte card2 = (byte) (card - 1);
+		if (cards.remove(card1) && cards.remove(card2)) {
+			return mjRule.canHu(cards);
+		}
+		return false;
+	}
+	
+	public boolean isMenQing(List<Integer> cardsDown) {
+		return cardsDown.size() <= 0;
+	}
+	
+	public boolean isQiXiaoDui(List<Byte> handcards){
+		return mjRule.canHuQiXiaoDui(handcards);
+	}
+	
 	// 有没有“幺”或“九”。
 	public boolean has19(List<Byte> cardsInHand, List<Integer> cardsDown) {
 		for (int i = 0; i < cardsInHand.size(); i++) {

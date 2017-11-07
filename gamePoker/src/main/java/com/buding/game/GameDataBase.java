@@ -116,7 +116,7 @@ public class GameDataBase {
 //	public GamePacket.MyGame_Finish mFinish[] = new GamePacket.MyGame_Finish[GameConstants.MyGame_Max_Players_Count];
 
     //胡牌信息
-	public GamePacket.MyGame_Player_Hu mGameHu = new GamePacket.MyGame_Player_Hu();; 
+	public GamePacket.MyGame_Player_Hu mGameHu = new GamePacket.MyGame_Player_Hu();
 	
 	//公共信息
 	public GamePacket.MyGame_PublicInfo mPublic = new GamePacket.MyGame_PublicInfo();

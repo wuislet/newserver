@@ -17,8 +17,8 @@ public class ActionWaitingModel {
 	public int opertaion = 0;
 	public int playerTableIndex = 0;
 
-	//可碰牌，2张牌byte拼成一个int, 和targetCard一起组合刻子
-	public int peng_card_value = 0;
+	//可碰牌
+	public byte peng_card_value = 0;
 	
 	//吃牌
 	public List<CardCombo> chiCombos = new ArrayList<CardCombo>();
@@ -30,7 +30,7 @@ public class ActionWaitingModel {
 	public byte newCard = 0;
 	//
 	// 是否是卡胡，胡卡张
-	public boolean isKaHu = false;
+	public boolean isKaHu = false; //TODO del
 
 	// 打出哪些牌可以听
 	public List<Byte> tingList = new ArrayList<Byte>();

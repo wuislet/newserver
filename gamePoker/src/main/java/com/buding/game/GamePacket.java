@@ -85,6 +85,7 @@ public class GamePacket {
 		
 		public void reset() {
 			this.cardGrab = 0;
+			this.autoOperation = 0;
 			this.opStartTime = 0;
 		}
 	}
@@ -96,10 +97,12 @@ public class GamePacket {
 	static public class MyGame_Player_Hu {
 		// 胡牌玩家位置
 		public int position = -1;
+		public int paoPosition = -1;
 		public byte huCard = -1;
 
 		public void reset() {
 			position = -1;
+			paoPosition = -1;
 			huCard = -1;
 		}
 	}

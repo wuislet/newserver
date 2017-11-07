@@ -3,54 +3,69 @@ package com.buding.mj.common;
 import java.util.ArrayList;
 import java.util.List;
 import com.buding.mj.helper.MJHelper;
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 public class BaseMJRule implements MJRule {
-	public MjCheckResult canHuShiSanYao(MJContext ctx) { //常规特殊胡型：十三幺
-		return null; //TODO WXD
-		
-		//MjCheckResult ret = new MjCheckResult();
-		//ret.special = 10;
-		//return ret;
+	public boolean canHuShiSanYao(List<Byte> list) {
+		return canHuShiSanYao(list, new MjCheckResult());
 	}
 	
-	public MjCheckResult canHuQiXiaoDui(MJContext ctx) { // 常规特殊胡型：七小对
-		int gangCnt = 0;
-		List<Byte> list = ctx.cardsInCard;
-		if(ctx.cardsDown.size() != 0) { //必须门清
-			return null;
+	public boolean canHuShiSanYao(List<Byte> list, MjCheckResult result) { //常规特殊胡型：十三幺
+		if(list.size() != 14) { //必须门清 //TODO WXD 判断理由不准确
+			return false;
 		}
+		
+		//result.special = 10;
+		return false; //TODO WXD
+	}
 
+	public boolean canHuQiXiaoDui(List<Byte> list) {
+		return canHuQiXiaoDui(list, new MjCheckResult());
+	}
+	
+	public boolean canHuQiXiaoDui(List<Byte> list, MjCheckResult result) { // 常规特殊胡型：七小对
+		if(list.size() != 14) { //必须门清 //TODO WXD 判断理由不准确
+			return false;
+		}
+		
+		int gangCnt = 0;
 		for (byte card : list) {
 			int count = MJHelper.getCardCount(list, card);
 			if ((count & 1) == 1) { //奇数
-				return null;
+				return false;
 			}
 			if(count == 4) {
 				gangCnt += 1;
 			}
 		}
 		
-		MjCheckResult ret = new MjCheckResult();
-		ret.special = gangCnt + 1;
-		return ret;
+		result.special = gangCnt + 1;
+		return true;
 	}
 	
 	@Override
-	public MjCheckResult canHu(MJContext ctx) {
-		List<Byte> list = ctx.cardsInCard;
+	public boolean canHu(List<Byte> list) {
+		return canHu(list, new MjCheckResult());
+	}
+
+	public boolean canChengPai(List<Byte> list) {
+		return canChengPai(list, new MjCheckResult());
+	}
+	
+	@Override
+	public boolean canHu(List<Byte> list, MjCheckResult result) {
 		List<Byte> doubleList = MJHelper.getAllDouble(list);
 
 		for (byte card : doubleList) {
 			List<Byte> temp = new ArrayList<Byte>(list);
 			temp.remove((Byte) card);
 			temp.remove((Byte) card);
-			MjCheckResult ret = new MjCheckResult();
-			if (canChengPai(temp, ret)) {
-				return ret;
+			if (canChengPai(temp, result)) {
+				return true;
 			}
 		}
 
-		return null;
+		return false;
 	}
 
 	public boolean canChengPai(List<Byte> list, MjCheckResult result) {
@@ -98,9 +113,8 @@ public class BaseMJRule implements MJRule {
 		for(int b : bytes) {
 			list.add((byte)(b & 0xFF));
 		}
-		MJContext contxt = new MJContext();
-		contxt.cardsInCard.addAll(list);
-		MjCheckResult ret = canHu(contxt);
+		MjCheckResult ret = new MjCheckResult(); 
+		canHu(list, ret);
 		System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(ret));
 	}
 	

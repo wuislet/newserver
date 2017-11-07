@@ -27,7 +27,6 @@ public class DQMJProcessor {
 
 	// 碰
 	public ActionWaitingModel check_peng(GameData gameData, byte card, PlayerInfo pl) {
-		int cd = card & 0xff;
 		ActionWaitingModel result = null;
 		//
 		if (gameData.getCardNumInHand(pl.position) <= 4)
@@ -38,7 +37,7 @@ public class DQMJProcessor {
 		if (same_card_num >= 2) {
 			result = new ActionWaitingModel();
 			result.targetCard = card;
-			result.peng_card_value = cd | (cd << 8);
+			result.peng_card_value = card;
 			result.playerTableIndex = pl.position;
 			result.opertaion = MJConstants.MAHJONG_OPERTAION_PENG;
 		}
@@ -74,7 +73,7 @@ public class DQMJProcessor {
 			return false;
 		}
 		// 门清不能胡
-		if (!ctx.isQiangTing && cardsDown.size() == 0) {
+		if (!ctx.isQiangTing && isMenQing(cardsDown)) {
 			logger.info("act=checkHuBaseRule;desc=门清不能胡;");
 			return false;
 		}
@@ -115,47 +114,47 @@ public class DQMJProcessor {
 		return model;
 	}
 	
-	public MjCheckResult canTingThisCard(List<Byte> handCards, List<Integer> cardsDown,  byte card2Remove, byte card2Ting, DQMjCheckContext ctx) {
-		List<Byte> list = new ArrayList<Byte>();
-		list.addAll(handCards);
-		list.remove((Object) card2Remove);// 打出这一张牌
-		
-		//打出一张牌后，依然要满足基本上听条件
-		if(checkTingBaseRule(list, cardsDown, ctx) == false) {
-			logger.info("checkHu:ting={};remove={};result={};", MJHelper.getSingleCardName(card2Ting), MJHelper.getSingleCardName(card2Remove), "基本检测不通过");
-			return null;
-		}
-		
-		MJHelper.add2SortedList(card2Ting, list);// 加一张牌
-		
-		logger.info("checkHu:ting={};remove={};hand={};down={};", MJHelper.getSingleCardName(card2Ting), MJHelper.getSingleCardName(card2Remove), MJHelper.getSingleCardListName(list), MJHelper.getCompositeCardListName(cardsDown));
-		
-		if(checkHuBaseRule(list, cardsDown, ctx) == false) {
-			logger.info("checkHu:ting={};remove={};result={};", MJHelper.getSingleCardName(card2Ting), MJHelper.getSingleCardName(card2Remove), "基本检测不通过");
-			return null;
-		}
-				
-		MJContext c = new MJContext();
-		c.cardsInCard.addAll(list);
-		MjCheckResult ret = mjRule.canHu(c);
-		DQMjCheckContext m = new DQMjCheckContext();
-		m.isQiangTing = true;
-		if(checkHuBaseRule(list,cardsDown,m)){
-			return ret;
-		}
-		return null;
-	}
+//  疑似遗弃。
+//	public MjCheckResult canTingThisCard(List<Byte> handCards, List<Integer> cardsDown,  byte card2Remove, byte card2Ting, DQMjCheckContext ctx) {
+//		List<Byte> list = new ArrayList<Byte>();
+//		list.addAll(handCards);
+//		list.remove((Object) card2Remove);// 打出这一张牌
+//		
+//		//打出一张牌后，依然要满足基本上听条件
+//		if(checkTingBaseRule(list, cardsDown, ctx) == false) {
+//			logger.info("checkHu:ting={};remove={};result={};", MJHelper.getSingleCardName(card2Ting), MJHelper.getSingleCardName(card2Remove), "基本检测不通过");
+//			return null;
+//		}
+//		
+//		MJHelper.add2SortedList(card2Ting, list);// 加一张牌
+//		
+//		logger.info("checkHu:ting={};remove={};hand={};down={};", MJHelper.getSingleCardName(card2Ting), MJHelper.getSingleCardName(card2Remove), MJHelper.getSingleCardListName(list), MJHelper.getCompositeCardListName(cardsDown));
+//		
+//		if(checkHuBaseRule(list, cardsDown, ctx) == false) {
+//			logger.info("checkHu:ting={};remove={};result={};", MJHelper.getSingleCardName(card2Ting), MJHelper.getSingleCardName(card2Remove), "基本检测不通过");
+//			return null;
+//		}
+//		
+//		MjCheckResult ret = new MjCheckResult(); 
+//		mjRule.canHu(list, ret);
+//		DQMjCheckContext m = new DQMjCheckContext();
+//		m.isQiangTing = true;
+//		if(checkHuBaseRule(list,cardsDown,m)){
+//			return ret;
+//		}
+//		return null;
+//	}
 
 	public ChuTingModel canTingInternal(List<Byte> handCards, List<Integer> cardsDown, DQMjCheckContext c) {
 		Map<Byte, Set<Byte>> chuAndTingMap = new HashMap<Byte, Set<Byte>>();
 		Set<Byte> allCards = MJHelper.getAllUniqCard();
 		Set<Byte> set = MJHelper.getUniqCardList(handCards);
 		for (byte card2Remove : set) {
-			if(c.card2Remove > 0 && c.card2Remove != card2Remove) {
+			if(c.cardCantRemove.contains(card2Remove)) {
 				continue; //只检查指定情况的
 			}
 			for (byte card2Ting : allCards) {
-				if(c.card2Ting > 0 && c.card2Ting != card2Ting) {
+				if(c.cardCantTing.contains(card2Ting)) {
 					continue;//检查指定情况的
 				}
 //				MjCheckResult ret = canTingThisCard(handCards, cardsDown, card2Remove, card2Ting, c);
@@ -213,7 +212,7 @@ public class DQMJProcessor {
 			shouPaiTemp2.addAll(shouPaiTemp);
 			shouPaiTemp2.remove(Byte.valueOf(b+""));
 			shouPaiTemp2.remove(Byte.valueOf(b+""));
-			if(mjRule.canChengPai(shouPaiTemp2,new MjCheckResult())){
+			if(mjRule.canChengPai(shouPaiTemp2)){
 				if(checkHuRule(shouPaiTemp,cardsDown,b)){
 					if(c.desk.canWuJiaBuHu()){
 						List shouPaiTemp3 = new ArrayList();
@@ -252,14 +251,6 @@ public class DQMJProcessor {
 		shouPaiTemp.remove(Byte.valueOf(b+""));
 		return has19(handcards, cardsDown)&&hasKe(shouPaiTemp,cardsDown)&&hasShun(shouPaiTemp,cardsDown);
 	}
-
-	private MjCheckResult canHu(List<Byte> cards) {
-		BaseMJRule rule = new BaseMJRule();
-		MJContext ctx = new MJContext();
-		ctx.cardsInCard = cards;
-		MjCheckResult ret = rule.canHu(ctx);
-		return ret;
-	}
 	
 	/**
 	 * 判断是否是夹胡
@@ -273,7 +264,7 @@ public class DQMJProcessor {
 			Byte card2 = (byte) (card + 1);
 			Byte card3 = (byte) (card - 1);
 			if (cards.remove((Byte) card) && cards.remove(card2) && cards.remove(card3)) {
-				if (canHu(cards) != null)
+				if (mjRule.canHu(cards))
 					return true;
 			}
 		}
@@ -288,7 +279,7 @@ public class DQMJProcessor {
 				Byte card_1 = (byte) (card - 1);
 				Byte card_2 = (byte) (card - 2);
 				if (num == 3 && cards.remove((Byte) card) && cards.remove(card_1) && cards.remove(card_2)) {
-					if (canHu(cards) != null)
+					if (mjRule.canHu(cards))
 						return true;
 				}
 			}
@@ -300,7 +291,7 @@ public class DQMJProcessor {
 				Byte card1 = (byte) (card + 1);
 				Byte card2 = (byte) (card + 2);
 				if (num == 7 && cards.remove((Byte) card) && cards.remove(card1) && cards.remove(card2)) {
-					if (canHu(cards) != null)
+					if (mjRule.canHu(cards))
 						return true;
 				}
 			}
@@ -367,7 +358,7 @@ public class DQMJProcessor {
 					shouPaitemp.remove(Byte.valueOf(b+""));
 					shouPaitemp.remove(Byte.valueOf(b1+""));
 					shouPaitemp.remove(Byte.valueOf(b1+""));
-					if(mjRule.canChengPai(shouPaitemp,new MjCheckResult())){
+					if(mjRule.canChengPai(shouPaitemp)){
 						List<Byte> tempResult = new ArrayList();
 						tempResult.add(b);
 						tempResult.add(b1);
@@ -429,14 +420,16 @@ public class DQMJProcessor {
 		}
 
 		// 门清不能听
-		if (!ctx.isQiangTing && c2.size() == 0) {
+		if (!ctx.isQiangTing && isMenQing(c2)) {
 			logger.info("act=checkTingBaseRule;error=mengqing;desc=门清不能听;");
 			return false;
 		}
 		return true;
 	}
-
-	//
+	
+	public boolean isMenQing(List<Integer> cardsDown) {
+		return cardsDown.size() <= 0;
+	}
 
 	// 有几个红中
 	public int getHongZhongNum(List<Byte> cardsInHand, List<Integer> cardsDown) {
@@ -560,7 +553,7 @@ public class DQMJProcessor {
 	}
 
 
-	// 玩家收牌和吃碰牌，看看是否至少有2种花色 //TODO WXD 移到通用麻将里
+	// 玩家收牌和吃碰牌，看看是否至少有2种花色
 	public boolean has2Color(List<Byte> cardsInHand, List<Integer> cardsDown) {
 		int color_num = 0;
 		boolean found0 = false; // 万

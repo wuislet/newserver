@@ -13,7 +13,6 @@ import packet.mj.MJ.GameOperHandCardSyn;
 import packet.mj.MJ.GameOperPlayerActionNotify;
 import packet.mj.MJ.GameOperPlayerActionSyn;
 import packet.mj.MJ.GameOperPlayerHuSyn;
-import packet.mj.MJ.GameOperPlayerSettle;
 import packet.mj.MJ.GameOperStartSyn;
 import packet.mj.MJBase.GameOperType;
 import packet.mj.MJBase.GameOperation;
@@ -266,10 +265,7 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 			gameData.mPlayerHandResult.playDetail[px.position].fanType = MJConstants.MAHJONG_HU_CODE_LIUJU;
 			gameData.mPlayerHandResult.playDetail[px.position].score = 0;
 		}
-
-		gameData.mGameHu.position = -1;
-		gameData.mGameHu.huCard = 0;
-
+		gameData.mGameHu.reset();
 		gameData.handEndTime = System.currentTimeMillis();
 	}
 
@@ -277,7 +273,35 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 		Assert.isTrue(pl != null);
 		//设置一局结束的状态,循环获取状态后结束这局游戏
 		System.out.println("    收炮  playerInfo [" + pao_pl + "]");
-		if(pao_pl == null || pl.playerId == pao_pl.playerId) {
+
+		if(pao_pl != null && pl.playerId != pao_pl.playerId) { //收炮 //TODO WXD 非泛用
+			if(!gameData.mTingCards[pao_pl.position].tingCard){ //没有报听的人打出的牌才能触发收炮
+				//游戏中的记录
+				gameData.recorder.recordPlayerAction(gameData.genSeq(), pl.position, MJConstants.MAHJONG_OPERTAION_SHOUPAO, newCard, 0, "收炮", 1);
+		
+				// 结算番型和金币
+				settle(gameData, desk, pl, pao_pl, fanType);
+	
+				GameOperPlayerHuSyn.Builder gb = GameOperPlayerHuSyn.newBuilder();
+				gb.setCard(newCard);
+				gb.setPosition(pl.position);
+				gb.setPaoPosition(pao_pl.position);
+				gb.setSkipHuSettle(false);
+				gb.setWinType(MJHelper.getHuType(gameData.mPlayerHandResult.playDetail[pl.position].fanType) | MJConstants.MAHJONG_HU_CODE_SHOUPAO);
+				
+				for (PlayerInfo p : (List<PlayerInfo>) desk.getPlayers()) {
+					int resultType = MJHelper.getResultType(gameData.mPlayerHandResult.playDetail[p.position].fanType);
+					gb.setResultType(resultType);
+					
+					logger.info("huMsg:"+JsonFormat.printToString(gb.build()));
+	
+					PokerPushHelper.pushPlayerHuMsg(desk, p.position, gb, MJConstants.SEND_TYPE_SINGLE);	
+				}
+			}
+			
+			// 下个玩家进行摸牌动作
+			player_mo(gameData, desk);
+		} else { // 自摸
 			gameData.setState(MJConstants.GAME_TABLE_STATE_SHOW_GAME_OVER_SCREEN);
 			//游戏中的记录
 			gameData.recorder.recordPlayerAction(gameData.genSeq(), pl.position, MJConstants.MAHJONG_OPERTAION_HU, newCard, 0, "胡牌", 1);
@@ -289,32 +313,19 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 			gameData.mGameHu.huCard = newCard;
 	
 			gameData.handEndTime = System.currentTimeMillis();
-		} else {
-			//游戏中的记录
-			gameData.recorder.recordPlayerAction(gameData.genSeq(), pl.position, MJConstants.MAHJONG_OPERTAION_SHOUPAO, newCard, 0, "收炮", 1);
+		} 
+	}
 	
-			// 结算番型和金币
-			settle(gameData, desk, pl, pao_pl, fanType);
-
-			GameOperPlayerHuSyn.Builder gb = GameOperPlayerHuSyn.newBuilder();
-			gb.setCard(newCard);
-			gb.setPosition(pl.position);
-			gb.setPaoPosition(pao_pl.position);
-			gb.setSkipHuSettle(false);
-			gb.setWinType(MJHelper.getHuType(gameData.mPlayerHandResult.playDetail[pl.position].fanType) | MJConstants.MAHJONG_HU_CODE_SHOUPAO);
-					
-			for (PlayerInfo p : (List<PlayerInfo>) desk.getPlayers()) {
-				int resultType = MJHelper.getResultType(gameData.mPlayerHandResult.playDetail[p.position].fanType);
-				gb.setResultType(resultType);
-				
-				logger.info("huMsg:"+JsonFormat.printToString(gb.build()));
-
-				PokerPushHelper.pushPlayerHuMsg(desk, p.position, gb, MJConstants.SEND_TYPE_SINGLE);	
-			}
-			
-			// 收炮，下个玩家进行摸牌动作
-			player_mo(gameData, desk);
-		}
+	@Override
+	public int CalHuType(GameData gameData, DQMJDesk desk, PlayerInfo pl, byte newCard)
+	{
+		return 0;
+	}
+	
+	@Override
+	public int CalFanNum(int fanType)
+	{
+		return 1;
 	}
 
 	@Override
@@ -614,40 +625,41 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 		List<PlayerInfo> plist = desk.getPlayers();
 
 		for (PlayerInfo px : plist) {
+			int position = px.getTablePos();
 			// 赢家不计算，他赢的等于其他输的人之和
 			if (px.getPlayerID() == winner.getPlayerID()) {
 				int win_fan = fanType | MJConstants.MAHJONG_HU_CODE_WIN | MJConstants.MAHJONG_HU_CODE_TING;
-				if (px.position == dealer_pos)// 是庄家
+				if (position == dealer_pos)// 是庄家
 				{
-					logger.info("{} is banker;", px.position);
-					gameData.mPlayerHandResult.playDetail[px.position].fanType = win_fan | MJConstants.MAHJONG_HU_CODE_MYSELF_ZHUANG_JIA;
+					logger.info("{} is banker;", position);
+					gameData.mPlayerHandResult.playDetail[position].fanType = win_fan | MJConstants.MAHJONG_HU_CODE_MYSELF_ZHUANG_JIA;
 				} else {
-					gameData.mPlayerHandResult.playDetail[px.position].fanType = win_fan;
+					gameData.mPlayerHandResult.playDetail[position].fanType = win_fan;
 				}
-				gameData.mPlayerHandResult.playDetail[px.position].result = PlayHandResult.GAME_RESULT_WIN;
+				gameData.mPlayerHandResult.playDetail[position].result = PlayHandResult.GAME_RESULT_WIN;
 				continue;
 			}
 			// 输
 			int pl_fan_type = fanType | MJConstants.MAHJONG_HU_CODE_LOSE;
-			if (gameData.mTingCards[px.position].tingCard)
+			if (gameData.mTingCards[position].tingCard)
 				pl_fan_type |= MJConstants.MAHJONG_HU_CODE_TING;
 			int my_fan = fan;
 
 			// 未听点炮加一番
 			if (pao_pl != null && px.getPlayerID() == pao_pl.getPlayerID()) {
 				pl_fan_type |= MJConstants.MAHJONG_HU_CODE_DIAN_PAO; // 点炮之人
-				if (!gameData.mTingCards[px.position].tingCard) {
+				if (!gameData.mTingCards[position].tingCard) {
 					my_fan *= 2; // 未听点牌翻一番
 				}
 			}
 
-			if (gameData.isMenQing(px.position)) {
+			if (dqmjProc.isMenQing(gameData.getCardsDown(position))) {
 				my_fan *= 2; // 门清加一番
 				pl_fan_type |= MJConstants.MAHJONG_HU_CODE_MEN_QING;
 			}
 			// 我是庄家
-			if (px.position == dealer_pos) {
-				logger.info("{} is banker2;", px.position);
+			if (position == dealer_pos) {
+				logger.info("{} is banker2;", position);
 				my_fan *= 2; // 庄家输翻番
 				pl_fan_type |= MJConstants.MAHJONG_HU_CODE_MYSELF_ZHUANG_JIA;
 			} else if (winner.position == dealer_pos)// 对手是庄家
@@ -656,9 +668,9 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 				pl_fan_type |= MJConstants.MAHJONG_HU_CODE_TARGET_ZHUANG_JIA;
 			}
 			int lose = my_fan * dizhu;
-			gameData.mPlayerHandResult.playDetail[px.position].score = lose;
-			gameData.mPlayerHandResult.playDetail[px.position].fanType = pl_fan_type;
-			gameData.mPlayerHandResult.playDetail[px.position].fanNum = my_fan;
+			gameData.mPlayerHandResult.playDetail[position].score = lose;
+			gameData.mPlayerHandResult.playDetail[position].fanType = pl_fan_type;
+			gameData.mPlayerHandResult.playDetail[position].fanNum = my_fan;
 		}
 		boolean baoSanJia = false;
 		// 点炮胡,如果没听包三家
@@ -693,7 +705,7 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 		gameData.mPlayerHandResult.playDetail[winner.position].fanNum = (total_gold / dizhu);
 
 		for (PlayerInfo p : plist) {
-			int position = p.position;
+			int position = p.getTablePos();
 			PlayFinalResult finalRes = gameData.mPlayerFinalResult.playDetail[position];
 			PlayHandResult handRes = gameData.mPlayerHandResult.playDetail[position];
 			//如果玩家输了，将score和fanNum改为负数
@@ -893,7 +905,6 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 
 	private void player_op_peng(GameData gameData, DQMJDesk gt, GameOperPlayerActionSyn.Builder msg, PlayerInfo pl) {
 		int v1 = msg.getCardValue(0) & 0xff;
-		int compose = ((v1 << 8) | v1);
 
 		gameData.recorder.recordPlayerAction(gameData.genSeq(), pl.position, msg.getAction(), v1, 0,
 				MJHelper.getActionName(msg.getAction()) + ":" + MJHelper.getSingleCardName(v1) + "_" + MJHelper.getSingleCardName(v1) + "_" + MJHelper.getSingleCardName(v1), 0);
@@ -918,9 +929,9 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 			return;// 当前不能碰；
 		}
 
-		if (waiting.peng_card_value != compose) {
+		if (waiting.peng_card_value != (byte)v1) {
 			gt.sendErrorMsg(pl.position, "碰牌错误,提交碰牌参数错误");
-			logger.error("act=peng;stage=gaming;error=pengCardInvalid;expect={};actual={};position={};deskId={};", waiting.peng_card_value, compose, pl.getTablePos(), gt.getDeskID());
+			logger.error("act=peng;stage=gaming;error=pengCardInvalid;expect={};actual={};position={};deskId={};", waiting.peng_card_value, v1, pl.getTablePos(), gt.getDeskID());
 			return;// 碰的牌不对；
 		}
 
@@ -1068,7 +1079,7 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 		boolean pengTing = (waiting.opertaion & MJConstants.MAHJONG_OPERTAION_PENG_TING) == MJConstants.MAHJONG_OPERTAION_PENG_TING;
 		boolean chiTing = (waiting.opertaion & MJConstants.MAHJONG_OPERTAION_CHI_TING) == MJConstants.MAHJONG_OPERTAION_CHI_TING;
 		if (pengTing) {
-			MJHelper.copyPengArg((waiting.peng_card_value & 0xFF), msg);
+			MJHelper.copyPengArg(waiting.peng_card_value, msg);
 		}
 		if (chiTing) {
 			MJHelper.copyChiArg(waiting.chiCombos, msg);
@@ -1077,7 +1088,7 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 		boolean peng = (waiting.opertaion & MJConstants.MAHJONG_OPERTAION_PENG) == MJConstants.MAHJONG_OPERTAION_PENG;
 		boolean chi = (waiting.opertaion & MJConstants.MAHJONG_OPERTAION_CHI) == MJConstants.MAHJONG_OPERTAION_CHI;
 		if (peng) {
-			MJHelper.copyPengArg((waiting.peng_card_value & 0xFF), msg);
+			MJHelper.copyPengArg(waiting.peng_card_value, msg);
 		}
 		if (chi) {
 			MJHelper.copyChiArg(waiting.chiCombos, msg);
@@ -1291,8 +1302,7 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 		}
 		for(int i = 0; i < msg.getCardValueList().size(); i++) {
 			int cardpoint = msg.getCardValue(i);
-			int idx = gameData.mPlayerCards[pl.position].cardsInHand.indexOf((byte)cardpoint);
-			gameData.mPlayerCards[pl.position].cardsInHand.remove(idx);
+			gameData.removeCardInHand(cardpoint, pl.getTablePos(), CardChangeReason.SHUAI_JIU_YAO);
 		}
 	}
 
@@ -1315,7 +1325,7 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 				shouPaiTemp.remove(Byte.valueOf(c1+""));
 				shouPaiTemp.remove(Byte.valueOf(c2+""));
 				shouPaiTemp.remove(Byte.valueOf(c2+""));
-				if(new BaseMJRule().canChengPai(shouPaiTemp,new MjCheckResult())){
+				if(new BaseMJRule().canChengPai(shouPaiTemp)){
 					result.add(c1);
 					result.add(c2);
 				}
@@ -1535,7 +1545,7 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 				break;
 			}
 
-			// 按优先级，再抢听(碰听/吃听) //TODO WXD Del
+			// 按优先级，再抢听(碰听/吃听)
 			result = loopCheckTing(gameData, desk, card, opPlayer.position);
 			if (result != null) {
 				break;
@@ -1687,7 +1697,7 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 						code.opertaion |= MJConstants.MAHJONG_OPERTAION_PENG_TING;
 						code.pengChuAndTingModel = new ChuTingModel();
 						code.pengChuAndTingModel.chuAndTingMap = chuAndTingMap;
-						code.peng_card_value = (card | (card << 8));
+						code.peng_card_value = card;
 						code.playerTableIndex = pl.position;
 					}
 				}
@@ -1930,7 +1940,7 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 			// 碰听
 			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_PENG_TING) == MJConstants.MAHJONG_OPERTAION_PENG_TING) {
 				msg.setAction(MJConstants.MAHJONG_OPERTAION_PENG_TING);
-				msg.addCardValue(waiting.peng_card_value & 0xFF);
+				msg.addCardValue(waiting.peng_card_value);
 				this.playerOperation(gt, desk, msg, pl);
 				return;
 			}
@@ -1938,7 +1948,7 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 			// 碰
 			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_PENG) == MJConstants.MAHJONG_OPERTAION_PENG) {
 				msg.setAction(MJConstants.MAHJONG_OPERTAION_PENG);
-				msg.addCardValue(waiting.peng_card_value & 0xFF);
+				msg.addCardValue(waiting.peng_card_value);
 				this.playerOperation(gt, desk, msg, pl);
 				return;
 			}

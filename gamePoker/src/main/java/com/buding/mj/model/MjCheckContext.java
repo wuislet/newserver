@@ -1,5 +1,7 @@
 package com.buding.mj.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.buding.api.desk.MJDesk;
 import com.buding.game.GameData;
 
@@ -15,8 +17,8 @@ public class MjCheckContext<T extends MJDesk> {
 	public byte card;
 	public int position;
 	
-	public byte card2Remove = 0;
-	public byte card2Ting = 0;
+	public List<Byte> cardCantRemove = new ArrayList<Byte>();
+	public List<Byte> cardCantTing = new ArrayList<Byte>();
 
 	public MjCheckContext() {
 	}
@@ -26,13 +28,5 @@ public class MjCheckContext<T extends MJDesk> {
 		this.desk = desk;
 		this.card = card;
 		this.position = position;
-	}
-
-	public void setCard2Remove(byte card2Remove) {
-		this.card2Remove = card2Remove;
-	}
-
-	public byte getCard2Ting() {
-		return card2Ting;
 	}
 }

@@ -55,21 +55,29 @@ public class MJConstants {
 	public static final int MAHJONG_CODE_COLOR_MASK =0xf0;//花色部分的掩码
 	public static final int MAHJONG_CODE_NUMBER_MASK =0x0f;//数字部分的掩码
 	public static final int MAHJONG_CODE_GANG_CARD =0x0f;//杠的特殊数字标识！ //TODO 技术债务
+	
 	/**玩家牌局结果*/
-	public static final int MAHJONG_HU_CODE_MEN_QING =0x0001;//门清
-	public static final int MAHJONG_HU_CODE_DIAN_PAO =0x0002;//点炮
-	public static final int MAHJONG_HU_CODE_MYSELF_ZHUANG_JIA=0x0004;//自己是不是庄家
-	public static final int MAHJONG_HU_CODE_ZI_MO=0x0008;//自摸	
-	public static final int MAHJONG_HU_CODE_JIA_HU=0x0010;//夹胡
-	public static final int MAHJONG_HU_CODE_MO_BAO=0x0020;//摸宝：摸到宝牌和牌。
-	public static final int MAHJONG_HU_CODE_BAO_BIAN=0x0040;//宝边：在小胡的基础上，要胡的牌正好是宝牌，自摸到宝牌，则称宝边。
-	public static final int MAHJONG_HU_CODE_BAO_ZHONG_BAO=0x0080;//宝中宝：在大胡的基础上，要胡的牌正好是宝牌，自摸到宝牌，则成为宝中宝。	
-	public static final int MAHJONG_HU_CODE_TING=0x0100;//是否听牌
-	public static final int MAHJONG_HU_CODE_TARGET_ZHUANG_JIA=0x0200;//输赢的对方是庄家
-	public static final int MAHJONG_HU_CODE_GUADAFENG=0x0400;// 刮大风
-	public static final int MAHJONG_HU_CODE_KAIPAIZHA=0x0800;// 开炸牌
-	public static final int MAHJONG_HU_CODE_HONGZHONGMTF=0x2000;// 红中漫天飞
-	public static final int MAHJONG_HU_CODE_DAILOU=0x4000;// 带漏胡		
+	public static final int MAHJONG_HU_CODE_DIAN_PAO =0x0001;//点炮
+	public static final int MAHJONG_HU_CODE_MYSELF_ZHUANG_JIA=0x0002;//自己是不是庄家
+	public static final int MAHJONG_HU_CODE_ZI_MO=0x0004;//自摸	
+	public static final int MAHJONG_HU_CODE_JIA_HU=0x008;//夹胡
+	public static final int MAHJONG_HU_CODE_TING=0x010;//是否听牌
+	public static final int MAHJONG_HU_CODE_TARGET_ZHUANG_JIA=0x020;//输赢的对方是庄家
+
+	public static final int MAHJONG_HU_CODE_MEN_QING =0x0040;//门清
+	public static final int MAHJONG_HU_CODE_HAI_DI_LAO=0x080;//海底捞月
+	public static final int MAHJONG_HU_CODE_QI_XIAO_DUI=0x100;//七小对
+	public static final int MAHJONG_HU_CODE_DUI_DUI_HU=0x200;//对对胡
+	
+	public static final int MAHJONG_HU_CODE_MO_BAO=0x1000;//摸宝：摸到宝牌和牌。
+	public static final int MAHJONG_HU_CODE_BAO_BIAN=0x2000;//宝边：在小胡的基础上，要胡的牌正好是宝牌，自摸到宝牌，则称宝边。
+	public static final int MAHJONG_HU_CODE_BAO_ZHONG_BAO=0x4000;//宝中宝：在大胡的基础上，要胡的牌正好是宝牌，自摸到宝牌，则成为宝中宝。	
+	public static final int MAHJONG_HU_CODE_GUADAFENG=0x8000;// 刮大风
+	public static final int MAHJONG_HU_CODE_KAIPAIZHA=0x10000;// 开炸牌
+	public static final int MAHJONG_HU_CODE_HONGZHONGMTF=0x20000;// 红中漫天飞
+	public static final int MAHJONG_HU_CODE_DAILOU=0x40000;// 带漏胡
+	
+	
 	public static final int MAHJONG_HU_CODE_WIN=0x100000;//赢
 	public static final int MAHJONG_HU_CODE_LOSE=0x200000;//输
 	public static final int MAHJONG_HU_CODE_LIUJU=0x400000;//流局
@@ -98,6 +106,17 @@ public class MJConstants {
 	public static final int GAME_TABLE_STATE_PAUSED=7;
 	
 	/**玩家吃碰之类的操作，服务器等客户端播个动画*/
+	public static enum GAME_TABLE_SUB_STATE_ANIMATION{ //客户端正在播放的动画 //TODO WXD 将常数改用枚举。技术债务。
+		idle,               //无任何操作
+		chiPeng,            //吃碰牌动画
+		hu,                 //胡牌动画
+		chu,                //出牌动画
+		ting,               //听牌动画
+		initCard,           //发牌动画
+		showChangeBao,      //换宝动画
+		waitChangeBao,      //准备推送上宝/换宝动画
+		gang,               //杠牌动画
+	}
 	public static final int GAME_TABLE_SUB_STATE_IDLE=0;//无任何操作
 	public static final int GAME_TABLE_SUB_STATE_PLAYING_CHI_PENG_ANIMATION=1;//客户端在播吃碰牌动画
 	public static final int GAME_TABLE_SUB_STATE_PLAYING_HU_ANIMATION=2;//客户端在播胡牌动画

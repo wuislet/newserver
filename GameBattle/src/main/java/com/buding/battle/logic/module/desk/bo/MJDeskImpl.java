@@ -23,7 +23,7 @@ public class MJDeskImpl extends RobotSupportDeskImpl implements MJDesk<byte[]> {
 	}
 	
 	@Override
-	public boolean isQiXiaoDui() {
+	public boolean canQiXiaoDui() {
 		return true;
 	}
 	

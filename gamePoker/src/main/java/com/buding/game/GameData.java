@@ -43,6 +43,7 @@ public class GameData extends GameDataBase {
 		dice1 = 0;
 		dice2 = 0;
 		gameSeq = 0;
+		pao_pl = null;
 		sleepTo = 0;
 		seq = new AtomicInteger(1);
 		super.Reset();
@@ -87,6 +88,7 @@ public class GameData extends GameDataBase {
 	public int dice2 = 0; //骰子2
 	public int gameSeq = 0;
 	public long showInitCardTime = 0;
+	public PlayerInfo pao_pl = null;//这局点炮的玩家
 
 	public long sleepTo = 0;
 	public AtomicInteger seq = new AtomicInteger(1);
@@ -288,7 +290,7 @@ public class GameData extends GameDataBase {
 		if(in_card == 0) {
 			return 0;
 		}
-		log.info("act=addCardInHand;reason={};position={};card={}", reason, position, in_card);
+		log.info("act=removeCardInHand;reason={};position={};card={}", reason, position, in_card);
 		List<Byte> cardsInHand = getCardsInHand(position);
 		int pre = cardsInHand.size();
 		try {
@@ -370,14 +372,6 @@ public class GameData extends GameDataBase {
 		
 		int card = MJHelper.addCardDown(point, chipoint, type, list);
 		return card;
-	}
-
-	// 是否门清
-	public boolean isMenQing(int position) {
-		if (getCardsDown(position).size() <= 0)
-			return true;
-		//
-		return false;
 	}
 	
 	public boolean tryBuGang(int card, int position) {
@@ -465,10 +459,10 @@ public class GameData extends GameDataBase {
 			if ((handRes.fanType & MJConstants.MAHJONG_HU_CODE_KAIPAIZHA) == MJConstants.MAHJONG_HU_CODE_KAIPAIZHA) {
 				finalRes.kaiPaiZhaCount++;
 			}
-		} else {
-			if ((handRes.fanType & MJConstants.MAHJONG_HU_CODE_DIAN_PAO) == MJConstants.MAHJONG_HU_CODE_DIAN_PAO) {
-				finalRes.paoCount++;
-			}
+		//} else { TODO del
+		//	if ((handRes.fanType & MJConstants.MAHJONG_HU_CODE_DIAN_PAO) == MJConstants.MAHJONG_HU_CODE_DIAN_PAO) {
+		//		finalRes.paoCount++;
+		//	}
 		}
 		
 		if ((handRes.fanType & MJConstants.MAHJONG_HU_CODE_MYSELF_ZHUANG_JIA) == MJConstants.MAHJONG_HU_CODE_MYSELF_ZHUANG_JIA) {

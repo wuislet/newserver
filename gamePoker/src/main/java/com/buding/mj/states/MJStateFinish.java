@@ -3,12 +3,10 @@ package com.buding.mj.states;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import packet.mj.MJ.GameOperFinalSettleSyn;
 import packet.mj.MJ.GameOperPlayerHuSyn;
 import packet.mj.MJ.GameOperPlayerSettle;
 import packet.mj.MJ.PlayerFinalResult;
-
 import com.buding.api.context.GameContext;
 import com.buding.api.context.PlayFinalResult;
 import com.buding.api.desk.Desk;
@@ -63,7 +61,7 @@ public class MJStateFinish extends MJStateCommon {
 		if(this.mGameData.dismissing) {			
 			if(this.mDesk.isVipTable()) {
 				// 推送总结算画面
-				pushFinalSettleMsg(this.mGameData, this.mDesk);				
+				pushFinalSettleMsg(this.mGameData, this.mDesk);
 			}
 			this.mGameTimer.KillDeskTimer();
 			ctx.playerFinalResult = this.mGameData.mPlayerFinalResult;
@@ -132,31 +130,28 @@ public class MJStateFinish extends MJStateCommon {
 
 	private void pushPlayerHuMsg(GameData gameData, Desk desk) {
 		GameOperPlayerHuSyn.Builder gb = GameOperPlayerHuSyn.newBuilder();
-		//开牌炸和流局不要显示宝
-		if(gameData.mGameHu.position != -1) {
-			int fanType = gameData.mPlayerHandResult.playDetail[gameData.mGameHu.position].fanType;
-			if((fanType & MJConstants.MAHJONG_HU_CODE_KAIPAIZHA) != MJConstants.MAHJONG_HU_CODE_KAIPAIZHA) {
-				gb.setBao(gameData.mPublic.mBaoCard);
-			}
-		}
-		
 		gb.setCard(gameData.mGameHu.huCard);
 		gb.setPosition(gameData.mGameHu.position);
-		gb.setPaoPosition(-1);
+		gb.setPaoPosition(gameData.mGameHu.paoPosition);
 		for (PlayerInfo p : (List<PlayerInfo>) desk.getPlayers()) {
+			int fantype = gameData.mPlayerHandResult.playDetail[p.position].fanType;
 			GameOperPlayerSettle.Builder bb = GameOperPlayerSettle.newBuilder();
 			bb.setFanNum(gameData.mPlayerHandResult.playDetail[p.position].fanNum);
-			bb.setFanType(gameData.mPlayerHandResult.playDetail[p.position].fanType);
-			for(String fan : MJHelper.getFanDescList(gameData.mPlayerHandResult.playDetail[p.position].fanType)) {
+			bb.setFanType(fantype);
+			if(p.getTablePos() == gameData.mGameHu.paoPosition) { //点炮的额外显示点炮两字。
+				bb.addFanDetail("点炮 ");
+			}
+			List<String> fanlst = MJHelper.getFanDescList(fantype);
+			for(String fan : fanlst) {
 				bb.addFanDetail(fan);
 			}
 			bb.setPosition(p.position);
-			for (byte card : gameData.mPlayerCards[p.position].cardsInHand) {
+			for (byte card : gameData.getCardsInHand(p.position)) {
 				bb.addHandcard(card);
 			}
-			if((bb.getFanType() & MJConstants.MAHJONG_HU_CODE_DIAN_PAO) == MJConstants.MAHJONG_HU_CODE_DIAN_PAO) {
-				gb.setPaoPosition(p.position);
-			}
+			//if((bb.getFanType() & MJConstants.MAHJONG_HU_CODE_DIAN_PAO) == MJConstants.MAHJONG_HU_CODE_DIAN_PAO) { //TODO del
+			//	gb.setPaoPosition(p.position);
+			//}
 			if((bb.getFanType() & MJConstants.MAHJONG_HU_CODE_WIN) == MJConstants.MAHJONG_HU_CODE_WIN) {
 				gb.setWinType(MJHelper.getHuType(bb.getFanType()));
 			}

@@ -24,7 +24,7 @@ import com.buding.hall.module.user.helper.UserHelper;
 import com.google.gson.Gson;
 
 //单机场
-public class SinglePlayerDesk extends DQMJDeskImpl {
+public class SinglePlayerDesk extends MJDeskImpl {
 	public SinglePlayerDesk(DeskListener listener, Room room, DeskConfig deskConf, String deskId) {
 		super(listener, room, deskConf, deskId);
 	}

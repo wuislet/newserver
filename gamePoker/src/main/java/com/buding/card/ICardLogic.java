@@ -37,6 +37,12 @@ public interface ICardLogic<T extends Desk> {
 	//玩家操作(出、碰、杠、听等)
 	public void playerOperation(GameData gameData, T gt, GameOperPlayerActionSyn.Builder msg, PlayerInfo pl);
 	
+	//计算胡型
+	public int CalHuType(GameData gameData, T desk, PlayerInfo pl, byte newCard);
+
+	//算翻数
+	public int CalFanNum(int fanType);
+	
 	//是否打完一个圈
 	public boolean isFinishQuan(GameData gameData, T gt);
 	
