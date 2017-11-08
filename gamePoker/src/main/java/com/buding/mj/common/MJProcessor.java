@@ -311,6 +311,10 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 		}
 		return false;
 	}
+	
+	public boolean isYiTiaoLong(List<Byte> cardsInHand) {
+		return false; //TODO wxd 算法实现
+	}
 
 	public int getColorNumber(List<Byte> cardsInHand, List<Integer> cardsDown) {
 		int color_flag = 0;

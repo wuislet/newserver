@@ -68,6 +68,8 @@ public class MJConstants {
 	public static final int MAHJONG_HU_CODE_HAI_DI_LAO=0x080;//海底捞月
 	public static final int MAHJONG_HU_CODE_QI_XIAO_DUI=0x100;//七小对
 	public static final int MAHJONG_HU_CODE_DUI_DUI_HU=0x200;//对对胡
+	public static final int MAHJONG_HU_CODE_QING_YI_SE=0x400;//清一色
+	public static final int MAHJONG_HU_CODE_YI_TIAO_LONG=0x800;//一条龙
 	
 	public static final int MAHJONG_HU_CODE_MO_BAO=0x1000;//摸宝：摸到宝牌和牌。
 	public static final int MAHJONG_HU_CODE_BAO_BIAN=0x2000;//宝边：在小胡的基础上，要胡的牌正好是宝牌，自摸到宝牌，则称宝边。

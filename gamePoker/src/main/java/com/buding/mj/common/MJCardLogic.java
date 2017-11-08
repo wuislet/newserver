@@ -80,7 +80,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		int fanType = pao_pl == null?MJConstants.MAHJONG_HU_CODE_ZI_MO:0;
 		fanType = mjProc.isJiaHu(handCards, newCard)?MJConstants.MJ_HU_TYPE_ZIMO_JIA_HU:fanType;
 		
-		if(desk.canShouPao() && pao_pl != null && pl.playerId != pao_pl.playerId) { //收炮 //TODO WXD 非泛用
+		if(desk.canShouPao() && pao_pl != null && pl.playerId != pao_pl.playerId && gameData.mTingCards[position].tingCard) { //收炮 //TODO WXD 完善if分支逻辑。必须听牌了才能收炮 //TODO WXD 非泛用
 			if(!gameData.mTingCards[paoPosition].tingCard){ //没有报听的人打出的牌才能触发收炮
 				//游戏中的记录
 				gameData.recorder.recordPlayerAction(gameData.genSeq(), position, MJConstants.MAHJONG_OPERTAION_SHOUPAO, newCard, 0, "收炮", 1);
@@ -127,6 +127,8 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		handCards.addAll(gameData.getCardsInHand(position));
 		MJHelper.add2SortedList(newCard, handCards);
 		
+		List<Integer> downCards = gameData.getCardsDown(position); //门前牌
+		
 		int hutype = 0;
 		
 		//根据时机  //可能交由外部设置 
@@ -142,6 +144,12 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		}
 		if(mjProc.isQiXiaoDui(handCards)){
 			hutype |= MJConstants.MAHJONG_HU_CODE_QI_XIAO_DUI;
+		}
+		if(mjProc.has0Color(handCards, downCards) || mjProc.has1Color(handCards, downCards)) {
+			hutype |= MJConstants.MAHJONG_HU_CODE_QING_YI_SE;
+		}
+		if(mjProc.isYiTiaoLong(handCards)) {
+			hutype |= MJConstants.MAHJONG_HU_CODE_YI_TIAO_LONG;
 		}
 		
 		return hutype;
@@ -159,6 +167,12 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		}
 		if ((fanType & MJConstants.MAHJONG_HU_CODE_ZI_MO) != 0) {
 			fanNum *= 2;// 自摸加一翻
+		}
+		if ((desk.qinYiSeYiTiaoLong()) && (fanType & MJConstants.MAHJONG_HU_CODE_ZI_MO) != 0) {
+			fanNum *= 2;// 清一色加一翻
+		}
+		if ((desk.qinYiSeYiTiaoLong()) && (fanType & MJConstants.MAHJONG_HU_CODE_ZI_MO) != 0) {
+			fanNum *= 2;// 一条龙加一翻
 		}
 		fanNum = Math.min(fanNum, 8);
 		return fanNum;
@@ -872,11 +886,18 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 	}
 
 	private void notifyPlayerWaitingOperation(GameData gameData, MJDesk desk, PlayerInfo pl, ActionWaitingModel waiting) {
-		//如果已经听牌了，则截获胡牌协议的发送，直接完成胡牌。
-		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_HU) != 0
-				&& gameData.mTingCards[pl.position].tingCard) { //已经听牌了直接胡
-			player_hu(gameData, desk);
-			return;
+		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_HU) != 0) {
+			//只能自摸的情况下，拦截非自摸的胡牌协议。
+			if(desk.havetoZiMo() && gameData.mGameHu.paoPosition != -1) {
+				logger.info(" you have to zi mo win:   card " + gameData.mGameHu.huCard + " pos " + pl.position);
+				return;
+			}
+			
+			//如果已经听牌了，则截获胡牌协议的发送，直接完成胡牌。
+			if (gameData.mTingCards[pl.position].tingCard) { //已经听牌了直接胡
+				player_hu(gameData, desk);
+				return;
+			}
 		}
 
 		gameData.mPlayerAction[pl.position].opStartTime = System.currentTimeMillis(); //重置操作计时

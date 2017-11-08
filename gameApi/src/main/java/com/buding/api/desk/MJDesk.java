@@ -12,16 +12,19 @@ public interface MJDesk<T> extends Desk<T> {
 	
 	int getGui(); //获取万能牌 -1表示没有
 	
-	int getWanfa(); //获取玩法
-	
 	boolean canQiXiaoDui(); //能否七小对
 	
 	boolean canShuaiJiuYao(); //能否甩九幺 //TODO 非通用，须特殊化
 	
 	boolean canShouPao(); //能否收炮 //TODO 非通用，须特殊化
 	
+	boolean havetoZiMo(); //强制自摸胡 //TODO 非通用，须特殊化
+	
+	boolean qinYiSeYiTiaoLong(); //清一色一条龙加番 //TODO 非通用，须特殊化
+	
+	int getWanfa(); //获取玩法
+	
 	int getRoomType(); // 1:2人麻将 2:4人麻将
 	
 	int getTotalQuan();
-
 }

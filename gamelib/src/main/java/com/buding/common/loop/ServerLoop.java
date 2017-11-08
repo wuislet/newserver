@@ -37,7 +37,7 @@ public class ServerLoop implements InitializingBean, Runnable {
 	public void run() {
 		for (Looper l : loopList) {
 			try {
-				logger.info("Loop tick " + l.getClass());
+				//logger.info("Loop tick " + l.getClass());
 				l.loop();
 			} catch (Exception e) {
 				e.printStackTrace();
