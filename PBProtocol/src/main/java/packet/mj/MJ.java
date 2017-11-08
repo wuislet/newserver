@@ -200,9 +200,9 @@ public final class MJ {
      */
     boolean getReconnect();
 
-    // optional sint32 cardLeft = 12;
+    // optional sint32 cardLeft = 10;
     /**
-     * <code>optional sint32 cardLeft = 12;</code>
+     * <code>optional sint32 cardLeft = 10;</code>
      *
      * <pre>
      *剩余牌数
@@ -210,13 +210,39 @@ public final class MJ {
      */
     boolean hasCardLeft();
     /**
-     * <code>optional sint32 cardLeft = 12;</code>
+     * <code>optional sint32 cardLeft = 10;</code>
      *
      * <pre>
      *剩余牌数
      * </pre>
      */
     int getCardLeft();
+
+    // repeated sint32 guiCards = 11;
+    /**
+     * <code>repeated sint32 guiCards = 11;</code>
+     *
+     * <pre>
+     *鬼牌
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getGuiCardsList();
+    /**
+     * <code>repeated sint32 guiCards = 11;</code>
+     *
+     * <pre>
+     *鬼牌
+     * </pre>
+     */
+    int getGuiCardsCount();
+    /**
+     * <code>repeated sint32 guiCards = 11;</code>
+     *
+     * <pre>
+     *鬼牌
+     * </pre>
+     */
+    int getGuiCards(int index);
   }
   /**
    * Protobuf type {@code packet.mj.GameOperStartSyn}
@@ -321,9 +347,30 @@ public final class MJ {
               reconnect_ = input.readBool();
               break;
             }
-            case 96: {
+            case 80: {
               bitField0_ |= 0x00000100;
               cardLeft_ = input.readSInt32();
+              break;
+            }
+            case 88: {
+              if (!((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
+                guiCards_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000400;
+              }
+              guiCards_.add(input.readSInt32());
+              break;
+            }
+            case 90: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000400) == 0x00000400) && input.getBytesUntilLimit() > 0) {
+                guiCards_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000400;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                guiCards_.add(input.readSInt32());
+              }
+              input.popLimit(limit);
               break;
             }
           }
@@ -336,6 +383,9 @@ public final class MJ {
       } finally {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           playerHandCards_ = java.util.Collections.unmodifiableList(playerHandCards_);
+        }
+        if (((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
+          guiCards_ = java.util.Collections.unmodifiableList(guiCards_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -617,11 +667,11 @@ public final class MJ {
       return reconnect_;
     }
 
-    // optional sint32 cardLeft = 12;
-    public static final int CARDLEFT_FIELD_NUMBER = 12;
+    // optional sint32 cardLeft = 10;
+    public static final int CARDLEFT_FIELD_NUMBER = 10;
     private int cardLeft_;
     /**
-     * <code>optional sint32 cardLeft = 12;</code>
+     * <code>optional sint32 cardLeft = 10;</code>
      *
      * <pre>
      *剩余牌数
@@ -631,7 +681,7 @@ public final class MJ {
       return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
-     * <code>optional sint32 cardLeft = 12;</code>
+     * <code>optional sint32 cardLeft = 10;</code>
      *
      * <pre>
      *剩余牌数
@@ -639,6 +689,41 @@ public final class MJ {
      */
     public int getCardLeft() {
       return cardLeft_;
+    }
+
+    // repeated sint32 guiCards = 11;
+    public static final int GUICARDS_FIELD_NUMBER = 11;
+    private java.util.List<java.lang.Integer> guiCards_;
+    /**
+     * <code>repeated sint32 guiCards = 11;</code>
+     *
+     * <pre>
+     *鬼牌
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getGuiCardsList() {
+      return guiCards_;
+    }
+    /**
+     * <code>repeated sint32 guiCards = 11;</code>
+     *
+     * <pre>
+     *鬼牌
+     * </pre>
+     */
+    public int getGuiCardsCount() {
+      return guiCards_.size();
+    }
+    /**
+     * <code>repeated sint32 guiCards = 11;</code>
+     *
+     * <pre>
+     *鬼牌
+     * </pre>
+     */
+    public int getGuiCards(int index) {
+      return guiCards_.get(index);
     }
 
     private void initFields() {
@@ -652,6 +737,7 @@ public final class MJ {
       seq_ = 0;
       reconnect_ = false;
       cardLeft_ = 0;
+      guiCards_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -703,7 +789,10 @@ public final class MJ {
         output.writeBool(9, reconnect_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        output.writeSInt32(12, cardLeft_);
+        output.writeSInt32(10, cardLeft_);
+      }
+      for (int i = 0; i < guiCards_.size(); i++) {
+        output.writeSInt32(11, guiCards_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -752,7 +841,16 @@ public final class MJ {
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeSInt32Size(12, cardLeft_);
+          .computeSInt32Size(10, cardLeft_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < guiCards_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeSInt32SizeNoTag(guiCards_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getGuiCardsList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -899,6 +997,8 @@ public final class MJ {
         bitField0_ = (bitField0_ & ~0x00000100);
         cardLeft_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
+        guiCards_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -972,6 +1072,11 @@ public final class MJ {
           to_bitField0_ |= 0x00000100;
         }
         result.cardLeft_ = cardLeft_;
+        if (((bitField0_ & 0x00000400) == 0x00000400)) {
+          guiCards_ = java.util.Collections.unmodifiableList(guiCards_);
+          bitField0_ = (bitField0_ & ~0x00000400);
+        }
+        result.guiCards_ = guiCards_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1040,6 +1145,16 @@ public final class MJ {
         }
         if (other.hasCardLeft()) {
           setCardLeft(other.getCardLeft());
+        }
+        if (!other.guiCards_.isEmpty()) {
+          if (guiCards_.isEmpty()) {
+            guiCards_ = other.guiCards_;
+            bitField0_ = (bitField0_ & ~0x00000400);
+          } else {
+            ensureGuiCardsIsMutable();
+            guiCards_.addAll(other.guiCards_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1782,10 +1897,10 @@ public final class MJ {
         return this;
       }
 
-      // optional sint32 cardLeft = 12;
+      // optional sint32 cardLeft = 10;
       private int cardLeft_ ;
       /**
-       * <code>optional sint32 cardLeft = 12;</code>
+       * <code>optional sint32 cardLeft = 10;</code>
        *
        * <pre>
        *剩余牌数
@@ -1795,7 +1910,7 @@ public final class MJ {
         return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>optional sint32 cardLeft = 12;</code>
+       * <code>optional sint32 cardLeft = 10;</code>
        *
        * <pre>
        *剩余牌数
@@ -1805,7 +1920,7 @@ public final class MJ {
         return cardLeft_;
       }
       /**
-       * <code>optional sint32 cardLeft = 12;</code>
+       * <code>optional sint32 cardLeft = 10;</code>
        *
        * <pre>
        *剩余牌数
@@ -1818,7 +1933,7 @@ public final class MJ {
         return this;
       }
       /**
-       * <code>optional sint32 cardLeft = 12;</code>
+       * <code>optional sint32 cardLeft = 10;</code>
        *
        * <pre>
        *剩余牌数
@@ -1827,6 +1942,100 @@ public final class MJ {
       public Builder clearCardLeft() {
         bitField0_ = (bitField0_ & ~0x00000200);
         cardLeft_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated sint32 guiCards = 11;
+      private java.util.List<java.lang.Integer> guiCards_ = java.util.Collections.emptyList();
+      private void ensureGuiCardsIsMutable() {
+        if (!((bitField0_ & 0x00000400) == 0x00000400)) {
+          guiCards_ = new java.util.ArrayList<java.lang.Integer>(guiCards_);
+          bitField0_ |= 0x00000400;
+         }
+      }
+      /**
+       * <code>repeated sint32 guiCards = 11;</code>
+       *
+       * <pre>
+       *鬼牌
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getGuiCardsList() {
+        return java.util.Collections.unmodifiableList(guiCards_);
+      }
+      /**
+       * <code>repeated sint32 guiCards = 11;</code>
+       *
+       * <pre>
+       *鬼牌
+       * </pre>
+       */
+      public int getGuiCardsCount() {
+        return guiCards_.size();
+      }
+      /**
+       * <code>repeated sint32 guiCards = 11;</code>
+       *
+       * <pre>
+       *鬼牌
+       * </pre>
+       */
+      public int getGuiCards(int index) {
+        return guiCards_.get(index);
+      }
+      /**
+       * <code>repeated sint32 guiCards = 11;</code>
+       *
+       * <pre>
+       *鬼牌
+       * </pre>
+       */
+      public Builder setGuiCards(
+          int index, int value) {
+        ensureGuiCardsIsMutable();
+        guiCards_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated sint32 guiCards = 11;</code>
+       *
+       * <pre>
+       *鬼牌
+       * </pre>
+       */
+      public Builder addGuiCards(int value) {
+        ensureGuiCardsIsMutable();
+        guiCards_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated sint32 guiCards = 11;</code>
+       *
+       * <pre>
+       *鬼牌
+       * </pre>
+       */
+      public Builder addAllGuiCards(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureGuiCardsIsMutable();
+        super.addAll(values, guiCards_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated sint32 guiCards = 11;</code>
+       *
+       * <pre>
+       *鬼牌
+       * </pre>
+       */
+      public Builder clearGuiCards() {
+        guiCards_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000400);
         onChanged();
         return this;
       }
@@ -2911,450 +3120,6 @@ public final class MJ {
     }
 
     // @@protoc_insertion_point(class_scope:packet.mj.GameOperHandCardSyn)
-  }
-
-  public interface GameOperPublicInfoSynOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required sint32 cardLeft = 1;
-    /**
-     * <code>required sint32 cardLeft = 1;</code>
-     *
-     * <pre>
-     *剩余牌数
-     * </pre>
-     */
-    boolean hasCardLeft();
-    /**
-     * <code>required sint32 cardLeft = 1;</code>
-     *
-     * <pre>
-     *剩余牌数
-     * </pre>
-     */
-    int getCardLeft();
-  }
-  /**
-   * Protobuf type {@code packet.mj.GameOperPublicInfoSyn}
-   *
-   * <pre>
-   *同步公共信息, operType=PUBLICINFO
-   * </pre>
-   */
-  public static final class GameOperPublicInfoSyn extends
-      com.google.protobuf.GeneratedMessage
-      implements GameOperPublicInfoSynOrBuilder {
-    // Use GameOperPublicInfoSyn.newBuilder() to construct.
-    private GameOperPublicInfoSyn(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private GameOperPublicInfoSyn(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final GameOperPublicInfoSyn defaultInstance;
-    public static GameOperPublicInfoSyn getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public GameOperPublicInfoSyn getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private GameOperPublicInfoSyn(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              cardLeft_ = input.readSInt32();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return packet.mj.MJ.internal_static_packet_mj_GameOperPublicInfoSyn_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return packet.mj.MJ.internal_static_packet_mj_GameOperPublicInfoSyn_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              packet.mj.MJ.GameOperPublicInfoSyn.class, packet.mj.MJ.GameOperPublicInfoSyn.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<GameOperPublicInfoSyn> PARSER =
-        new com.google.protobuf.AbstractParser<GameOperPublicInfoSyn>() {
-      public GameOperPublicInfoSyn parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GameOperPublicInfoSyn(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<GameOperPublicInfoSyn> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required sint32 cardLeft = 1;
-    public static final int CARDLEFT_FIELD_NUMBER = 1;
-    private int cardLeft_;
-    /**
-     * <code>required sint32 cardLeft = 1;</code>
-     *
-     * <pre>
-     *剩余牌数
-     * </pre>
-     */
-    public boolean hasCardLeft() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required sint32 cardLeft = 1;</code>
-     *
-     * <pre>
-     *剩余牌数
-     * </pre>
-     */
-    public int getCardLeft() {
-      return cardLeft_;
-    }
-
-    private void initFields() {
-      cardLeft_ = 0;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasCardLeft()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeSInt32(1, cardLeft_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeSInt32Size(1, cardLeft_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static packet.mj.MJ.GameOperPublicInfoSyn parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static packet.mj.MJ.GameOperPublicInfoSyn parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static packet.mj.MJ.GameOperPublicInfoSyn parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static packet.mj.MJ.GameOperPublicInfoSyn parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static packet.mj.MJ.GameOperPublicInfoSyn parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static packet.mj.MJ.GameOperPublicInfoSyn parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static packet.mj.MJ.GameOperPublicInfoSyn parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static packet.mj.MJ.GameOperPublicInfoSyn parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static packet.mj.MJ.GameOperPublicInfoSyn parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static packet.mj.MJ.GameOperPublicInfoSyn parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(packet.mj.MJ.GameOperPublicInfoSyn prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code packet.mj.GameOperPublicInfoSyn}
-     *
-     * <pre>
-     *同步公共信息, operType=PUBLICINFO
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements packet.mj.MJ.GameOperPublicInfoSynOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return packet.mj.MJ.internal_static_packet_mj_GameOperPublicInfoSyn_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return packet.mj.MJ.internal_static_packet_mj_GameOperPublicInfoSyn_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                packet.mj.MJ.GameOperPublicInfoSyn.class, packet.mj.MJ.GameOperPublicInfoSyn.Builder.class);
-      }
-
-      // Construct using packet.mj.MJ.GameOperPublicInfoSyn.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        cardLeft_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return packet.mj.MJ.internal_static_packet_mj_GameOperPublicInfoSyn_descriptor;
-      }
-
-      public packet.mj.MJ.GameOperPublicInfoSyn getDefaultInstanceForType() {
-        return packet.mj.MJ.GameOperPublicInfoSyn.getDefaultInstance();
-      }
-
-      public packet.mj.MJ.GameOperPublicInfoSyn build() {
-        packet.mj.MJ.GameOperPublicInfoSyn result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public packet.mj.MJ.GameOperPublicInfoSyn buildPartial() {
-        packet.mj.MJ.GameOperPublicInfoSyn result = new packet.mj.MJ.GameOperPublicInfoSyn(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.cardLeft_ = cardLeft_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof packet.mj.MJ.GameOperPublicInfoSyn) {
-          return mergeFrom((packet.mj.MJ.GameOperPublicInfoSyn)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(packet.mj.MJ.GameOperPublicInfoSyn other) {
-        if (other == packet.mj.MJ.GameOperPublicInfoSyn.getDefaultInstance()) return this;
-        if (other.hasCardLeft()) {
-          setCardLeft(other.getCardLeft());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasCardLeft()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        packet.mj.MJ.GameOperPublicInfoSyn parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (packet.mj.MJ.GameOperPublicInfoSyn) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required sint32 cardLeft = 1;
-      private int cardLeft_ ;
-      /**
-       * <code>required sint32 cardLeft = 1;</code>
-       *
-       * <pre>
-       *剩余牌数
-       * </pre>
-       */
-      public boolean hasCardLeft() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required sint32 cardLeft = 1;</code>
-       *
-       * <pre>
-       *剩余牌数
-       * </pre>
-       */
-      public int getCardLeft() {
-        return cardLeft_;
-      }
-      /**
-       * <code>required sint32 cardLeft = 1;</code>
-       *
-       * <pre>
-       *剩余牌数
-       * </pre>
-       */
-      public Builder setCardLeft(int value) {
-        bitField0_ |= 0x00000001;
-        cardLeft_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required sint32 cardLeft = 1;</code>
-       *
-       * <pre>
-       *剩余牌数
-       * </pre>
-       */
-      public Builder clearCardLeft() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        cardLeft_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:packet.mj.GameOperPublicInfoSyn)
-    }
-
-    static {
-      defaultInstance = new GameOperPublicInfoSyn(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:packet.mj.GameOperPublicInfoSyn)
   }
 
   public interface GameOperActorSynOrBuilder
@@ -14056,11 +13821,6 @@ public final class MJ {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_packet_mj_GameOperHandCardSyn_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_packet_mj_GameOperPublicInfoSyn_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_packet_mj_GameOperPublicInfoSyn_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_packet_mj_GameOperActorSyn_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -14119,49 +13879,48 @@ public final class MJ {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\010MJ.proto\022\tpacket.mj\"\354\001\n\020GameOperStartS" +
+      "\n\010MJ.proto\022\tpacket.mj\"\376\001\n\020GameOperStartS" +
       "yn\022\021\n\tbankerPos\030\001 \001(\021\022\023\n\013serviceGold\030\002 \002" +
       "(\021\0227\n\017playerHandCards\030\003 \003(\0132\036.packet.mj." +
       "GameOperHandCardSyn\022\017\n\007quanNum\030\004 \001(\021\022\026\n\016" +
       "bankerContinue\030\005 \001(\010\022\r\n\005dice1\030\006 \001(\021\022\r\n\005d" +
       "ice2\030\007 \001(\021\022\013\n\003seq\030\010 \001(\021\022\021\n\treconnect\030\t \001" +
-      "(\010\022\020\n\010cardLeft\030\014 \001(\021\"b\n\023GameOperHandCard" +
-      "Syn\022\020\n\010position\030\001 \002(\021\022\021\n\thandCards\030\002 \003(\021" +
-      "\022\021\n\tdownCards\030\003 \003(\021\022\023\n\013cardsBefore\030\004 \003(\021" +
-      "\")\n\025GameOperPublicInfoSyn\022\020\n\010cardLeft\030\001 ",
-      "\002(\021\"6\n\020GameOperActorSyn\022\020\n\010position\030\001 \002(" +
-      "\021\022\020\n\010timeLeft\030\002 \002(\021\"[\n\027GameOperPlayerAct" +
-      "ionSyn\022\020\n\010position\030\001 \002(\021\022\016\n\006action\030\002 \002(\021" +
-      "\022\021\n\tcardValue\030\003 \003(\021\022\013\n\003seq\030\005 \001(\021\"\226\002\n\032Gam" +
-      "eOperPlayerActionNotify\022\020\n\010position\030\001 \002(" +
-      "\021\022\017\n\007actions\030\002 \002(\021\022\017\n\007newCard\030\003 \001(\021\022\020\n\010t" +
-      "ingList\030\004 \003(\021\022\020\n\010gangList\030\005 \003(\021\022\017\n\007tingD" +
-      "zs\030\006 \003(\021\022)\n\006chiArg\030\007 \003(\0132\031.packet.mj.Gam" +
-      "eOperChiArg\022\017\n\007pengArg\030\010 \001(\021\022\032\n\022lastActi" +
-      "onPosition\030\t \001(\021\022\026\n\016lastActionCard\030\n \001(\021",
-      "\022\022\n\nmustZhiDui\030\013 \001(\021\022\013\n\003seq\030d \001(\021\"\"\n\022Gam" +
-      "eOperAutoChuArg\022\014\n\004card\030\001 \002(\021\"F\n\016GameOpe" +
-      "rChiArg\022\017\n\007myCard1\030\001 \002(\021\022\017\n\007myCard2\030\002 \002(" +
-      "\021\022\022\n\ntargetCard\030\003 \002(\021\"F\n\024GameOperBaoChan" +
-      "geSyn\022\016\n\006oldBao\030\001 \002(\021\022\020\n\010position\030\002 \001(\021\022" +
-      "\014\n\004dice\030\003 \001(\021\"\303\001\n\023GameOperPlayerHuSyn\022\020\n" +
-      "\010position\030\001 \002(\021\022\014\n\004card\030\002 \001(\021\022\013\n\003bao\030\003 \001" +
-      "(\021\022/\n\006detail\030\004 \003(\0132\037.packet.mj.GameOperP" +
-      "layerSettle\022\022\n\nresultType\030\005 \001(\021\022\023\n\013paoPo" +
-      "sition\030\006 \001(\021\022\024\n\014skipHuSettle\030\007 \001(\010\022\017\n\007wi",
-      "nType\030\010 \001(\021\"\213\001\n\024GameOperPlayerSettle\022\020\n\010" +
-      "position\030\001 \001(\021\022\020\n\010handcard\030\002 \003(\021\022\017\n\007fanT" +
-      "ype\030\004 \001(\021\022\016\n\006fanNum\030\005 \001(\021\022\021\n\tfanDetail\030\006" +
-      " \003(\t\022\014\n\004coin\030\007 \001(\021\022\r\n\005score\030\010 \001(\021\"Z\n\026Gam" +
-      "eOperFinalSettleSyn\022\022\n\nsettleDate\030\001 \001(\t\022" +
-      ",\n\006detail\030\002 \003(\0132\034.packet.mj.PlayerFinalR" +
-      "esult\"\376\001\n\021PlayerFinalResult\022\020\n\010playerId\030" +
-      "\001 \001(\022\022\022\n\nplayerName\030\002 \001(\t\022\020\n\010position\030\003 " +
-      "\001(\021\022\021\n\theadImage\030\004 \001(\t\022\r\n\005score\030\005 \001(\021\022\023\n" +
-      "\013bankerCount\030\006 \001(\021\022\017\n\007huCount\030\007 \001(\021\022\020\n\010p",
-      "aoCount\030\010 \001(\021\022\022\n\nmoBaoCount\030\t \001(\021\022\030\n\020bao" +
-      "ZhongBaoCount\030\n \001(\021\022\026\n\016kaiPaiZhaCount\030\013 " +
-      "\001(\021\022\021\n\troomOwner\030\014 \001(\010"
+      "(\010\022\020\n\010cardLeft\030\n \001(\021\022\020\n\010guiCards\030\013 \003(\021\"b" +
+      "\n\023GameOperHandCardSyn\022\020\n\010position\030\001 \002(\021\022" +
+      "\021\n\thandCards\030\002 \003(\021\022\021\n\tdownCards\030\003 \003(\021\022\023\n" +
+      "\013cardsBefore\030\004 \003(\021\"6\n\020GameOperActorSyn\022\020",
+      "\n\010position\030\001 \002(\021\022\020\n\010timeLeft\030\002 \002(\021\"[\n\027Ga" +
+      "meOperPlayerActionSyn\022\020\n\010position\030\001 \002(\021\022" +
+      "\016\n\006action\030\002 \002(\021\022\021\n\tcardValue\030\003 \003(\021\022\013\n\003se" +
+      "q\030\005 \001(\021\"\226\002\n\032GameOperPlayerActionNotify\022\020" +
+      "\n\010position\030\001 \002(\021\022\017\n\007actions\030\002 \002(\021\022\017\n\007new" +
+      "Card\030\003 \001(\021\022\020\n\010tingList\030\004 \003(\021\022\020\n\010gangList" +
+      "\030\005 \003(\021\022\017\n\007tingDzs\030\006 \003(\021\022)\n\006chiArg\030\007 \003(\0132" +
+      "\031.packet.mj.GameOperChiArg\022\017\n\007pengArg\030\010 " +
+      "\001(\021\022\032\n\022lastActionPosition\030\t \001(\021\022\026\n\016lastA" +
+      "ctionCard\030\n \001(\021\022\022\n\nmustZhiDui\030\013 \001(\021\022\013\n\003s",
+      "eq\030d \001(\021\"\"\n\022GameOperAutoChuArg\022\014\n\004card\030\001" +
+      " \002(\021\"F\n\016GameOperChiArg\022\017\n\007myCard1\030\001 \002(\021\022" +
+      "\017\n\007myCard2\030\002 \002(\021\022\022\n\ntargetCard\030\003 \002(\021\"F\n\024" +
+      "GameOperBaoChangeSyn\022\016\n\006oldBao\030\001 \002(\021\022\020\n\010" +
+      "position\030\002 \001(\021\022\014\n\004dice\030\003 \001(\021\"\303\001\n\023GameOpe" +
+      "rPlayerHuSyn\022\020\n\010position\030\001 \002(\021\022\014\n\004card\030\002" +
+      " \001(\021\022\013\n\003bao\030\003 \001(\021\022/\n\006detail\030\004 \003(\0132\037.pack" +
+      "et.mj.GameOperPlayerSettle\022\022\n\nresultType" +
+      "\030\005 \001(\021\022\023\n\013paoPosition\030\006 \001(\021\022\024\n\014skipHuSet" +
+      "tle\030\007 \001(\010\022\017\n\007winType\030\010 \001(\021\"\213\001\n\024GameOperP",
+      "layerSettle\022\020\n\010position\030\001 \001(\021\022\020\n\010handcar" +
+      "d\030\002 \003(\021\022\017\n\007fanType\030\004 \001(\021\022\016\n\006fanNum\030\005 \001(\021" +
+      "\022\021\n\tfanDetail\030\006 \003(\t\022\014\n\004coin\030\007 \001(\021\022\r\n\005sco" +
+      "re\030\010 \001(\021\"Z\n\026GameOperFinalSettleSyn\022\022\n\nse" +
+      "ttleDate\030\001 \001(\t\022,\n\006detail\030\002 \003(\0132\034.packet." +
+      "mj.PlayerFinalResult\"\376\001\n\021PlayerFinalResu" +
+      "lt\022\020\n\010playerId\030\001 \001(\022\022\022\n\nplayerName\030\002 \001(\t" +
+      "\022\020\n\010position\030\003 \001(\021\022\021\n\theadImage\030\004 \001(\t\022\r\n" +
+      "\005score\030\005 \001(\021\022\023\n\013bankerCount\030\006 \001(\021\022\017\n\007huC" +
+      "ount\030\007 \001(\021\022\020\n\010paoCount\030\010 \001(\021\022\022\n\nmoBaoCou",
+      "nt\030\t \001(\021\022\030\n\020baoZhongBaoCount\030\n \001(\021\022\026\n\016ka" +
+      "iPaiZhaCount\030\013 \001(\021\022\021\n\troomOwner\030\014 \001(\010"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -14173,75 +13932,69 @@ public final class MJ {
           internal_static_packet_mj_GameOperStartSyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_mj_GameOperStartSyn_descriptor,
-              new java.lang.String[] { "BankerPos", "ServiceGold", "PlayerHandCards", "QuanNum", "BankerContinue", "Dice1", "Dice2", "Seq", "Reconnect", "CardLeft", });
+              new java.lang.String[] { "BankerPos", "ServiceGold", "PlayerHandCards", "QuanNum", "BankerContinue", "Dice1", "Dice2", "Seq", "Reconnect", "CardLeft", "GuiCards", });
           internal_static_packet_mj_GameOperHandCardSyn_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_packet_mj_GameOperHandCardSyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_mj_GameOperHandCardSyn_descriptor,
               new java.lang.String[] { "Position", "HandCards", "DownCards", "CardsBefore", });
-          internal_static_packet_mj_GameOperPublicInfoSyn_descriptor =
-            getDescriptor().getMessageTypes().get(2);
-          internal_static_packet_mj_GameOperPublicInfoSyn_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_packet_mj_GameOperPublicInfoSyn_descriptor,
-              new java.lang.String[] { "CardLeft", });
           internal_static_packet_mj_GameOperActorSyn_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(2);
           internal_static_packet_mj_GameOperActorSyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_mj_GameOperActorSyn_descriptor,
               new java.lang.String[] { "Position", "TimeLeft", });
           internal_static_packet_mj_GameOperPlayerActionSyn_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(3);
           internal_static_packet_mj_GameOperPlayerActionSyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_mj_GameOperPlayerActionSyn_descriptor,
               new java.lang.String[] { "Position", "Action", "CardValue", "Seq", });
           internal_static_packet_mj_GameOperPlayerActionNotify_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_packet_mj_GameOperPlayerActionNotify_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_mj_GameOperPlayerActionNotify_descriptor,
               new java.lang.String[] { "Position", "Actions", "NewCard", "TingList", "GangList", "TingDzs", "ChiArg", "PengArg", "LastActionPosition", "LastActionCard", "MustZhiDui", "Seq", });
           internal_static_packet_mj_GameOperAutoChuArg_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_packet_mj_GameOperAutoChuArg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_mj_GameOperAutoChuArg_descriptor,
               new java.lang.String[] { "Card", });
           internal_static_packet_mj_GameOperChiArg_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_packet_mj_GameOperChiArg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_mj_GameOperChiArg_descriptor,
               new java.lang.String[] { "MyCard1", "MyCard2", "TargetCard", });
           internal_static_packet_mj_GameOperBaoChangeSyn_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(7);
           internal_static_packet_mj_GameOperBaoChangeSyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_mj_GameOperBaoChangeSyn_descriptor,
               new java.lang.String[] { "OldBao", "Position", "Dice", });
           internal_static_packet_mj_GameOperPlayerHuSyn_descriptor =
-            getDescriptor().getMessageTypes().get(9);
+            getDescriptor().getMessageTypes().get(8);
           internal_static_packet_mj_GameOperPlayerHuSyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_mj_GameOperPlayerHuSyn_descriptor,
               new java.lang.String[] { "Position", "Card", "Bao", "Detail", "ResultType", "PaoPosition", "SkipHuSettle", "WinType", });
           internal_static_packet_mj_GameOperPlayerSettle_descriptor =
-            getDescriptor().getMessageTypes().get(10);
+            getDescriptor().getMessageTypes().get(9);
           internal_static_packet_mj_GameOperPlayerSettle_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_mj_GameOperPlayerSettle_descriptor,
               new java.lang.String[] { "Position", "Handcard", "FanType", "FanNum", "FanDetail", "Coin", "Score", });
           internal_static_packet_mj_GameOperFinalSettleSyn_descriptor =
-            getDescriptor().getMessageTypes().get(11);
+            getDescriptor().getMessageTypes().get(10);
           internal_static_packet_mj_GameOperFinalSettleSyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_mj_GameOperFinalSettleSyn_descriptor,
               new java.lang.String[] { "SettleDate", "Detail", });
           internal_static_packet_mj_PlayerFinalResult_descriptor =
-            getDescriptor().getMessageTypes().get(12);
+            getDescriptor().getMessageTypes().get(11);
           internal_static_packet_mj_PlayerFinalResult_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_mj_PlayerFinalResult_descriptor,

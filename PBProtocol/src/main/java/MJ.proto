@@ -11,7 +11,8 @@ message GameOperStartSyn {
    optional sint32 dice2 = 7; //骰子2（1-6的随机数）
    optional sint32 seq = 8; //序列号,每一场游戏有一个唯一的序列号，方便错误跟踪
    optional bool reconnect = 9; //是否是断线重连
-   optional sint32 cardLeft = 12; //剩余牌数
+   optional sint32 cardLeft = 10; //剩余牌数
+   repeated sint32 guiCards = 11; //鬼牌
 }
 
 //同步某个的玩家手牌, operType=HANDCARDS
@@ -20,13 +21,6 @@ message GameOperHandCardSyn {
 	repeated sint32 handCards = 2; //手中的牌,如果是其他玩家(即不是当前玩家),则列表里面存放的是-1而不是牌的真实值
 	repeated sint32 downCards = 3; //吃碰杠的牌
 	repeated sint32 cardsBefore = 4; //打出的牌
-}
-
-//同步公共信息, operType=PUBLICINFO
-message GameOperPublicInfoSyn {
-    required sint32 cardLeft = 1; //剩余牌数
-	//optional sint32 baoCard = 2; //宝牌, 如果不能查看，则返回-1
-	//required sint32 bankerPos = 3; //庄家位置
 }
 
 //同步行动者信息 operType=ACTSYN

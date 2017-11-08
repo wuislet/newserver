@@ -290,9 +290,17 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			data.mPublic.mBankerUserId = playerInfo.playerId;
 		}
 	}
+	
+	@Override
+	public void setGuiCards(GameData gameData) {
+		int guiCard = gameData.mDeskCard.cards.get(gameData.mDeskCard.cards.size() - 1);
+		System.out.println(" Set Gui Cards " + guiCard);
+		gameData.guiCards.add(guiCard);
+	}
 
 	@Override
 	public void sendCards(GameData gameData, MJDesk desk) {
+		int totalCardNumber = 0;
 		boolean loadReplay = false;
 		String replayData = desk.getReplyData();
 		if (StringUtils.isNotBlank(replayData)) {
@@ -307,23 +315,24 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 					src.addAll(MJHelper.getCardCodeList(recorder.playerInitCards.get(pl.position)));
 					Collections.sort(src);
 					cl.addAll(src);
+					totalCardNumber += cl.size();
 				}
 				gameData.mPublic.mBaoCard = recorder.baoCard;
 				gameData.mDeskCard.cards.clear();
 				gameData.mDeskCard.cards.addAll(recorder.getInitCardCodeList());
 				loadReplay = true;
+				totalCardNumber += gameData.mDeskCard.cards.size();
 			}
 		}
 
 		if (!loadReplay) {
+			totalCardNumber += gameData.mDeskCard.cards.size();
 			for (PlayerInfo pl : gameData.mPlayers) {
 				if (pl == null)
 					continue;
 				List<Byte> cl = gameData.getCardsInHand(pl.position);
 				cl.clear();
 				List<Byte> src = new ArrayList<Byte>();
-
-				boolean isBanker = pl.playerId == gameData.mPublic.mBankerUserId;
 
 				List<Integer> initCards = desk.getDebugData(pl.position);
 				for (int card : initCards) {
@@ -350,7 +359,8 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		gameData.dice1 = (int) (System.nanoTime() % 6) + 1;
 		gameData.dice2 = (int) (System.nanoTime() % 6) + 1;
 		gameData.gameSeq = (int) (System.nanoTime() % 10000);
-
+		setGuiCards(gameData);
+		
 		for (PlayerInfo pl : gameData.mPlayers) {
 			if (pl == null)
 				continue;
@@ -368,7 +378,8 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		msg.setDice1(gameData.dice1);
 		msg.setDice2(gameData.dice2);
 		msg.setSeq(gameData.gameSeq);
-		msg.setCardLeft(gameData.getCardLeftNum());
+		msg.setCardLeft(totalCardNumber);
+		msg.addAllGuiCards(gameData.guiCards);
 		// msg.setTotalQuan(gameData.mGameParam.totalQuan);
 
 		gameData.recorder.seq = msg.getSeq(); // 记录序列号
@@ -1036,7 +1047,6 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		// 玩家第一次听牌，设置要听的牌
 		if (tingModel.tingCard && tingModel.cards.size() == 0) {
 			tingModel.cards = waiting.chuAndTingModel.chuAndTingMap.get(card_v);
-			PokerPushHelper.pushPublicInfoMsg2Single(desk, pl.position, gameData);
 		}
 		reset4NextPlayerOperation(gameData, desk);
 	}
@@ -1194,7 +1204,6 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 	}
 
 	private void pushPlayerMoMsg(GameData gameData, MJDesk desk, PlayerInfo plx, byte b) {
-		PokerPushHelper.pushPublicInfoMsg2All(desk, gameData);
 		GameOperPlayerActionSyn.Builder moMsg = GameOperPlayerActionSyn.newBuilder();
 		moMsg.setAction(MJConstants.MAHJONG_OPERTAION_MO);
 		moMsg.setPosition(plx.position);
@@ -1496,11 +1505,6 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		}
 	}
 
-	@Override
-	public boolean tryKaipaiZha(GameData gameData, MJDesk desk) {
-		return false;
-	}
-
 	public void autoPlay(GameData gt, MJDesk desk, PlayerInfo pl, ActionWaitingModel waiting) {
 		GameOperPlayerActionSyn.Builder msg = GameOperPlayerActionSyn.newBuilder();
 		msg.setPosition(pl.position);
@@ -1719,6 +1723,8 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		msg.setDice1(gameData.dice1);
 		msg.setDice2(gameData.dice2);
 		msg.setSeq(gameData.gameSeq);
+		msg.setCardLeft(gameData.getCardLeftNum());
+		msg.addAllGuiCards(gameData.guiCards);
 		msg.setReconnect(true);
 
 		gameData.recorder.seq = msg.getSeq(); // 记录序列号
@@ -1756,9 +1762,6 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		gb.setContent(msg.build().toByteString());
 
 		desk.sendMsg2Player(pl.position, gb.build().toByteArray());
-
-		// 发送公告信息
-		PokerPushHelper.pushPublicInfoMsg2Single(desk, position, gameData);
 
 		// 发送当前操作人
 		PokerPushHelper.pushActorSyn(desk, position, gameData.getCurrentOpertaionPlayerIndex(), 12, gameData.getCardLeftNum(), MJConstants.SEND_TYPE_SINGLE);

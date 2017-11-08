@@ -43,12 +43,10 @@ public class GameData extends GameDataBase {
 		dice1 = 0;
 		dice2 = 0;
 		gameSeq = 0;
-		pao_pl = null;
+		guiCards = new ArrayList<Integer>();
 		sleepTo = 0;
 		seq = new AtomicInteger(1);
 		super.Reset();
-		
-		
 	}
 
 	// 已玩局数
@@ -87,8 +85,8 @@ public class GameData extends GameDataBase {
 	public int dice1 = 0; //骰子1
 	public int dice2 = 0; //骰子2
 	public int gameSeq = 0;
+	public List<Integer> guiCards = new ArrayList<Integer>(); //鬼牌
 	public long showInitCardTime = 0;
-	public PlayerInfo pao_pl = null;//这局点炮的玩家
 
 	public long sleepTo = 0;
 	public AtomicInteger seq = new AtomicInteger(1);
@@ -154,16 +152,7 @@ public class GameData extends GameDataBase {
 	// 是否已经进入最后阶段，最后要剩8，9张牌
 	public boolean isInFinalStage() {
 		int iNum = 12;
-
-		// 如果是换过宝，就多一只
-		if (this.getBaoChangeNum() % 2 == 1) {
-			iNum = 13;
-		}
-
-		if (getCardLeftNum() <= iNum)
-			return true;
-
-		return false;
+		return (getCardLeftNum() <= iNum);
 	}
 
 	// 还剩多少张牌

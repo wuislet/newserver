@@ -83,30 +83,6 @@ public class PokerPushHelper {
 		pushMsg(desk, receiver, MsgBuilder.getPacketForFinalSettle(gb), sendType);
 	}
 
-	public static void pushPublicInfoMsg2All(Desk desk, GameData data) {
-		for(PlayerInfo p : data.mPlayers) {
-			if(p == null) {
-				continue;
-			}
-			int receiver = p.position;
-			boolean showBaoCard = data.mTingCards[p.position].showBao;
-			if(debugPacket) {
-				logger.info("act=pushPublicInfo;deskId={};receiver={};showBaoCard={};baocard={};cardLeft={};bankerPos={}", desk.getDeskID(), receiver, showBaoCard, data.mPublic.mBaoCard, data.getCardLeftNum(), data.mPublic.mbankerPos);
-			}
-			pushMsg(desk, receiver, MsgBuilder.getPacketForPublicInfo(showBaoCard, data.mPublic.mBaoCard, data.getCardLeftNum(), data.mPublic.mbankerPos), MJConstants.SEND_TYPE_SINGLE);
-		}
-	}
-	
-	public static void pushPublicInfoMsg2Single(Desk desk, int position, GameData data) {
-		PlayerInfo p = data.mPlayers[position];
-		int receiver = p.position;
-		boolean showBaoCard = data.mTingCards[p.position].showBao;
-		if(debugPacket) {
-			logger.info("act=pushPublicInfo;deskId={};receiver={};showBaoCard={};baocard={};cardLeft={};bankerPos={}", desk.getDeskID(), receiver, showBaoCard, data.mPublic.mBaoCard, data.getCardLeftNum(), data.mPublic.mbankerPos);
-		}
-		pushMsg(desk, receiver, MsgBuilder.getPacketForPublicInfo(showBaoCard, data.mPublic.mBaoCard, data.getCardLeftNum(), data.mPublic.mbankerPos), MJConstants.SEND_TYPE_SINGLE);
-	}
-
 	public static void pushHandCardSyn(Desk desk, int receiver, GameOperHandCardSyn.Builder gb, int sendType) {
 		if(debugPacket) {
 			logger.info("act=pokerMsg;deskId={};receiver={};type=handcardSyn[{}]", desk.getDeskID(), receiver, JsonFormat.printToString(gb.build()));

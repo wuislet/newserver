@@ -12,15 +12,15 @@ public interface ICardLogic<T extends Desk> {
 	
 	//组件初始化
 	public void init(GameData gameData, T desk);
-	
-	//查找开牌炸玩家(不良设计，需要改造)
-	public boolean tryKaipaiZha(GameData gameData, T desk); 
 		
 	//调试接口
 	public void handleSetGamingData(GameCardDealer mCardDealer, GameData gameData, T desk, String json);
 	
 	//主循环
 	public void gameTick(GameData data, T desk);
+	
+	//计算应该的鬼牌
+	public void setGuiCards(GameData data);
 	
 	//发牌
 	public void sendCards(GameData data, T desk);

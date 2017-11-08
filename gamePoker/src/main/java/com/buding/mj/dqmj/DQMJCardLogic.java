@@ -456,6 +456,11 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 			data.mPublic.mBankerUserId = playerInfo.playerId;
 		}
 	}
+	
+	@Override
+	public void setGuiCards(GameData gameData) {
+		gameData.guiCards.add(0);
+	}
 
 	@Override
 	public void sendCards(GameData gameData, DQMJDesk desk) {
@@ -1265,7 +1270,6 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 		if (tingModel.tingCard && !tingModel.showBao) {
 			// gameData.mTingCards[pl.position].showBao = true;
 			tingModel.cards = waiting.chuAndTingModel.chuAndTingMap.get(card_v);
-			PokerPushHelper.pushPublicInfoMsg2Single(desk, pl.position, gameData);
 
 			// 提醒玩家支对
 			Set<Integer> zhiduiCards = new HashSet<Integer>();
@@ -1459,7 +1463,6 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 	}
 
 	private void pushPlayerMoMsg(GameData gameData, DQMJDesk desk, PlayerInfo plx, byte b) {
-		PokerPushHelper.pushPublicInfoMsg2All(desk, gameData);
 		GameOperPlayerActionSyn.Builder moMsg = GameOperPlayerActionSyn.newBuilder();
 		moMsg.setAction(MJConstants.MAHJONG_OPERTAION_MO);
 		moMsg.setPosition(plx.position);
@@ -1916,22 +1919,6 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 		}
 	}
 
-	@Override
-	public boolean tryKaipaiZha(GameData gameData, DQMJDesk desk) {
-		if (desk.canKaiPaiZha()) // 判断是否是vip房间，并且创建房间时选择了开牌炸
-		{
-			List<PlayerInfo> playerList = desk.loopGetPlayer(gameData.mPublic.mbankerPos, 10, 2);
-			for (PlayerInfo p : playerList) {
-				byte newCard = this.findKaiPaiZhaVal(gameData, p);
-				if (newCard != 0) {
-					player_hu(gameData, desk, p, newCard, null, MJConstants.MJ_HU_TYPE_BAO_ZHONG_BAO | MJConstants.MAHJONG_HU_CODE_KAIPAIZHA);
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
 	public void autoPlay(GameData gt, DQMJDesk desk, PlayerInfo pl, ActionWaitingModel waiting) {
 		GameOperPlayerActionSyn.Builder msg = GameOperPlayerActionSyn.newBuilder();
 		msg.setPosition(pl.position);
@@ -2193,9 +2180,6 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 		gb.setContent(msg.build().toByteString());
 
 		desk.sendMsg2Player(pl.position, gb.build().toByteArray());
-
-		// 发送公告信息
-		PokerPushHelper.pushPublicInfoMsg2Single(desk, position, gameData);
 
 		// 发送当前操作人
 		PokerPushHelper.pushActorSyn(desk, position, gameData.getCurrentOpertaionPlayerIndex(), 12, gameData.getCardLeftNum(), MJConstants.SEND_TYPE_SINGLE);

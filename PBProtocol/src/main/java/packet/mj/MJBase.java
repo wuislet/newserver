@@ -30,21 +30,13 @@ public final class MJBase {
      */
     GameOperHandCardSyn(1, 7002),
     /**
-     * <code>GameOperPublicInfoSyn = 7003;</code>
-     *
-     * <pre>
-     *公共信息
-     * </pre>
-     */
-    GameOperPublicInfoSyn(2, 7003),
-    /**
      * <code>GameOperPlayerHuSyn = 7004;</code>
      *
      * <pre>
      *公共信息
      * </pre>
      */
-    GameOperPlayerHuSyn(3, 7004),
+    GameOperPlayerHuSyn(2, 7004),
     /**
      * <code>GameOperPlayerActionNotify = 7005;</code>
      *
@@ -52,7 +44,7 @@ public final class MJBase {
      *通知玩家操作
      * </pre>
      */
-    GameOperPlayerActionNotify(4, 7005),
+    GameOperPlayerActionNotify(3, 7005),
     /**
      * <code>GameOperActorSyn = 7006;</code>
      *
@@ -60,7 +52,7 @@ public final class MJBase {
      *广播当前正在操作的玩家
      * </pre>
      */
-    GameOperActorSyn(5, 7006),
+    GameOperActorSyn(4, 7006),
     /**
      * <code>GameOperPlayerActionSyn = 7007;</code>
      *
@@ -68,7 +60,7 @@ public final class MJBase {
      *客户端请求服务器某个操作(吃、碰、听、出、吃听、碰听)，服务器向其他人同步玩家的这个操作也是用这个编码
      * </pre>
      */
-    GameOperPlayerActionSyn(6, 7007),
+    GameOperPlayerActionSyn(5, 7007),
     /**
      * <code>GameOperBaoChangeSyn = 7008;</code>
      *
@@ -76,7 +68,7 @@ public final class MJBase {
      *换宝 
      * </pre>
      */
-    GameOperBaoChangeSyn(7, 7008),
+    GameOperBaoChangeSyn(6, 7008),
     /**
      * <code>GameOperReNofity = 7009;</code>
      *
@@ -84,7 +76,7 @@ public final class MJBase {
      *重新提醒操作,调试用
      * </pre>
      */
-    GameOperReNofity(8, 7009),
+    GameOperReNofity(7, 7009),
     /**
      * <code>GameOperFinalSettleSyn = 7010;</code>
      *
@@ -92,7 +84,7 @@ public final class MJBase {
      *总结算
      * </pre>
      */
-    GameOperFinalSettleSyn(9, 7010),
+    GameOperFinalSettleSyn(8, 7010),
     ;
 
     /**
@@ -111,14 +103,6 @@ public final class MJBase {
      * </pre>
      */
     public static final int GameOperHandCardSyn_VALUE = 7002;
-    /**
-     * <code>GameOperPublicInfoSyn = 7003;</code>
-     *
-     * <pre>
-     *公共信息
-     * </pre>
-     */
-    public static final int GameOperPublicInfoSyn_VALUE = 7003;
     /**
      * <code>GameOperPlayerHuSyn = 7004;</code>
      *
@@ -183,7 +167,6 @@ public final class MJBase {
       switch (value) {
         case 7001: return GameOperStartSyn;
         case 7002: return GameOperHandCardSyn;
-        case 7003: return GameOperPublicInfoSyn;
         case 7004: return GameOperPlayerHuSyn;
         case 7005: return GameOperPlayerActionNotify;
         case 7006: return GameOperActorSyn;
@@ -819,14 +802,13 @@ public final class MJBase {
     java.lang.String[] descriptorData = {
       "\n\014MJBase.proto\022\tpacket.mj\"K\n\rGameOperati" +
       "on\022)\n\010operType\030\001 \002(\0162\027.packet.mj.GameOpe" +
-      "rType\022\017\n\007content\030\002 \001(\014*\232\002\n\014GameOperType\022" +
+      "rType\022\017\n\007content\030\002 \001(\014*\376\001\n\014GameOperType\022" +
       "\025\n\020GameOperStartSyn\020\3316\022\030\n\023GameOperHandCa" +
-      "rdSyn\020\3326\022\032\n\025GameOperPublicInfoSyn\020\3336\022\030\n\023" +
-      "GameOperPlayerHuSyn\020\3346\022\037\n\032GameOperPlayer" +
-      "ActionNotify\020\3356\022\025\n\020GameOperActorSyn\020\3366\022\034" +
-      "\n\027GameOperPlayerActionSyn\020\3376\022\031\n\024GameOper" +
-      "BaoChangeSyn\020\3406\022\025\n\020GameOperReNofity\020\3416\022\033" +
-      "\n\026GameOperFinalSettleSyn\020\3426"
+      "rdSyn\020\3326\022\030\n\023GameOperPlayerHuSyn\020\3346\022\037\n\032Ga" +
+      "meOperPlayerActionNotify\020\3356\022\025\n\020GameOperA" +
+      "ctorSyn\020\3366\022\034\n\027GameOperPlayerActionSyn\020\3376" +
+      "\022\031\n\024GameOperBaoChangeSyn\020\3406\022\025\n\020GameOperR" +
+      "eNofity\020\3416\022\033\n\026GameOperFinalSettleSyn\020\3426"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

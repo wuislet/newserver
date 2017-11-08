@@ -7,7 +7,6 @@ import packet.mj.MJ.GameOperHandCardSyn;
 import packet.mj.MJ.GameOperPlayerActionNotify;
 import packet.mj.MJ.GameOperPlayerActionSyn;
 import packet.mj.MJ.GameOperPlayerHuSyn;
-import packet.mj.MJ.GameOperPublicInfoSyn;
 import packet.mj.MJBase.GameOperType;
 import packet.mj.MJBase.GameOperation;
 
@@ -17,18 +16,6 @@ import packet.mj.MJBase.GameOperation;
  * 
  */
 public class MsgBuilder {
-	public static GameOperation.Builder getPacketForPublicInfo(boolean showBaoCard, int baoCard, int cardLeft, int bankerPos) {
-		GameOperPublicInfoSyn.Builder gb = GameOperPublicInfoSyn.newBuilder();
-//		gb.setBaoCard(showBaoCard ? baoCard : -1);
-		gb.setCardLeft(cardLeft);
-//		gb.setBankerPos(bankerPos);
-
-		GameOperation.Builder bb = GameOperation.newBuilder();
-		bb.setContent(gb.build().toByteString());
-		bb.setOperType(GameOperType.GameOperPublicInfoSyn);
-		return bb;
-	}
-	
 	public static GameOperation.Builder getPacketForHandcardSyn(GameOperHandCardSyn.Builder gb) {
 		GameOperation.Builder bb = GameOperation.newBuilder();
 		bb.setContent(gb.build().toByteString());

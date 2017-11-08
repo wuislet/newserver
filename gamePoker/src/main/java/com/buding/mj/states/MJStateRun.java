@@ -70,19 +70,7 @@ public class MJStateRun extends MJStateCommon {
 		mDesk.pushGameStartPlayMsg();
 		// TODO
 		// 收取台费
-
-		// 发送公共信息
-		PokerPushHelper.pushPublicInfoMsg2All(this.mDesk, this.mGameData);
-
-		// 开牌炸胡牌
-		// 炸胡：玩家开牌手里有四张一样的牌直接算宝中宝胡另外3家门清
-		if (this.mCardLogic.tryKaipaiZha(this.mGameData, this.mDesk)) {
-			// 跳转到结算界面
-			this.mGameTimer.KillDeskTimer();
-			this.mGameTimer.SetDeskTimer(2000);
-			this.mTimerForStateChange = true;
-			return;
-		}
+		
 		// 桌子进入开打状态
 		this.mGameData.mActor.gameState = MJConstants.MJStateRun;
 		this.mGameData.setState(MJConstants.GAME_TABLE_STATE_PLAYING);
