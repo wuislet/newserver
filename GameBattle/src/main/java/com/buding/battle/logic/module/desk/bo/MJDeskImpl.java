@@ -16,7 +16,7 @@ public class MJDeskImpl extends RobotSupportDeskImpl implements MJDesk<byte[]> {
 	
 	public MJDeskImpl(DeskListener listener, Room room, DeskConfig deskConf, String deskId) {
 		super(listener, room, deskConf, deskId);
-		wanfa = MJWanfa.ALL;
+		wanfa = MJWanfa.ALL - MJWanfa.ZI_MO_TYPE - MJWanfa.HAS_GUI - MJWanfa.CAN_CHI - MJWanfa.BAO_TING;
 	}
 	
 	@Override
@@ -31,13 +31,19 @@ public class MJDeskImpl extends RobotSupportDeskImpl implements MJDesk<byte[]> {
 	
 	@Override
 	public int getGui(){
-		return (wanfa & MJWanfa.HAS_GUI) != 0 ? 10 : -1;
+		return (wanfa & MJWanfa.HAS_GUI) != 0 ? 0 : -1;
 	}
 	
 	@Override
 	public boolean canQiXiaoDui() {
 		return (wanfa & MJWanfa.QI_XIAO_DUI) != 0;
 	}
+	
+	@Override
+	public boolean canChi() {
+		return (wanfa & MJWanfa.CAN_CHI) != 0;
+	}
+
 
 	@Override
 	public boolean canShuaiJiuYao() {

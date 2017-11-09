@@ -2,8 +2,6 @@ package com.buding.mj.dqmj;
 
 import java.util.*;
 import com.buding.mj.common.BaseMJRule;
-import com.buding.mj.common.MJRule;
-import com.buding.mj.common.MjCheckResult;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -458,8 +456,8 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 	}
 	
 	@Override
-	public void setGuiCards(GameData gameData) {
-		gameData.guiCards.add(0);
+	public void setGuiCards(GameData gameData, DQMJDesk desk) {
+		gameData.guiCards.add(-1);
 	}
 
 	@Override
@@ -1329,10 +1327,6 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 				shouPaiTemp.remove(Byte.valueOf(c1+""));
 				shouPaiTemp.remove(Byte.valueOf(c2+""));
 				shouPaiTemp.remove(Byte.valueOf(c2+""));
-				if(new BaseMJRule().canChengPai(shouPaiTemp)){
-					result.add(c1);
-					result.add(c2);
-				}
 			}
 		}
 		return result;

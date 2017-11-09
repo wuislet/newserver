@@ -44,7 +44,7 @@ public class MJHelper {
 			singleCardMap.put(b + 0, i + "筒");
 		}
 		for (int i = 1; i <= 7; i++) {
-			int ib = (3 << MJConstants.MAHJONG_CODE_COLOR_SHIFTS) + i;
+			int ib = (3 << MJConstants.MAHJONG_CODE_COLOR_SHIFTS) + 2 * i - 1;
 			byte b = (byte) (ib & 0xff);
 			singleCardMap.put(b + 0, i + "风");
 		}

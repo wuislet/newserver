@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.buding.api.context.GameContext;
 import com.buding.api.context.PlayHandResult;
+import com.buding.api.game.MJWanfa;
 import com.buding.api.player.PlayerInfo;
 import com.buding.battle.common.network.session.BattleSession;
 import com.buding.battle.logic.module.common.BattleContext;
@@ -27,6 +28,7 @@ import com.google.gson.Gson;
 public class SinglePlayerDesk extends MJDeskImpl {
 	public SinglePlayerDesk(DeskListener listener, Room room, DeskConfig deskConf, String deskId) {
 		super(listener, room, deskConf, deskId);
+		wanfa = MJWanfa.ALL - MJWanfa.ZI_MO_TYPE - MJWanfa.HAS_GUI - MJWanfa.CAN_CHI - MJWanfa.BAO_TING;
 	}
 
 	@Override

@@ -202,7 +202,7 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 		if(c.desk.canQiXiaoDui() && mjRule.canHuQiXiaoDui(handCards)){
 			return true;
 		}
-		return mjRule.canHu(handCards);
+		return mjRule.canHu(handCards, (int)c.gameData.guiCards.get(0)); //TODO wxd 目前只验证第一张鬼牌，须扩展多个鬼牌的情况。
 	}
 	
 	// =============== 胡型检查相关 ===============
@@ -215,7 +215,7 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 		Byte card1 = (byte) (card + 1);
 		Byte card2 = (byte) (card - 1);
 		if (cards.remove(card1) && cards.remove(card2)) {
-			return mjRule.canHu(cards);
+			return mjRule.canHu(cards, -1);
 		}
 		return false;
 	}
@@ -316,7 +316,7 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 		return false; //TODO wxd 算法实现
 	}
 
-	public int getColorNumber(List<Byte> cardsInHand, List<Integer> cardsDown) {
+	public int getColorNumber(List<Byte> cardsInHand, List<Integer> cardsDown) { //TODO WXD 区分清混
 		int color_flag = 0;
 		for (int i = 0; i < cardsInHand.size(); i++) {
 			byte card = cardsInHand.get(i);

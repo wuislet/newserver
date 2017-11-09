@@ -10,9 +10,11 @@ public interface MJDesk<T> extends Desk<T> {
 	
 	int getTingType(); //0x1-有直接胡，0x2-有听。 e.p. 3-无限制, 2-必须听了才能胡, 1-没有听，直接胡, 0-不能胡 
 	
-	int getGui(); //获取万能牌 -1表示没有
+	int getGui(); //获取万能牌 -1=没有 0=服务器决定点数 >0=返回值决定点数
 	
 	boolean canQiXiaoDui(); //能否七小对
+	
+	boolean canChi();
 	
 	boolean canShuaiJiuYao(); //能否甩九幺 //TODO 非通用，须特殊化
 	

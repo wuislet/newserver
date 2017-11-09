@@ -40,7 +40,7 @@ public class MJCardDealer extends GameCardDealer<MJDesk<byte[]>> {
 		// 加风
 		if((cardType & 0x1) != 0){
 			for (int i = 1; i <= 7; i++) {
-				int ib = (3 << MJConstants.MAHJONG_CODE_COLOR_SHIFTS) + i * 2 - 1;
+				int ib = (3 << MJConstants.MAHJONG_CODE_COLOR_SHIFTS) + 2 * i - 1;
 				byte b = (byte) (ib & 0xff);
 				cards.add(b);
 				cards.add(b);
@@ -68,6 +68,38 @@ public class MJCardDealer extends GameCardDealer<MJDesk<byte[]>> {
 		}
 		
 		cards = new CardWasher().wash(cards);
-		this.mGameData.mDeskCard.cards.addAll(cards);
+
+		List<Byte> tmpcards = new ArrayList<Byte>(); //TODO WXD cheat del
+//		tmpcards.add((byte)1);
+//		tmpcards.add((byte)1);
+//		tmpcards.add((byte)1);
+//		tmpcards.add((byte)2);
+//		tmpcards.add((byte)3);
+//		tmpcards.add((byte)4);
+//		tmpcards.add((byte)5);
+//		tmpcards.add((byte)6);
+//		tmpcards.add((byte)7);
+//		tmpcards.add((byte)8);
+//		tmpcards.add((byte)9);
+//		tmpcards.add((byte)9);
+//		tmpcards.add((byte)9);
+
+//		tmpcards.add((byte)1);
+//		tmpcards.add((byte)1);
+//		tmpcards.add((byte)1);
+//		tmpcards.add((byte)4);
+//		tmpcards.add((byte)6);
+//		tmpcards.add((byte)9);
+//		tmpcards.add((byte)9);
+//		tmpcards.add((byte)9);
+//		tmpcards.add((byte)17);
+//		tmpcards.add((byte)17);
+//		tmpcards.add((byte)17);
+//		tmpcards.add((byte)19);
+//		tmpcards.add((byte)57);
+		for(int i = 0; i < cards.size(); i++){
+			tmpcards.add(cards.get(i));
+		}
+		this.mGameData.mDeskCard.cards.addAll(tmpcards);
 	}
 }

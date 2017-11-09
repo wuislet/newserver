@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import com.buding.api.desk.DQMJDesk;
 import com.buding.api.player.PlayerInfo;
 import com.buding.game.GameData;
-import com.buding.mj.common.BaseMJRule;
 import com.buding.mj.common.MJContext;
 import com.buding.mj.common.MjCheckResult;
 import com.buding.mj.constants.MJConstants;
@@ -19,7 +18,6 @@ import com.google.gson.Gson;
 
 public class DQMJProcessor {
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	BaseMJRule mjRule = new BaseMJRule();
 	
 	public DQMJProcessor() {
 
@@ -212,18 +210,6 @@ public class DQMJProcessor {
 			shouPaiTemp2.addAll(shouPaiTemp);
 			shouPaiTemp2.remove(Byte.valueOf(b+""));
 			shouPaiTemp2.remove(Byte.valueOf(b+""));
-			if(mjRule.canChengPai(shouPaiTemp2)){
-				if(checkHuRule(shouPaiTemp,cardsDown,b)){
-					if(c.desk.canWuJiaBuHu()){
-						List shouPaiTemp3 = new ArrayList();
-						shouPaiTemp3.addAll(shouPaiTemp);
-						shouPaiTemp3.remove(Byte.valueOf(card2Ting+""));
-						if(isJiaHu(shouPaiTemp3,c.desk,card2Ting,0,c.position)) return true;
-					}else {
-						return true;
-					}
-				}
-			}
 		}
 		return false;
 	}
@@ -264,8 +250,6 @@ public class DQMJProcessor {
 			Byte card2 = (byte) (card + 1);
 			Byte card3 = (byte) (card - 1);
 			if (cards.remove((Byte) card) && cards.remove(card2) && cards.remove(card3)) {
-				if (mjRule.canHu(cards))
-					return true;
 			}
 		}
 
@@ -279,8 +263,6 @@ public class DQMJProcessor {
 				Byte card_1 = (byte) (card - 1);
 				Byte card_2 = (byte) (card - 2);
 				if (num == 3 && cards.remove((Byte) card) && cards.remove(card_1) && cards.remove(card_2)) {
-					if (mjRule.canHu(cards))
-						return true;
 				}
 			}
 			{
@@ -291,8 +273,6 @@ public class DQMJProcessor {
 				Byte card1 = (byte) (card + 1);
 				Byte card2 = (byte) (card + 2);
 				if (num == 7 && cards.remove((Byte) card) && cards.remove(card1) && cards.remove(card2)) {
-					if (mjRule.canHu(cards))
-						return true;
 				}
 			}
 		}
@@ -303,8 +283,6 @@ public class DQMJProcessor {
 			cards.addAll(handcards);
 			cards.add(card);
 			if (cards.remove((Byte) card) && cards.remove((Byte) (card))) {
-				if (mjRule.canChengPai(cards, new MjCheckResult()))
-					return true;
 			}
 		}
 
@@ -358,12 +336,6 @@ public class DQMJProcessor {
 					shouPaitemp.remove(Byte.valueOf(b+""));
 					shouPaitemp.remove(Byte.valueOf(b1+""));
 					shouPaitemp.remove(Byte.valueOf(b1+""));
-					if(mjRule.canChengPai(shouPaitemp)){
-						List<Byte> tempResult = new ArrayList();
-						tempResult.add(b);
-						tempResult.add(b1);
-						resultList.add(tempResult);
-					}
 				}
 			}
 		}

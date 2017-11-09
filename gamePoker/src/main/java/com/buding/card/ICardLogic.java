@@ -20,7 +20,7 @@ public interface ICardLogic<T extends Desk> {
 	public void gameTick(GameData data, T desk);
 	
 	//计算应该的鬼牌
-	public void setGuiCards(GameData data);
+	public void setGuiCards(GameData data, T desk);
 	
 	//发牌
 	public void sendCards(GameData data, T desk);

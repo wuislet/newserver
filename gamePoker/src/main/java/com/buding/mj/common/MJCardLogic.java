@@ -292,8 +292,15 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 	}
 	
 	@Override
-	public void setGuiCards(GameData gameData) {
-		int guiCard = gameData.mDeskCard.cards.get(gameData.mDeskCard.cards.size() - 1);
+	public void setGuiCards(GameData gameData, MJDesk desk) {
+		int guiCard = -1;
+		if(desk.getGui() > 0) { //由desk里来决定鬼牌的点数。
+			guiCard = desk.getGui();
+		} else if(desk.getGui() == 0) { //由服务器算出鬼牌点数。
+			guiCard = gameData.mDeskCard.cards.get(gameData.mDeskCard.cards.size() - 1);
+		} else { //没有鬼牌。
+			guiCard = -1;
+		}
 		System.out.println(" Set Gui Cards " + guiCard);
 		gameData.guiCards.add(guiCard);
 	}
@@ -359,7 +366,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		gameData.dice1 = (int) (System.nanoTime() % 6) + 1;
 		gameData.dice2 = (int) (System.nanoTime() % 6) + 1;
 		gameData.gameSeq = (int) (System.nanoTime() % 10000);
-		setGuiCards(gameData);
+		setGuiCards(gameData, desk);
 		
 		for (PlayerInfo pl : gameData.mPlayers) {
 			if (pl == null)
@@ -898,12 +905,6 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 
 	private void notifyPlayerWaitingOperation(GameData gameData, MJDesk desk, PlayerInfo pl, ActionWaitingModel waiting) {
 		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_HU) != 0) {
-			//只能自摸的情况下，拦截非自摸的胡牌协议。
-			if(desk.havetoZiMo() && gameData.mGameHu.paoPosition != -1) {
-				logger.info(" you have to zi mo win:   card " + gameData.mGameHu.huCard + " pos " + pl.position);
-				return;
-			}
-			
 			//如果已经听牌了，则截获胡牌协议的发送，直接完成胡牌。
 			if (gameData.mTingCards[pl.position].tingCard) { //已经听牌了直接胡
 				player_hu(gameData, desk);
@@ -1250,6 +1251,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 	//检测是不是要同时提示其他操作。
 	private void checkAllAction(GameData gameData, byte card, ActionWaitingModel result, int nextPosition) {
 		int position = result.playerTableIndex;
+		logger.info("act=checkAllAction;stage=gaming;position={};action={};", position, result.opertaion);
 		// 同时提示直杠
 		ActionWaitingModel tmp = mjProc.check_zhi_gang(gameData, card, position);
 		if (tmp != null && tmp.opertaion > 0) {
@@ -1265,7 +1267,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		}
 		
 		// 同时提示吃
-		if (position == nextPosition) {
+		if (desk.canChi() && position == nextPosition) {
 			tmp = check_chi(gameData, card, position);
 			if (tmp != null) {
 				result.chiCombos = tmp.chiCombos;
@@ -1307,10 +1309,13 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 
 		do {// 按优先级
 			// 1先看看有没有胡的玩家
-			result = loopCheckHu(gameData, desk, card, opPosition);
-			if (result != null) {
-				checkAllAction(gameData, card, result, plx.getTablePos());
-				break;
+			if(!desk.havetoZiMo()) { //只能自摸的情况下，不去循环找胡。
+				result = loopCheckHu(gameData, desk, card, opPosition);
+				System.out.println("   loop result  " + result);
+				if (result != null) {
+					checkAllAction(gameData, card, result, plx.getTablePos());
+					break;
+				}
 			}
 
 			// 2看看有没有杠的玩家
@@ -1330,7 +1335,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			// 4看看有没有吃的玩家
 			boolean cancelChi = (gameData.mOpCancel[plx.position].cancelOp 
 							& MJConstants.MAHJONG_CANCEL_OPER_OTHER_TURN) != 0;
-			if (gameData.mTingCards[plx.position].tingCard == false && !cancelChi) {
+			if (desk.canChi() && gameData.mTingCards[plx.position].tingCard == false && !cancelChi) {
 				result = check_chi(gameData, card, plx.getTablePos());
 				if (result != null) {
 					break;
@@ -1364,6 +1369,10 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			}
 		}
 		
+		if(paoPosition != -1 && gameData.guiCards.contains((Integer)(int)card)) { //特殊判断：别人打出的万能牌不能点炮 //TODO wxd 想办法去掉特判？
+			flag = false;
+		}
+		System.out.println("    check  hu " + flag + " mdoel " + desk.getTingType() + " card " + card + " ting " + new Gson().toJson(tingModel.cards));
 		if(flag) {
 			gameData.mGameHu.position = position;
 			gameData.mGameHu.paoPosition = paoPosition;
