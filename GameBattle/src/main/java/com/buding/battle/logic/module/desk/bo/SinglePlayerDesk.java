@@ -60,7 +60,7 @@ public class SinglePlayerDesk extends MJDeskImpl {
 		for(PlayHandResult res : list) {			
 			//更新用户属性
 			BattleSession session = ServiceRepo.sessionManager.getIoSession(res.playerId);
-			session.player.score += res.score; //改变累计积分
+			session.player.score += res.getScore(); //改变累计积分
 			
 		}
 		

@@ -106,7 +106,7 @@ public class GameServiceImpl extends BaseComponent implements GameService, Initi
 		}
 	}
 
-	public Result enroll(BattleSession session, BattleContext ctx) {
+	public Result enroll(BattleSession session, BattleContext ctx) {//TODO WXD ready 寻找上下流程
 		if(session.getStatus() == PlayerStatus.GAMING || session.getStatus() == PlayerStatus.READY) {
 			CommonDesk desk = session.getDesk();
 			if(desk != null) {
@@ -174,7 +174,7 @@ public class GameServiceImpl extends BaseComponent implements GameService, Initi
 			String matchId = session.getMatch().getId();
 			Result ret = enroll(session, BattleContext.create(session).setGameId(gameId).setMatchId(matchId));
 			if(ret.isFail()) {
-				pushService.pushReadyRsp(session.userId, false, ret.msg == null ? "无法开始游戏" : ret.msg);
+				logger.error(" 无法开始游戏  准备出错，玩家ID:[{}];", session.userId);
 				return;
 			}
 			desk = session.getDesk();

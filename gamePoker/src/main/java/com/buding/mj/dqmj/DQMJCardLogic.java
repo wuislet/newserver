@@ -83,22 +83,6 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 		if (desk.canGunBao()) {
 			baocardList.add(desk.getGunBaoCard(baoCard));
 		}
-		for(Byte bao:baocardList) {
-			if (gameData.isPengCard(bao, position) || gameData.getXCardNumInHand(bao, position) == 3) {
-				if (dqmjProc.isJiaHu(cards, desk, bao, zhiduiTing, position)) {
-					player_hu(gameData, desk, player, bao, null, MJConstants.MJ_HU_TYPE_BAO_ZHONG_BAO);
-					return true;
-				}
-				// 如果听夹, 也算宝中宝(测试确认过)
-				if (isTingJia(gameData, desk, position)) {
-					player_hu(gameData, desk, player, bao, null, MJConstants.MJ_HU_TYPE_BAO_ZHONG_BAO);
-					return true;
-				}
-				// 否则摸宝胡
-				player_hu(gameData, desk, player, bao, null, MJConstants.MJ_HU_TYPE_MO_BAO_HU);
-				return true;
-			}
-		}
 		return false;
 	}
 
@@ -113,77 +97,6 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 		}
 
 		byte card = gameData.mPlayerAction[position].cardGrab;
-		//自摸红中
-		if (desk.canHZMTF() && card == MJConstants.MAHJONG_CODE_HONG_ZHONG) {
-			if (dqmjProc.isJiaHu(gameData.mPlayerCards[position].cardsInHand, desk, card, gameData.mTingCards[position].zhiduiTing, position)) {
-				// 宝中宝 + 红中满天飞
-				player_hu(gameData, desk, player, card, null, MJConstants.MAHJONG_HU_CODE_HONGZHONGMTF | MJConstants.MJ_HU_TYPE_BAO_ZHONG_BAO);
-				return true;
-			}
-			// 摸宝夹 + 红中满天飞
-			if (isTingJia(gameData, desk, position)) {
-				player_hu(gameData, desk, player, card, null, MJConstants.MAHJONG_HU_CODE_HONGZHONGMTF | MJConstants.MJ_HU_TYPE_MO_BAO_JIA_HU);
-				return true;
-			}
-			// 红中满天飞 + 摸宝胡
-			player_hu(gameData, desk, player, card, null, MJConstants.MAHJONG_HU_CODE_HONGZHONGMTF | MJConstants.MJ_HU_TYPE_MO_BAO_HU);
-			return true;
-		}
-
-		// 刮大风, 手里有3张一样的牌
-		if (desk.canGuaDaFeng() && isGuaDaFeng(gameData, position, card)) {
-			byte zhiduiTing = gameData.mTingCards[position].zhiduiTing;
-			List<Byte> cards = gameData.mPlayerCards[position].cardsInHand;
-			// 刚好夹胡那张牌，算宝中宝
-			if (dqmjProc.isJiaHu(cards, desk, card, zhiduiTing, position)) {
-				player_hu(gameData, desk, player, card, null, MJConstants.MJ_HU_TYPE_BAO_ZHONG_BAO);
-				return true;
-			}
-			// 如果听夹, 夹胡+刮大风
-			if (isTingJia(gameData, desk, position)) {
-				player_hu(gameData, desk, player, card, null, MJConstants.MJ_HU_TYPE_GUADAFENG | MJConstants.MJ_HU_TYPE_MO_BAO_JIA_HU);
-				return true;
-			}
-			// 否则刮大风
-			player_hu(gameData, desk, player, card, null, MJConstants.MJ_HU_TYPE_GUADAFENG);
-			return true;
-		}
-		
-		//下雨
-		if(tryXiaYu(gameData, position, card, player)) {
-			return true;
-		}
-		//滚宝
-		byte baoCard = gameData.mPublic.mBaoCard;
-		List<Byte> baocardList = new ArrayList<Byte>();
-		baocardList.add(baoCard);
-		if (desk.canGunBao()) {
-			baocardList.add(desk.getGunBaoCard(baoCard));
-		}
-		for(Byte bao:baocardList) {
-			// 摸宝了
-			if (bao == card) {
-				List<Byte> cards = gameData.mPlayerCards[position].cardsInHand;
-				byte zhiduiTing = gameData.mTingCards[position].zhiduiTing;
-				if (dqmjProc.isJiaHu(cards, desk, bao, zhiduiTing, position)) {
-					// 宝中宝胡
-					player_hu(gameData, desk, player, bao, null, MJConstants.MJ_HU_TYPE_BAO_ZHONG_BAO);
-					return true;
-				}
-				//摸宝夹胡
-				if (isTingJia(gameData, desk, position)) {
-					player_hu(gameData, desk, player, bao, null, MJConstants.MJ_HU_TYPE_MO_BAO_JIA_HU);
-					return true;
-				}
-				// 摸宝胡
-				player_hu(gameData, desk, player, bao, null, MJConstants.MJ_HU_TYPE_MO_BAO_HU);
-				return true;
-			}
-		}
-		// 是支对听并且没有摸到支对的牌则不能胡牌
-		if (gameData.mTingCards[position].zhiduiTing > 0 && gameData.mTingCards[position].zhiduiTing != card) {
-			return false;
-		}
 
 		// 如果是自摸
 		if (gameData.mTingCards[position].cards.contains(card)) {
@@ -191,7 +104,7 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 			byte zhiduiTing = gameData.mTingCards[position].zhiduiTing;
 			if (dqmjProc.isJiaHu(cards, desk, card, zhiduiTing, position)) {
 				// 自摸夹胡
-				player_hu(gameData, desk, player, card, null, MJConstants.MJ_HU_TYPE_ZIMO_JIA_HU);
+				player_hu(gameData, desk, player, card, null, MJConstants.MAHJONG_HU_CODE_ZI_MO | MJConstants.MAHJONG_HU_CODE_JIA_HU);
 				return true;
 			}
 
@@ -221,30 +134,6 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 		if (desk.canGunBao()) {
 			baocardList.add(desk.getGunBaoCard(baoCard));
 		}
-		for(Byte bao:baocardList) {
-			//检测是否是带漏胡
-			if (desk.canDaiLouDe() && gameData.mTingCards[player.position].cards.contains(bao)
-					&& dqmjProc.isJiaHu(cards, desk, bao, zhiduiTing, player.position)) {
-				// 宝中宝胡 + 带漏胡
-				player_hu(gameData, desk, player, (byte) bao, null, MJConstants.MAHJONG_HU_CODE_DAILOU | MJConstants.MJ_HU_TYPE_BAO_ZHONG_BAO);
-				return true;
-			}
-
-			if (desk.canHZMTF() && bao == MJConstants.MAHJONG_CODE_HONG_ZHONG) {
-				if (isTingJia(gameData, desk, player.position)) {
-					// 宝中宝胡 + 红中满天飞
-					player_hu(gameData, desk, player, (byte) bao, null, MJConstants.MAHJONG_HU_CODE_HONGZHONGMTF | MJConstants.MJ_HU_TYPE_BAO_ZHONG_BAO);
-					return true;
-				}
-				// 摸宝胡 + 红中满天飞
-				player_hu(gameData, desk, player, (byte) bao, null, MJConstants.MAHJONG_HU_CODE_HONGZHONGMTF | MJConstants.MJ_HU_TYPE_MO_BAO_HU);
-				return true;
-			}
-			//下雨
-			if (tryXiaYu(gameData, player.position, (byte) 0, player)) {
-				return true;
-			}
-		}
 		return false;
 	}
 
@@ -261,7 +150,7 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 		for (PlayerInfo px : plist) {
 			gameData.mPlayerHandResult.playDetail[px.position].fanNum = 0;
 			gameData.mPlayerHandResult.playDetail[px.position].fanType = MJConstants.MAHJONG_HU_CODE_LIUJU;
-			gameData.mPlayerHandResult.playDetail[px.position].score = 0;
+			//gameData.mPlayerHandResult.playDetail[px.position].score = 0;
 		}
 		gameData.mGameHu.reset();
 		gameData.handEndTime = System.currentTimeMillis();
@@ -606,20 +495,10 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 		if ((fanType & MJConstants.MAHJONG_HU_CODE_JIA_HU) == MJConstants.MAHJONG_HU_CODE_JIA_HU) {
 			fan *= 2;// 卡胡加一翻
 		}
-		//
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_MO_BAO) == MJConstants.MAHJONG_HU_CODE_MO_BAO) {
-			fan *= 2;// 摸宝加一翻
-		}
-		//
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_BAO_ZHONG_BAO) == MJConstants.MAHJONG_HU_CODE_BAO_ZHONG_BAO) {
-			fan *= 2;// 宝中宝加一番
-		}
-
 		if (pao_pl == null) {
 			fan *= 2;// 自摸加一翻
 			Assert.isTrue((fanType & MJConstants.MAHJONG_HU_CODE_ZI_MO) == MJConstants.MAHJONG_HU_CODE_ZI_MO);
 		}
-
 		// 庄家位置
 		int dealer_pos = gameData.mPublic.mbankerPos;
 
@@ -671,7 +550,7 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 				pl_fan_type |= MJConstants.MAHJONG_HU_CODE_TARGET_ZHUANG_JIA;
 			}
 			int lose = my_fan * dizhu;
-			gameData.mPlayerHandResult.playDetail[position].score = lose;
+			//gameData.mPlayerHandResult.playDetail[position].score = lose;
 			gameData.mPlayerHandResult.playDetail[position].fanType = pl_fan_type;
 			gameData.mPlayerHandResult.playDetail[position].fanNum = my_fan;
 		}
@@ -690,21 +569,21 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 			// 赢家不计算，他赢的等于其他输的人之和
 			if (px.getPlayerID() == winner.getPlayerID())
 				continue;
-			total_gold += gameData.mPlayerHandResult.playDetail[px.position].score;
+			//total_gold += gameData.mPlayerHandResult.playDetail[px.position].score;
 			if (baoSanJia == false)// 包三家的情况最后处理
 			{
 
 			} else if (px.getPlayerID() != pao_pl.getPlayerID())// 包三家，且不是放炮的人
 			{
-				gameData.mPlayerHandResult.playDetail[px.position].score = 0;
+				//gameData.mPlayerHandResult.playDetail[px.position].score = 0;
 				gameData.mPlayerHandResult.playDetail[px.position].fanNum = 0;
 			}
 		}
 		if (baoSanJia) {
-			gameData.mPlayerHandResult.playDetail[pao_pl.position].score = total_gold;
+			//gameData.mPlayerHandResult.playDetail[pao_pl.position].score = total_gold;
 			gameData.mPlayerHandResult.playDetail[pao_pl.position].fanNum = total_gold / dizhu;
 		}
-		gameData.mPlayerHandResult.playDetail[winner.position].score = total_gold;
+		//gameData.mPlayerHandResult.playDetail[winner.position].score = total_gold;
 		gameData.mPlayerHandResult.playDetail[winner.position].fanNum = (total_gold / dizhu);
 
 		for (PlayerInfo p : plist) {
@@ -714,7 +593,7 @@ public class DQMJCardLogic implements ICardLogic<DQMJDesk> {
 			//如果玩家输了，将score和fanNum改为负数
 			if ((handRes.fanType & MJConstants.MAHJONG_HU_CODE_LOSE) == MJConstants.MAHJONG_HU_CODE_LOSE) {
 				handRes.result = PlayHandResult.GAME_RESULT_LOSE;
-				handRes.score *= -1;
+				//handRes.score *= -1;
 				handRes.fanNum *= -1;
 			}
 			//将每局结果记入到总结算中

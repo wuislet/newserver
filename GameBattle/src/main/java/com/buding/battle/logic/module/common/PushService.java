@@ -129,7 +129,7 @@ public class PushService implements InitializingBean {
 			pb.setPlayerId(p.playerId);
 			pb.setPosition(p.position);
 			boolean ready = session.getStatus() == PlayerStatus.READY || session.getStatus() == PlayerStatus.GAMING;
-			pb.setState(ready ? 1 : 0); // 未准备
+			pb.setState(ready ? 1 : 0); // 未准备 //TODO WXD Ready 细化协议里的准备阶段
 			pb.setOnline(session.onlineStatus == OnlineStatus.ONLINE ? 1 : 0);
 			pb.setAway(session.awayStatus == AwayStatus.AWAY? 1 : 0);
 			pb.setHeadImg(user.getHeadImg());

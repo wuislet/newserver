@@ -127,13 +127,6 @@ public class VipDesk extends MJDeskImpl {
 				PushService.instance.pushDeskPlayerKickoutRsp(playerId, false, "玩家正在游戏中,无法踢出");
 				return;
 			}
-			// if (session.getStatus() == PlayerStatus.READY) {
-			// logger.error("act=requestKickout;error=userready;playerId={};targetPlayerId={};deskId={}",
-			// playerId, targetPlayerId, this.id);
-			// PushService.instance.pushDeskPlayerKickoutRsp(playerId, false,
-			// "玩家已准备,无法踢出");
-			// return;
-			// }
 		}
 
 		if (this.status == DeskStatus.GAMING) {
@@ -235,7 +228,7 @@ public class VipDesk extends MJDeskImpl {
 			ret.matchId =this.getParent().getParent().getId();
 			ret.enemyBankrupt = false; //不扣金币，不存在破产的可能性
 			ret.bankrupt = false; //不扣金币，不存在破产的可能性
-			ret.rankPoint = res.score;
+			ret.rankPoint = res.getScore();
 			ret.tax = 0; //不扣服务费，房主用房卡一次性支付
 			ret.userId = res.playerId;
 			ret.winCount = res.result == PlayHandResult.GAME_RESULT_WIN ? 1 : 0;
@@ -253,7 +246,7 @@ public class VipDesk extends MJDeskImpl {
 			
 			//更新用户属性
 			BattleSession session = ServiceRepo.sessionManager.getIoSession(ret.userId);
-			session.player.score += res.score; //改变累计积分
+			session.player.score += res.getScore(); //改变累计积分
 			if(user != null && session != null) {
 				UserHelper.copyUser2Player(user, session.player);
 			}
@@ -265,15 +258,6 @@ public class VipDesk extends MJDeskImpl {
 		}
 		
 		addGameLog(context);
-	}
-
-	@Override
-	public void ready4NextGame(GameContext context) {
-		//自动准备
-		for(PlayerInfo p : this.guard.getPlayerList()) {
-			BattleSession session = ServiceRepo.sessionManager.getIoSession(p.playerId);
-			session.setStatus(PlayerStatus.READY, StatusChangeReason.NEXT_GAME_READY);
-		}
 	}
 
 	@Override

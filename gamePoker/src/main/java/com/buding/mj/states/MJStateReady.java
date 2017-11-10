@@ -25,7 +25,7 @@ public class MJStateReady extends MJStateCommon {
 
 	@Override
 	public void onEnter() {
-		System.out.println(" S=〉  enter  ready ");
+		System.out.println(" S=〉  enter  ready  ");
 	}
 
 	@Override

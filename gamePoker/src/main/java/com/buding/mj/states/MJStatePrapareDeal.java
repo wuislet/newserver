@@ -1,5 +1,6 @@
 package com.buding.mj.states;
 
+import com.buding.api.player.PlayerInfo;
 import com.buding.game.events.DispatchEvent;
 import com.buding.game.events.GameLogicEvent;
 import com.buding.game.events.PlayerEvent;
@@ -34,7 +35,27 @@ public class MJStatePrapareDeal extends MJStateCommon {
 		switch (event.eventID) {
 
 		case GameLogicEvent.Player_Agree:
-			System.out.println("     ready  " + event.info.playerId + "  - " + event.info.checkReadyPhase(1));
+			System.out.println("     ready phase1   " + event.info.playerId + "  - " + event.info.checkReadyPhase(1));
+			boolean flag = true;
+			for (PlayerInfo p : mDesk.getPlayers()){
+				if (p.isRobot()){
+					continue;
+				}
+				if(p.checkReadyPhase(1) == false){
+					flag = false;
+					break;
+				}
+			}
+			if (flag) {
+				for (PlayerInfo p : mDesk.getPlayers()) {
+					if(p.isRobot()) {
+						continue;
+					}
+					p.doReadyPhase(1, 0); //清空准备状态。
+				}
+				this.mGameTimer.KillDeskTimer();
+				this.mGameTimer.SetDeskTimer(100);
+			}
 			break;
 		default :
 			super.onPlayer(event);

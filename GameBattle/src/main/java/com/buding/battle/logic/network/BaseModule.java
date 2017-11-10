@@ -374,7 +374,7 @@ public class BaseModule implements Module<PacketType, PacketBase>, InitializingB
 	public void onDeskReadyMsgReceived(BattleSession session, PacketBase packet) throws Exception {
 		ReadyRequest readyReq = ReadyRequest.parseFrom(packet.getData());
 		gameService.requestReady(session, readyReq.getState(), readyReq.getPhase());
-		System.out.println(" -----------  wxd get  ready  " + readyReq.getState() + " , " + readyReq.getPhase() + " - " + session.player.playerId);
+		System.out.println(" -----------  wxd get  ready  " + readyReq.getState() + " , " + readyReq.getPhase() + " - " + session.player.playerId + " name " + session.player.name);
 	}
 
 	public void onChangeDeskMsgReceived(BattleSession session, PacketBase packet) throws Exception {

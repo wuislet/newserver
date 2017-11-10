@@ -1,15 +1,10 @@
 package com.buding.mj.common;
 
 import java.util.*;
-import java.util.Map.Entry;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.buding.api.player.PlayerInfo;
 import com.buding.game.GameData;
 import com.buding.mj.common.BaseMJRule;
-import com.buding.mj.common.MJContext;
-import com.buding.mj.common.MjCheckResult;
 import com.buding.mj.constants.MJConstants;
 import com.buding.mj.helper.MJHelper;
 import com.buding.mj.model.ActionWaitingModel;
@@ -17,7 +12,7 @@ import com.buding.mj.model.ChuTingModel;
 import com.buding.mj.model.MjCheckContext;
 import com.google.gson.Gson;
 
-public class MJProcessor { //TODO WXD 实装    MjCheckContext
+public class MJProcessor {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	protected BaseMJRule mjRule = new BaseMJRule();
 	
@@ -105,42 +100,42 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 		return true;
 	}
 	
-	public boolean canTing(MjCheckContext c) {
+	public boolean canTing(MjCheckContext ctx) {
 		List<Byte> handCards = new ArrayList<Byte>();
-		handCards.addAll(c.gameData.getCardsInHand(c.position));
-		if (c.card != 0) {
-			MJHelper.add2SortedList(c.card, handCards);
+		handCards.addAll(ctx.gameData.getCardsInHand(ctx.position));
+		if (ctx.card != 0) {
+			MJHelper.add2SortedList(ctx.card, handCards);
 		}
 
-		List<Integer> cardsDown = c.gameData.getCardsDown(c.position);
+		List<Integer> cardsDown = ctx.gameData.getCardsDown(ctx.position);
 		logger.info("act=canTing;handcards={};downcards={}", MJHelper.getSingleCardListName(handCards), MJHelper.getCompositeCardListName(cardsDown));
 
-		if (!checkTingBaseRule(handCards, c)) {
+		if (!checkTingBaseRule(handCards, ctx)) {
 			return false;
 		}
 
-		ChuTingModel model = canTingInternal(handCards, c);
+		ChuTingModel model = canTingInternal(handCards, ctx);
 
 		if (model == null || model.chuAndTingMap.isEmpty()) {
 			return false;
 		}
 		
-		c.gameData.mTingCards[c.position].chuAndTingMap = model.chuAndTingMap;
-		logger.info("act=checkTing;deskId={};result={}", c.desk.getDeskID(), new Gson().toJson(model.chuAndTingMap));
+		ctx.gameData.mTingCards[ctx.position].chuAndTingMap = model.chuAndTingMap;
+		logger.info("act=checkTing;deskId={};result={}", ctx.desk.getDeskID(), new Gson().toJson(model.chuAndTingMap));
 		return true;
 	}
 
-	public ChuTingModel canTingInternal(List<Byte> handCards, MjCheckContext c) {
-		List<Integer> cardsDown = c.gameData.getCardsDown(c.position);
+	public ChuTingModel canTingInternal(List<Byte> handCards, MjCheckContext ctx) {
+		List<Integer> cardsDown = ctx.gameData.getCardsDown(ctx.position);
 		Map<Byte, Set<Byte>> chuAndTingMap = new HashMap<Byte, Set<Byte>>();
 		Set<Byte> allCards = MJHelper.getAllUniqCard();
 		Set<Byte> set = MJHelper.getUniqCardList(handCards);
 		for (byte card2Remove : set) { //测试打掉每个牌
-			if(c.cardCantRemove.contains(card2Remove)) {
+			if(ctx.cardCantRemove.contains(card2Remove)) {
 				continue; //只检查指定情况的
 			}
 			for (byte card2Ting : allCards) {  //测试每种要听的牌
-				if(c.cardCantTing.contains(card2Ting)) {
+				if(ctx.cardCantTing.contains(card2Ting)) {
 					continue;//检查指定情况的
 				}
 
@@ -148,7 +143,7 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 				shouPaiTemp.addAll(handCards);
 				shouPaiTemp.remove((Byte)card2Remove);
 				MJHelper.add2SortedList(card2Ting, shouPaiTemp);
-				if(!finalCheckHu(shouPaiTemp, c)) { //不可以胡
+				if(!finalCheckHu(shouPaiTemp, ctx)) { //不可以胡
 					continue;
 				}
 				
@@ -174,22 +169,22 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 		return true;
 	}
 	
-	public boolean canHu(MjCheckContext c) {
+	public boolean canHu(MjCheckContext ctx) {
 		List<Byte> handCards = new ArrayList<Byte>();
-		handCards.addAll(c.gameData.getCardsInHand(c.position));
-		if (c.card != 0) {
-			MJHelper.add2SortedList(c.card, handCards);
+		handCards.addAll(ctx.gameData.getCardsInHand(ctx.position));
+		if (ctx.card != 0) {
+			MJHelper.add2SortedList(ctx.card, handCards);
 		}
 
-		List<Integer> cardsDown = c.gameData.getCardsDown(c.position);
+		List<Integer> cardsDown = ctx.gameData.getCardsDown(ctx.position);
 		logger.info("act=canHu;handcards={};downcards={}", MJHelper.getSingleCardListName(handCards), MJHelper.getCompositeCardListName(cardsDown));
 
-		if (!checkHuBaseRule(handCards, c)) {
+		if (!checkHuBaseRule(handCards, ctx)) {
 			return false;
 		}
 		
-		logger.info("act=checkHu;deskId={};cards={};newcard={}", c.desk.getDeskID(), new Gson().toJson(handCards), c.card);
-		return finalCheckHu(handCards, c);
+		logger.info("act=checkHu;deskId={};cards={};newcard={}", ctx.desk.getDeskID(), new Gson().toJson(handCards), ctx.card);
+		return finalCheckHu(handCards, ctx);
 	}
 	
 	/**
@@ -198,11 +193,11 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 	 * @param newCard 假装加入的牌
 	 * @return
 	 */
-	private boolean finalCheckHu(List<Byte> handCards, MjCheckContext c) {
-		if(c.desk.canQiXiaoDui() && mjRule.canHuQiXiaoDui(handCards)){
+	private boolean finalCheckHu(List<Byte> handCards, MjCheckContext ctx) {
+		if(ctx.desk.canQiXiaoDui() && mjRule.canHuQiXiaoDui(handCards)){
 			return true;
 		}
-		return mjRule.canHu(handCards, (int)c.gameData.guiCards.get(0)); //TODO wxd 目前只验证第一张鬼牌，须扩展多个鬼牌的情况。
+		return mjRule.canHu(handCards, (int)ctx.gameData.guiCards.get(0)); //TODO wxd 目前只验证第一张鬼牌，须扩展多个鬼牌的情况。
 	}
 	
 	// =============== 胡型检查相关 ===============
@@ -216,6 +211,18 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 		Byte card2 = (byte) (card - 1);
 		if (cards.remove(card1) && cards.remove(card2)) {
 			return mjRule.canHu(cards, -1);
+		}
+		return false;
+	}
+	
+	/**
+	 * 判断是否是单吊将
+	 */
+	public boolean isDanDiao(List<Byte> handcards, byte card) {
+		List<Byte> cards = new ArrayList<Byte>();
+		cards.addAll(handcards);
+		if (cards.remove((Byte)card) && cards.remove((Byte)card)) {
+			return mjRule.canChengPai(cards); //TODO WXd hutype 改成不使用成牌的方法。成牌不是对外接口。
 		}
 		return false;
 	}
@@ -312,19 +319,40 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 		return false;
 	}
 	
-	public boolean isYiTiaoLong(List<Byte> cardsInHand) {
-		return false; //TODO wxd 算法实现
+	public boolean hasOne2Nine(List<Byte> cardsInHand, List<Integer> cardsDown) {
+		int numFlag = 0;
+		for (int i = 0; i < cardsInHand.size(); i++) {
+			byte card = cardsInHand.get(i);
+			if (!MJHelper.isNormalCard(card)) {
+				continue;
+			}
+			int num = MJHelper.getCardNum(card);
+			numFlag |= (1 << num);
+		}
+		
+		for (int i = 0; i < cardsDown.size(); i++) {
+			byte card = (byte)(cardsDown.get(i) & 0xff);
+			if (!MJHelper.isNormalCard(card)) {
+				continue;
+			}
+			if(card == (byte)MJConstants.MAHJONG_CODE_GANG_CARD){
+				continue;
+			}
+			int num = MJHelper.getCardNum(card);
+			numFlag |= (1 << num);
+		}
+		return numFlag == 511; //(1 << 9 - 1)
 	}
 
 	public int getColorNumber(List<Byte> cardsInHand, List<Integer> cardsDown) { //TODO WXD 区分清混
-		int color_flag = 0;
+		int colorFlag = 0;
 		for (int i = 0; i < cardsInHand.size(); i++) {
 			byte card = cardsInHand.get(i);
 			if (!MJHelper.isNormalCard(card)) {
 				continue;
 			}
 			int color = MJHelper.getCardColor(card);
-			color_flag |= (1 << color);
+			colorFlag |= (1 << color);
 		}
 		
 		for (int i = 0; i < cardsDown.size(); i++) {
@@ -336,28 +364,37 @@ public class MJProcessor { //TODO WXD 实装    MjCheckContext
 				continue;
 			}
 			int color = MJHelper.getCardColor(card);
-			color_flag |= (1 << color);
+			colorFlag |= (1 << color);
 		}
-		return color_flag;
+		return colorFlag;
+	}
+	
+	public boolean hasZi(List<Byte> cardsInHand, List<Integer> cardsDown) {
+		int flag = getColorNumber(cardsInHand, cardsDown);
+		return ((flag & 8) != 0);
 	}
 	
 	public boolean has0Color(List<Byte> cardsInHand, List<Integer> cardsDown) {
 		int flag = getColorNumber(cardsInHand, cardsDown);
+		flag &= 7; //忽略风字牌。
 		return (flag == 0);
 	}
 	
 	public boolean has1Color(List<Byte> cardsInHand, List<Integer> cardsDown) {
 		int flag = getColorNumber(cardsInHand, cardsDown);
+		flag &= 7; //忽略风字牌。
 		return (flag == 1) || (flag == 2) || (flag == 4);
 	}
 
 	public boolean has2Color(List<Byte> cardsInHand, List<Integer> cardsDown) {
 		int flag = getColorNumber(cardsInHand, cardsDown);
+		flag &= 7; //忽略风字牌。
 		return (flag == 3) || (flag == 5) || (flag == 6);
 	}
 
 	public boolean has3Color(List<Byte> cardsInHand, List<Integer> cardsDown) {
 		int flag = getColorNumber(cardsInHand, cardsDown);
+		flag &= 7; //忽略风字牌。
 		return (flag == 7);
 	}
 }

@@ -434,26 +434,10 @@ public class GameData extends GameDataBase {
 	
 	public void mergeHandResult(PlayFinalResult finalRes, PlayHandResult handRes) {
 		finalRes.pos = handRes.pos;
-		finalRes.score += handRes.score;
+		finalRes.score += handRes.getScore();
 		if ((handRes.fanType & MJConstants.MAHJONG_HU_CODE_WIN) != 0) {
 			finalRes.huCount++;
-			if ((handRes.fanType & MJConstants.MAHJONG_HU_CODE_MO_BAO) != 0) {
-				finalRes.mobaoCount++;
-			}
-			
-			if ((handRes.fanType & MJConstants.MAHJONG_HU_CODE_BAO_ZHONG_BAO) != 0) {
-				finalRes.baoZhongBaoCount++;
-			}
-			
-			if ((handRes.fanType & MJConstants.MAHJONG_HU_CODE_KAIPAIZHA) != 0) {
-				finalRes.kaiPaiZhaCount++;
-			}
-		//} else { TODO del
-		//	if ((handRes.fanType & MJConstants.MAHJONG_HU_CODE_DIAN_PAO) != 0) {
-		//		finalRes.paoCount++;
-		//	}
 		}
-		
 		if ((handRes.fanType & MJConstants.MAHJONG_HU_CODE_MYSELF_ZHUANG_JIA) != 0) {
 			finalRes.bankerCount++;
 		}

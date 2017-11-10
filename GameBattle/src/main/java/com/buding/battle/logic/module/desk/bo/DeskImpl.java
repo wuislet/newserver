@@ -738,25 +738,25 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 		log.setGameEndTime(new Date());
 		if (ctx.playerHandResults.playDetail.length > 0) {
 			log.setUser1Id(ctx.playerHandResults.playDetail[0].playerId);
-			log.setUser1Score(ctx.playerHandResults.playDetail[0].score);
+			log.setUser1Score(ctx.playerHandResults.playDetail[0].getScore());
 			log.setUser1FanNum(ctx.playerHandResults.playDetail[0].fanNum);
 			log.setUser1FanDesc(MJHelper.getFanDescList2String(ctx.playerHandResults.playDetail[0].fanType));
 		}
 		if (ctx.playerHandResults.playDetail.length > 1) {
 			log.setUser2Id(ctx.playerHandResults.playDetail[1].playerId);
-			log.setUser2Score(ctx.playerHandResults.playDetail[1].score);
+			log.setUser2Score(ctx.playerHandResults.playDetail[1].getScore());
 			log.setUser2FanNum(ctx.playerHandResults.playDetail[1].fanNum);
 			log.setUser2FanDesc(MJHelper.getFanDescList2String(ctx.playerHandResults.playDetail[1].fanType));
 		}
 		if (ctx.playerHandResults.playDetail.length > 2) {
 			log.setUser3Id(ctx.playerHandResults.playDetail[2].playerId);
-			log.setUser3Score(ctx.playerHandResults.playDetail[2].score);
+			log.setUser3Score(ctx.playerHandResults.playDetail[2].getScore());
 			log.setUser3FanNum(ctx.playerHandResults.playDetail[2].fanNum);
 			log.setUser3FanDesc(MJHelper.getFanDescList2String(ctx.playerHandResults.playDetail[2].fanType));
 		}
 		if (ctx.playerHandResults.playDetail.length > 3) {
 			log.setUser4Id(ctx.playerHandResults.playDetail[3].playerId);
-			log.setUser4Score(ctx.playerHandResults.playDetail[3].score);
+			log.setUser4Score(ctx.playerHandResults.playDetail[3].getScore());
 			log.setUser4FanNum(ctx.playerHandResults.playDetail[3].fanNum);
 			log.setUser4FanDesc(MJHelper.getFanDescList2String(ctx.playerHandResults.playDetail[3].fanType));
 		}
@@ -828,7 +828,9 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 		}
 		if (session.getStatus() == PlayerStatus.GAMING) {
 			logger.error("act=playerReady;error=alreadyGaming;playerId={};state={};phase={};deskId={};", playerId, state, phase, getDeskID());
-			//return;
+			if(phase == 0) {
+				return; //TODO wxd ready 除了开始的准备之外的所有准备都会被这个return给拦截掉。需要处理。
+			}
 		}
 		if (session.getStatus() == PlayerStatus.READY && phase == 0) {
 			logger.error("act=playerReady;error=alreadyso;playerId={};state={};phase={};deskId={};", playerId, state, phase, getDeskID());
@@ -869,27 +871,26 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 	}
 
 	@Override
-	public void tryStartGame() {
+	public void tryStartGame() { //TODO WXD ready 把trystartGame做成跟MJStateOriginCard一样的一个阶段，监听准备并跳转。
 		// 桌子不是组队状态,返回
 		if (status != DeskStatus.WATING) {
 			return;
 		}
 
-
-		System.out.println(" ================  tryStart GAme " + guard.getPlayerCount());
-
-		List<PlayerInfo> playerList = guard.getPlayerList();
-		for (PlayerInfo p : playerList) {
-			System.out.println("  for  =>" + p.checkReadyPhase(0) + ", " + p.checkReadyPhase(1) + ", " + p.checkReadyPhase(2) + ", " + p.checkReadyPhase(3) + " = " + p.playerId);
-		}
-		System.out.println(" ================  tryStart GAme enD ");
+//		System.out.println(" ================  tryStart GAme " + guard.getPlayerCount());
+//
+//		List<PlayerInfo> playerList = guard.getPlayerList();
+//		for (PlayerInfo p : playerList) {
+//			System.out.println("  for  =>" + p.checkReadyPhase(0) + ", " + p.checkReadyPhase(1) + ", " + p.checkReadyPhase(2) + ", " + p.checkReadyPhase(3) + " = " + p.playerId);
+//		}
+//		System.out.println(" ================  tryStart GAme enD ");
 		// 玩家人数未达到开赛要求,返回
 		if (guard.getPlayerCount() < deskConf.seatSizeLower) {
 			return;
 		}
 
 		// 不是全部玩家处于就绪状态,返回
-		//List<PlayerInfo> playerList = guard.getPlayerList();
+		List<PlayerInfo> playerList = guard.getPlayerList();
 		for (PlayerInfo p : playerList) {
 			if(p.isRobot()) {
 				continue;
@@ -897,19 +898,14 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 			BattleSession session = ServiceRepo.sessionManager.getIoSession(p.playerId);
 			if (session != null) {
 				if(session.player.checkReadyPhase(0) != true) {
-				//if (session.getStatus() != PlayerStatus.READY) {
 					return;
 				}
 			}
 		}
 		
 		for (PlayerInfo p : playerList) {
-			p.doReadyPhase(0, 0);
-		}
-
-		// 推送游戏开始消息给玩家
-		for (PlayerInfo p : playerList) {
-			PushService.instance.pushGameStartMsg(p.playerId, id);
+			p.doReadyPhase(0, 0); //重置所有人的准备状态。
+			PushService.instance.pushGameStartMsg(p.playerId, id); //推送游戏开始消息给玩家
 		}
 
 		// 管理员查看回放数据
@@ -995,7 +991,7 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 			for (PlayerInfo p : guard.getPlayerList()) {
 				BattleSession s = ServiceRepo.sessionManager.getIoSession(p.playerId);
 				if (s.getStatus() == PlayerStatus.READY) {
-					PushService.instance.pushReadySyn(ctx.playerId, p.position, p.playerId, 1, 0); //TODO WXD 读取储存的准备信息，分发。
+					PushService.instance.pushReadySyn(ctx.playerId, p.position, p.playerId, 1, 0); //TODO WXD ready 读取储存的准备信息，分发。
 				}
 			}
 		}
@@ -1273,7 +1269,7 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 
 		// 机器人结算
 		if (p.robot == 1) {
-			ServiceRepo.robotManager.robotSettle(p, this.getParent().getParent().getMatchConfig().matchID, res.score);
+			ServiceRepo.robotManager.robotSettle(p, this.getParent().getParent().getMatchConfig().matchID, res.getScore());
 		}
 
 		int playerid = p.playerId;
@@ -1284,17 +1280,17 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 			return;
 		}
 
-		if (res.score < 0) {
-			logger.error("ErrorRankPoint,userId:{},point:{};", playerid, res.score);
+		if (res.getScore() < 0) {
+			logger.error("ErrorRankPoint,userId:{},point:{};", playerid, res.getScore());
 		}
 
 		GamePlayingVo ret = new GamePlayingVo();
-		ret.coin = res.score;
+		ret.coin = res.getScore();
 		ret.gameId = this.getParent().getParent().getParent().getId();
 		ret.matchId = this.getParent().getParent().getId();
 		ret.enemyBankrupt = false; // TODO
 		ret.bankrupt = false; // TODO
-		ret.rankPoint = res.score;
+		ret.rankPoint = res.getScore();
 		ret.tax = res.tax;
 		ret.userId = res.playerId;
 		ret.winCount = res.result == PlayHandResult.GAME_RESULT_WIN ? 1 : 0;

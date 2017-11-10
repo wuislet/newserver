@@ -268,18 +268,8 @@ public class MJHelper {
 	}
 
 	public static String getResultTypeDesc(int fanType) {
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_DAILOU) == MJConstants.MAHJONG_HU_CODE_DAILOU) {
-			return "宝中宝";
-		} else if ((fanType & MJConstants.MAHJONG_HU_CODE_GUADAFENG) == MJConstants.MAHJONG_HU_CODE_GUADAFENG) {
-			return "刮大风";
-		} else if ((fanType & MJConstants.MAHJONG_HU_CODE_KAIPAIZHA) == MJConstants.MAHJONG_HU_CODE_KAIPAIZHA) {
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_KAIPAIZHA) == MJConstants.MAHJONG_HU_CODE_KAIPAIZHA) {
 			return "开牌炸";
-		} else if ((fanType & MJConstants.MAHJONG_HU_CODE_HONGZHONGMTF) == MJConstants.MAHJONG_HU_CODE_HONGZHONGMTF) {
-			return "红中满天飞";
-		} else if ((fanType & MJConstants.MAHJONG_HU_CODE_BAO_ZHONG_BAO) == MJConstants.MAHJONG_HU_CODE_BAO_ZHONG_BAO) {
-			return "宝中宝";
-		} else if ((fanType & MJConstants.MAHJONG_HU_CODE_MO_BAO) == MJConstants.MAHJONG_HU_CODE_MO_BAO) {
-			return "摸宝";
 		} else if ((fanType & MJConstants.MAHJONG_HU_CODE_WIN) == MJConstants.MAHJONG_HU_CODE_WIN) {
 			return "平胡";
 		} else if ((fanType & MJConstants.MAHJONG_HU_CODE_LOSE) == MJConstants.MAHJONG_HU_CODE_LOSE) {
@@ -294,21 +284,6 @@ public class MJHelper {
 		// 开牌炸
 		if ((fanType & MJConstants.MAHJONG_HU_CODE_KAIPAIZHA) == MJConstants.MAHJONG_HU_CODE_KAIPAIZHA) {
 			return MJConstants.MAHJONG_HU_CODE_KAIPAIZHA;
-		}
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_DAILOU) == MJConstants.MAHJONG_HU_CODE_DAILOU) {
-			return MJConstants.MAHJONG_HU_CODE_DAILOU;
-		}
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_BAO_ZHONG_BAO) == MJConstants.MAHJONG_HU_CODE_BAO_ZHONG_BAO) {
-			return MJConstants.MAHJONG_HU_CODE_BAO_ZHONG_BAO;
-		}
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_GUADAFENG) == MJConstants.MAHJONG_HU_CODE_GUADAFENG) {
-			return MJConstants.MAHJONG_HU_CODE_GUADAFENG;
-		}
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_HONGZHONGMTF) == MJConstants.MAHJONG_HU_CODE_HONGZHONGMTF) {
-			return MJConstants.MAHJONG_HU_CODE_HONGZHONGMTF;
-		}
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_MO_BAO) == MJConstants.MAHJONG_HU_CODE_MO_BAO) {
-			return MJConstants.MAHJONG_HU_CODE_MO_BAO;
 		}
 		if ((fanType & MJConstants.MAHJONG_HU_CODE_ZI_MO) == MJConstants.MAHJONG_HU_CODE_ZI_MO) {
 			return MJConstants.MAHJONG_HU_CODE_ZI_MO;
@@ -341,61 +316,65 @@ public class MJHelper {
 	public static List<String> getFanDescList(int fanType) {
 		List<String> list = new ArrayList<String>();
 
-		int i = 0;
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_WIN) == MJConstants.MAHJONG_HU_CODE_WIN) {
-			if ((fanType & MJConstants.MAHJONG_HU_CODE_ZI_MO) == MJConstants.MAHJONG_HU_CODE_ZI_MO) {
-				fanType -= MJConstants.MAHJONG_HU_CODE_ZI_MO;
-				i++;
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_WIN) != 0) {
+			if ((fanType & MJConstants.MAHJONG_HU_CODE_ZI_MO) != 0) {
 				list.add("自摸 ");
 			}
 
-			if ((fanType & MJConstants.MAHJONG_HU_CODE_MEN_QING) == MJConstants.MAHJONG_HU_CODE_MEN_QING) {
-				fanType -= MJConstants.MAHJONG_HU_CODE_MEN_QING;
-				i++;
+			if ((fanType & MJConstants.MAHJONG_HU_CODE_TIAN_HU) != 0) {
+				list.add("天胡 ");
+			}
+			
+			if ((fanType & MJConstants.MAHJONG_HU_CODE_MEN_QING) != 0) {
 				list.add("门清 ");
 			}
-
-			if ((fanType & MJConstants.MAHJONG_HU_CODE_QI_XIAO_DUI) == MJConstants.MAHJONG_HU_CODE_QI_XIAO_DUI) {
-				fanType -= MJConstants.MAHJONG_HU_CODE_QI_XIAO_DUI;
-				i++;
-				list.add("七小对");
+			
+			if ((fanType & MJConstants.MAHJONG_HU_CODE_HAI_DI_LAO) != 0) {
+				list.add("海底捞月 ");
 			}
-
-			if ((fanType & MJConstants.MAHJONG_HU_CODE_QING_YI_SE) == MJConstants.MAHJONG_HU_CODE_QING_YI_SE) {
-				fanType -= MJConstants.MAHJONG_HU_CODE_QING_YI_SE;
-				i++;
+			
+			if ((fanType & MJConstants.MAHJONG_HU_CODE_GANG_HUA) != 0) {
+				list.add("杠花 ");
+			}
+			
+			if ((fanType & MJConstants.MAHJONG_HU_CODE_QING_YI_SE) != 0) {
 				list.add("清一色 ");
 			}
 
-			if ((fanType & MJConstants.MAHJONG_HU_CODE_YI_TIAO_LONG) == MJConstants.MAHJONG_HU_CODE_YI_TIAO_LONG) {
-				fanType -= MJConstants.MAHJONG_HU_CODE_YI_TIAO_LONG;
-				i++;
-				list.add("一条龙 ");
+			if ((fanType & MJConstants.MAHJONG_HU_CODE_QING_LONG) != 0) {
+				list.add("清一色一条龙 ");
 			}
 
-			if ((fanType & MJConstants.MAHJONG_HU_CODE_DUI_DUI_HU) == MJConstants.MAHJONG_HU_CODE_DUI_DUI_HU) {
-				fanType -= MJConstants.MAHJONG_HU_CODE_DUI_DUI_HU;
-				i++;
+			if ((fanType & MJConstants.MAHJONG_HU_CODE_QI_XIAO_DUI) != 0) {
+				list.add("七小对");
+			}
+			
+			if ((fanType & MJConstants.MAHJONG_HU_CODE_DUI_DUI_HU) != 0) {
 				list.add("对对胡 ");
 			}
 			
-			if ((fanType & MJConstants.MAHJONG_HU_CODE_JIA_HU) == MJConstants.MAHJONG_HU_CODE_JIA_HU) {
-				fanType -= MJConstants.MAHJONG_HU_CODE_JIA_HU;
-				i++;
+			if ((fanType & MJConstants.MAHJONG_HU_CODE_JIA_HU) != 0) {
 				list.add("夹胡 ");
 			}
+			
+			if ((fanType & MJConstants.MAHJONG_HU_CODE_DAN_DIAO) != 0) {
+				list.add("单吊 ");
+			}
+			
+			if ((fanType & MJConstants.MAHJONG_HU_CODE_JUE_ZHANG) != 0) {
+				list.add("绝张 ");
+			}
 
-			if (i == 0) {
+			if (list.size() == 0) {
 				list.add("平胡 ");
 			}
 		}
 
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_TING) != MJConstants.MAHJONG_HU_CODE_TING) {
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_TING) == 0) {
 			list.add("未上听 ");
 		}
 		
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_MYSELF_ZHUANG_JIA) == MJConstants.MAHJONG_HU_CODE_MYSELF_ZHUANG_JIA) {
-			fanType -= MJConstants.MAHJONG_HU_CODE_MYSELF_ZHUANG_JIA;
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_MYSELF_ZHUANG_JIA) != 0) {
 			list.add("庄家 ");
 		}
 
@@ -431,9 +410,29 @@ public class MJHelper {
 		if ((fanType & MJConstants.MAHJONG_HU_CODE_ZI_MO) != 0) {
 			fanDesc += "自摸一番 ";
 		}
-
+		
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_TIAN_HU) != 0) {
+			fanDesc += "天胡 ";
+		}
+		
 		if ((fanType & MJConstants.MAHJONG_HU_CODE_MEN_QING) != 0) {
 			fanDesc += "门清 ";
+		}
+		
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_HAI_DI_LAO) != 0) {
+			fanDesc += "海底捞月 ";
+		}
+		
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_GANG_HUA) != 0) {
+			fanDesc += "杠花 ";
+		}
+
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_QING_YI_SE) != 0) {
+			fanDesc += "清一色 ";
+		}
+
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_QING_LONG) != 0) {
+			fanDesc += "清一色一条龙 ";
 		}
 
 		if ((fanType & MJConstants.MAHJONG_HU_CODE_QI_XIAO_DUI) != 0) {
@@ -444,15 +443,59 @@ public class MJHelper {
 			fanDesc += "对对胡 ";
 		}
 
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_QING_YI_SE) != 0) {
-			fanDesc += "清一色 ";
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_JIA_HU) != 0) {
+			fanDesc += "夹胡 ";
 		}
 
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_YI_TIAO_LONG) != 0) {
-			fanDesc += "一条龙 ";
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_DAN_DIAO) != 0) {
+			fanDesc += "单吊 ";
+		}
+
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_JUE_ZHANG) != 0) {
+			fanDesc += "绝张 ";
 		}
 
 		return fanDesc;
+	}
+	
+	public static int calNormalFanNum(int fanType, int fanNum) { //普通规则计算番数
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_TIAN_HU) != 0) {
+			fanNum *= 8;
+		}
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_MEN_QING) != 0) {
+			fanNum *= 2;
+		}
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_HAI_DI_LAO) != 0) {
+			fanNum *= 4;
+		}
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_GANG_HUA) != 0) {
+			fanNum *= 2;
+		}
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_QING_YI_SE) != 0) {
+			fanNum *= 2;
+		}
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_QING_LONG) != 0) {
+			fanNum *= 4;
+		}
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_QI_XIAO_DUI) != 0) {
+			fanNum *= 2;
+		}
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_DUI_DUI_HU) != 0) {
+			fanNum *= 2;
+		}
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_JIA_HU) != 0) {
+			fanNum *= 2;
+		}
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_DAN_DIAO) != 0) {
+			fanNum *= 2;
+		}
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_JUE_ZHANG) != 0) {
+			fanNum *= 2;
+		}
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_ZI_MO) != 0) {
+			fanNum *= 2;
+		}
+		return Math.min(fanNum, 8);
 	}
 
 	public static String getChiComboStr(List<GameOperChiArg> list) {

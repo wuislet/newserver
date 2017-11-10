@@ -41,7 +41,7 @@ public class MJStateOriginCard extends MJStateCommon {
 		switch (event.eventID) {
 
 		case GameLogicEvent.Player_Agree:
-			System.out.println("   !!!!!!  ready  " + event.info.playerId + "  - " + event.info.checkReadyPhase(event.phase) + " ? " + event.phase + " + " + event.state);
+			System.out.println("   !!!!!!  ready phase2  " + event.info.playerId + "  - " + event.info.checkReadyPhase(event.phase) + " ? " + event.phase + " + " + event.state);
 			boolean flag = true;
 			for (PlayerInfo p : mDesk.getPlayers()){
 				if (p.isRobot()){
@@ -53,6 +53,12 @@ public class MJStateOriginCard extends MJStateCommon {
 				}
 			}
 			if (flag) {
+				for (PlayerInfo p : mDesk.getPlayers()) {
+					if(p.isRobot()) {
+						continue;
+					}
+					p.doReadyPhase(2, 0); //清空准备状态。
+				}
 				this.mGameTimer.KillDeskTimer();
 				this.mGameTimer.SetDeskTimer(100);
 			}

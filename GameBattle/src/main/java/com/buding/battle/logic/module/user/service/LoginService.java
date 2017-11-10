@@ -118,7 +118,7 @@ public class LoginService {
 //			oldSession.getDesk().playerExit(oldSession.userId, PlayerExitType.DULICATE_LOGIN_KICK);
 //		}
 		logger.info("session status:{}", session.onlineStatus);
-		//TODO oldSession需要摘机销毁掉
+		//TODO oldSession需要摘机销毁掉 //TODO wxd
 		Util.userHasLogin(session);
 	}
 

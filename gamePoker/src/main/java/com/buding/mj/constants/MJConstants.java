@@ -57,41 +57,32 @@ public class MJConstants {
 	public static final int MAHJONG_CODE_GANG_CARD =0x0f;//杠的特殊数字标识！ //TODO 技术债务
 	
 	/**玩家牌局结果*/
-	public static final int MAHJONG_HU_CODE_DIAN_PAO =0x0001;//点炮
+	public static final int MAHJONG_HU_CODE_DIAN_PAO =0x0001;//点炮  //TODO wxd hutype 与胡型分开
 	public static final int MAHJONG_HU_CODE_MYSELF_ZHUANG_JIA=0x0002;//自己是不是庄家
-	public static final int MAHJONG_HU_CODE_ZI_MO=0x0004;//自摸	
-	public static final int MAHJONG_HU_CODE_JIA_HU=0x008;//夹胡
+	public static final int MAHJONG_HU_CODE_ZI_MO=0x0004;//自摸
 	public static final int MAHJONG_HU_CODE_TING=0x010;//是否听牌
 	public static final int MAHJONG_HU_CODE_TARGET_ZHUANG_JIA=0x020;//输赢的对方是庄家
 
-	public static final int MAHJONG_HU_CODE_MEN_QING =0x0040;//门清
-	public static final int MAHJONG_HU_CODE_HAI_DI_LAO=0x080;//海底捞月
-	public static final int MAHJONG_HU_CODE_QI_XIAO_DUI=0x100;//七小对
-	public static final int MAHJONG_HU_CODE_DUI_DUI_HU=0x200;//对对胡
+	public static final int MAHJONG_HU_CODE_TIAN_HU=0x0040;//天胡
+	public static final int MAHJONG_HU_CODE_MEN_QING =0x0080;//门清
+	public static final int MAHJONG_HU_CODE_HAI_DI_LAO=0x100;//海底捞月
+	public static final int MAHJONG_HU_CODE_GANG_HUA=0x0200;//杠花
 	public static final int MAHJONG_HU_CODE_QING_YI_SE=0x400;//清一色
-	public static final int MAHJONG_HU_CODE_YI_TIAO_LONG=0x800;//一条龙
+	public static final int MAHJONG_HU_CODE_QING_LONG=0x800;//清龙(清一色一条龙)
+	public static final int MAHJONG_HU_CODE_QI_XIAO_DUI=0x1000;//七小对
+	public static final int MAHJONG_HU_CODE_DUI_DUI_HU=0x2000;//对对胡
+	public static final int MAHJONG_HU_CODE_JIA_HU=0x008;//夹胡
+	public static final int MAHJONG_HU_CODE_DAN_DIAO=0x4000;//单吊(吊独将)
+	public static final int MAHJONG_HU_CODE_JUE_ZHANG=0x8000;//绝张
+
+	public static final int MAHJONG_HU_CODE_YI_TIAO_LONG=0x10000;//一条龙
+	public static final int MAHJONG_HU_CODE_SHUAI_JIU_ZHANG=0x20000;//甩九张
+	public static final int MAHJONG_HU_CODE_KAIPAIZHA=0x40000;// 开炸牌
 	
-	public static final int MAHJONG_HU_CODE_MO_BAO=0x1000;//摸宝：摸到宝牌和牌。
-	public static final int MAHJONG_HU_CODE_BAO_BIAN=0x2000;//宝边：在小胡的基础上，要胡的牌正好是宝牌，自摸到宝牌，则称宝边。
-	public static final int MAHJONG_HU_CODE_BAO_ZHONG_BAO=0x4000;//宝中宝：在大胡的基础上，要胡的牌正好是宝牌，自摸到宝牌，则成为宝中宝。	
-	public static final int MAHJONG_HU_CODE_GUADAFENG=0x8000;// 刮大风
-	public static final int MAHJONG_HU_CODE_KAIPAIZHA=0x10000;// 开炸牌
-	public static final int MAHJONG_HU_CODE_HONGZHONGMTF=0x20000;// 红中漫天飞
-	public static final int MAHJONG_HU_CODE_DAILOU=0x40000;// 带漏胡
-	
-	
-	public static final int MAHJONG_HU_CODE_WIN=0x100000;//赢
+	public static final int MAHJONG_HU_CODE_WIN=0x100000;//赢 //TODO wxd hutype 与胡型分开
 	public static final int MAHJONG_HU_CODE_LOSE=0x200000;//输
 	public static final int MAHJONG_HU_CODE_LIUJU=0x400000;//流局
 	public static final int MAHJONG_HU_CODE_SHOUPAO=0x800000;//收炮
-	
-	//胡牌番型
-	public static final int MJ_HU_TYPE_BAO_ZHONG_BAO = MAHJONG_HU_CODE_ZI_MO | MAHJONG_HU_CODE_JIA_HU | MAHJONG_HU_CODE_MO_BAO | MAHJONG_HU_CODE_BAO_ZHONG_BAO;
-	public static final int MJ_HU_TYPE_MO_BAO_HU = MAHJONG_HU_CODE_ZI_MO | MAHJONG_HU_CODE_MO_BAO;
-	public static final int MJ_HU_TYPE_MO_BAO_JIA_HU = MAHJONG_HU_CODE_ZI_MO | MAHJONG_HU_CODE_JIA_HU | MAHJONG_HU_CODE_MO_BAO;
-	public static final int MJ_HU_TYPE_ZIMO_JIA_HU = MAHJONG_HU_CODE_ZI_MO | MAHJONG_HU_CODE_JIA_HU;
-	public static final int MJ_HU_TYPE_GUADAFENG = MAHJONG_HU_CODE_GUADAFENG | MJ_HU_TYPE_MO_BAO_HU;
-	
 	
 	/**玩家已经满，准备开始**/
 	public static final int GAME_TABLE_STATE_READY_GO=2;
