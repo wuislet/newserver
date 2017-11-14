@@ -64,7 +64,7 @@ public class UserService {
 					user.setCity(jsonObject.getString("city"));
 					user.setCountry(jsonObject.getString("country"));
 					user.setProvince(jsonObject.getString("province"));
-					user.setLanguage(jsonObject.getString("language"));
+					user.setUnionid(jsonObject.getString("language"));
 					user.setHeadimgurl(jsonObject.getString("headimgurl"));
 					long subscibeTime = jsonObject.getLong("subscribe_time");
 					Date st = DateFormart

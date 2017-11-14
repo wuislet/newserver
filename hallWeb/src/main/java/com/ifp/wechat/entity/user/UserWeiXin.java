@@ -47,7 +47,7 @@ public class UserWeiXin {
 	/**
 	 * 用户的语言，简体中文为zh_CN
 	 */
-	private String language;
+	private String unionid;
 
 	/**
 	 * 用户头像，最后一个数值代表正方形头像大小
@@ -132,12 +132,12 @@ public class UserWeiXin {
 		this.province = province;
 	}
 
-	public String getLanguage() {
-		return language;
+	public String getUnionid() {
+		return unionid;
 	}
 
-	public void setLanguage(String language) {
-		this.language = language;
+	public void setUnionid(String unionid) {
+		this.unionid = unionid;
 	}
 
 	public String getHeadimgurl() {
@@ -158,7 +158,7 @@ public class UserWeiXin {
 
 	public UserWeiXin(Integer subscribe, String openid, String nickname,
 			Integer sex, String city, String country, String province,
-			String language, String headimgurl, Date subscribe_time,
+			String unionid, String headimgurl, Date subscribe_time,
 			String privilege) {
 		super();
 		this.subscribe = subscribe;
@@ -168,7 +168,7 @@ public class UserWeiXin {
 		this.city = city;
 		this.country = country;
 		this.province = province;
-		this.language = language;
+		this.unionid = unionid;
 		this.headimgurl = headimgurl;
 		this.subscribe_time = subscribe_time;
 		this.privilege = privilege;
