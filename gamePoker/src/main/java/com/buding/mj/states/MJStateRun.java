@@ -121,10 +121,7 @@ public class MJStateRun extends MJStateCommon {
 			if (state == MJConstants.GAME_TABLE_STATE_PLAYING) // 玩家玩牌中,状态为4
 			{
 				this.mCardLogic.gameTick(this.mGameData, this.mDesk);
-			} else if (state == MJConstants.GAME_TABLE_STATE_SHOW_GAME_OVER_SCREEN) // 游戏结束，等待客户端显示game
-																					// over界面
-			{
-				long delta = System.currentTimeMillis() - mGameData.handEndTime;
+			} else if (state == MJConstants.GAME_TABLE_STATE_SHOW_GAME_OVER_SCREEN) {// 游戏结束
 				game_over();
 				return;
 			}

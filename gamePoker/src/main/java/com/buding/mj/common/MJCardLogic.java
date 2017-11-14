@@ -65,7 +65,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			gameData.mPlayerHandResult.playDetail[px.position].setScore(calScore(desk, 0));;
 		}
 		gameData.mGameHu.reset();
-		gameData.handEndTime = System.currentTimeMillis();
+		//gameData.handEndTime = System.currentTimeMillis();
 	}
 
 	private void player_hu(GameData gameData, MJDesk desk, int fanType) {
@@ -111,7 +111,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			// 结算番型和金币
 			settle(gameData, desk, pl, pao_pl, fanType, newCard);
 	
-			gameData.handEndTime = System.currentTimeMillis();
+			//gameData.handEndTime = System.currentTimeMillis();
 		}
 	}
 	
@@ -1088,14 +1088,6 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		gameData.setCurrentOpertaionPlayerIndex(nextPlayer.get(0).position);
 	}
 
-	public boolean isEnd(GameData gameData) {
-		// 最后要剩8，9张牌
-		if (gameData.mDeskCard.cards.size() < 8)
-			return true;
-		//
-		return false;
-	}
-
 	// 出牌结束，没有吃碰胡
 	private void chu_end(GameData gameData, MJDesk desk) {
 		byte card = gameData.getCurrentCard();
@@ -1199,23 +1191,22 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		// 服务器清除等待玩家操作的数据
 		gameData.setWaitingPlayerOperate(null);
 
-		// 如果是最后分张阶段了，就只能自摸了
-		if (gameData.isInFinalStage()) {
-			game_only_zimo(gameData, desk);
+		if(gameData.getCardLeftNum() == 0) {
+			liuju(gameData, desk);
+			return;
+		}
+
+		if (gameData.getCardNumInHand(plx.position) % 3 == 1) {
+			// 给玩家摸一张
+			byte b = gameData.popCard();
+			gameData.mPlayerAction[plx.position].cardGrab = b;
+			gameData.recorder.recordPlayerAction(gameData.genSeq(), plx.position, MJConstants.MAHJONG_OPERTAION_MO, b, 0, "摸牌:" + MJHelper.getSingleCardName(b), 1);
+			pushPlayerMoMsg(gameData, desk, plx, b);
+
+			player_check_mo(gameData, desk);
 			return;
 		} else {
-			if (gameData.getCardNumInHand(plx.position) % 3 == 1) {
-				// 给玩家摸一张
-				byte b = gameData.popCard();
-				gameData.mPlayerAction[plx.position].cardGrab = b;
-				gameData.recorder.recordPlayerAction(gameData.genSeq(), plx.position, MJConstants.MAHJONG_OPERTAION_MO, b, 0, "摸牌:" + MJHelper.getSingleCardName(b), 1);
-				pushPlayerMoMsg(gameData, desk, plx, b);
-
-				player_check_mo(gameData, desk);
-				return;
-			} else {
-				throw new RuntimeException("大件事了,摸错牌啦!!!!!!!!!!!!!!!!!;position="+plx.position+";deskId="+desk.getDeskID());
-			}
+			throw new RuntimeException("大件事了,摸错牌啦!!!!!!!!!!!!!!!!!;position="+plx.position+";deskId="+desk.getDeskID());
 		}
 	}
 
@@ -1315,12 +1306,6 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		}
 
 		ActionWaitingModel result = null;
-
-		// 如果进入最后摸牌阶段，不能吃碰放炮，只能自摸
-		if (gameData.isInFinalStage()) {
-			player_mo(gameData, desk);
-			return false;
-		}
 
 		do {// 按优先级
 			// 1先看看有没有胡的玩家
@@ -1523,7 +1508,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			this.player_chu_notify(gameData, desk);
 		}
 
-		if (isEnd(gameData))// 流局了
+		if (gameData.isInFinalStage())// 流局了
 		{
 			liuju(gameData, desk);
 		}

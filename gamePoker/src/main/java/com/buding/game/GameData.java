@@ -60,7 +60,7 @@ public class GameData extends GameDataBase {
 
 	// 本局开始时间-结束时间
 	public long handStartTime = 0L;
-	public long handEndTime = 0L;
+	public long handEndTime = 0L; //TODO del
 	private int baoChangeNum = 0;// 宝牌换了多少次了；
 
 	// 当前操作玩家位置
@@ -151,7 +151,7 @@ public class GameData extends GameDataBase {
 
 	// 是否已经进入最后阶段，最后要剩8，9张牌
 	public boolean isInFinalStage() {
-		int iNum = 12;
+		int iNum = 1;
 		return (getCardLeftNum() <= iNum);
 	}
 

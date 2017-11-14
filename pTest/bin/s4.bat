@@ -1,1 +1,0 @@
-start java -classpath .;./target/lib/*;./target/* main.PokerMain -m 0 -u a4 -p 123456

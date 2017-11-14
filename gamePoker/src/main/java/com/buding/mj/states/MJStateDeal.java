@@ -65,7 +65,7 @@ public class MJStateDeal extends MJStateCommon {
 //				+ ",4人dealerPos的位置: " + this.mGameData.mPublic.mbankerPos);
 		
 		this.mGameData.handStartTime = System.currentTimeMillis();
-		this.mGameData.handEndTime = 0;
+		//this.mGameData.handEndTime = 0;
 		this.mGameData.handNum++;// 局数加一
 		
 		this.mGameData.recorder.deskId = mDesk.getDeskID();

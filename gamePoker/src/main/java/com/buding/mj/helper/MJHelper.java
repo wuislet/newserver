@@ -370,9 +370,9 @@ public class MJHelper {
 			}
 		}
 
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_TING) == 0) {
-			list.add("未上听 ");
-		}
+//		if ((fanType & MJConstants.MAHJONG_HU_CODE_TING) == 0) {
+//			list.add("未上听 ");
+//		}
 		
 		if ((fanType & MJConstants.MAHJONG_HU_CODE_MYSELF_ZHUANG_JIA) != 0) {
 			list.add("庄家 ");
@@ -391,13 +391,13 @@ public class MJHelper {
 			fanDesc += "输 ";
 		}
 
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_TING) != 0) {
-			fanDesc += "已上听 ";
-		}
-
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_TING) == 0) {
-			fanDesc += "未上听 ";
-		}
+//		if ((fanType & MJConstants.MAHJONG_HU_CODE_TING) != 0) {
+//			fanDesc += "已上听 ";
+//		}
+//
+//		if ((fanType & MJConstants.MAHJONG_HU_CODE_TING) == 0) {
+//			fanDesc += "未上听 ";
+//		}
 		
 		if ((fanType & MJConstants.MAHJONG_HU_CODE_MYSELF_ZHUANG_JIA) != 0) {
 			fanDesc += "我是庄家 ";
@@ -408,7 +408,7 @@ public class MJHelper {
 		}
 
 		if ((fanType & MJConstants.MAHJONG_HU_CODE_ZI_MO) != 0) {
-			fanDesc += "自摸一番 ";
+			fanDesc += "自摸 ";
 		}
 		
 		if ((fanType & MJConstants.MAHJONG_HU_CODE_TIAN_HU) != 0) {
