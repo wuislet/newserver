@@ -16,7 +16,7 @@ public class MJDeskImpl extends RobotSupportDeskImpl implements MJDesk<byte[]> {
 	
 	public MJDeskImpl(DeskListener listener, Room room, DeskConfig deskConf, String deskId) {
 		super(listener, room, deskConf, deskId);
-		wanfa = MJWanfa.ALL - MJWanfa.ZI_MO_TYPE - MJWanfa.HAS_GUI - MJWanfa.CAN_CHI - MJWanfa.BAO_TING;
+		wanfa = MJWanfa.ALL - MJWanfa.ZI_MO_TYPE - MJWanfa.HAS_GUI - MJWanfa.CAN_CHI;
 	}
 	
 	@Override

@@ -14,6 +14,7 @@ import com.buding.api.player.PlayerInfo;
 import com.buding.mj.constants.MJConstants;
 import com.buding.mj.helper.MJHelper;
 import com.buding.mj.model.ActionWaitingModel;
+import com.buding.mj.model.ShouPaoModel;
 import com.google.gson.GsonBuilder;
 
 public class GameData extends GameDataBase {
@@ -44,6 +45,9 @@ public class GameData extends GameDataBase {
 		dice2 = 0;
 		gameSeq = 0;
 		guiCards = new ArrayList<Integer>();
+		for(int index = 0; index < GameConstants.MyGame_Max_Players_Count; index ++){
+			shouPaoData[index] = new ShouPaoModel();
+		}
 		sleepTo = 0;
 		seq = new AtomicInteger(1);
 		super.Reset();
@@ -87,6 +91,8 @@ public class GameData extends GameDataBase {
 	public int gameSeq = 0;
 	public List<Integer> guiCards = new ArrayList<Integer>(); //鬼牌
 	public long showInitCardTime = 0;
+	
+	public ShouPaoModel[] shouPaoData = new ShouPaoModel[GameConstants.MyGame_Max_Players_Count];//收炮列表 //TODO wxd 最好能做成二维数组//TODO wxd 非泛用，需特殊化
 
 	public long sleepTo = 0;
 	public AtomicInteger seq = new AtomicInteger(1);

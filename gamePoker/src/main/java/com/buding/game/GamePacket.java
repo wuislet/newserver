@@ -71,9 +71,7 @@ public class GamePacket {
 
 	static public class MyGame_Player_Ting_Cards {
 		public boolean tingCard = false; // 是否已经上听
-		public boolean showBao = false; // 是否已经暴露了宝牌
 		public Set<Byte> cards = new HashSet<Byte>();// 听的牌
-		public byte zhiduiTing = 0; // 选择支对听的牌, 如果不是支对听则为0
 		//如果一手牌可以上听时，程序检测需要打出什么牌，然后听什么牌，将检测结果存入到这里
 		public Map<Byte, Set<Byte>> chuAndTingMap = new HashMap<Byte, Set<Byte>>();
 	}

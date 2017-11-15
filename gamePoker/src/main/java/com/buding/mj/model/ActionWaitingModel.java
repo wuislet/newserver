@@ -47,9 +47,6 @@ public class ActionWaitingModel {
 	
 	public List<Integer> zhiDuiTingList = new ArrayList<Integer>();
 
-	public int mustZhiDui = 0;//是否必须支队,0为非必须,1为必须
-
-
 	public ActionWaitingModel() {
 	}
 

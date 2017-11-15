@@ -37,7 +37,6 @@ public class GameDataBase {
 	 * 所有数据重置
 	 */
 	protected void Reset(){
-		
 		////公共包
 //		this.mPublic.mbankerPos = GameConstants.MyGame_Invalid_Value;//庄家位置
 		this.mPublic.mBaoCard = GameConstants.MyGame_Invalid_Value; //宝牌
@@ -51,8 +50,6 @@ public class GameDataBase {
 		
 		this.mPlayerHandResult.startTime = System.currentTimeMillis();
 		
-		this.playerChangeBao = -1;
-						
 		for(int index = 0; index < GameConstants.MyGame_Max_Players_Count; index ++){
 
 			this.mPlayerCards[index] = new GamePacket.MyGame_Player_Cards();
@@ -93,9 +90,6 @@ public class GameDataBase {
 
 	////游戏参数,暂时没有用到
 	public GameParam mGameParam = new GameParam();
-	
-	//负责换宝的玩家, 第一个上听的玩家负责换宝
-	public int playerChangeBao = -1;
 	
 	//调试模式
 	public boolean debugMode = false;

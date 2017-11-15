@@ -75,7 +75,7 @@ public class MJStateFinish extends MJStateCommon {
 		if (this.mDesk.hasNextGame(ctx) == false) {
 			if(this.mDesk.isVipTable()) {
 //				// 推送总结算画面
-				skipHuSettle = true;				
+				skipHuSettle = true;
 				this.mDesk.handSettle(ctx);
 				pushPlayerHuMsg(this.mGameData, this.mDesk);
 				waitSeconds = 3; //3秒后到总结算页面
@@ -136,15 +136,29 @@ public class MJStateFinish extends MJStateCommon {
 		for (PlayerInfo p : (List<PlayerInfo>) desk.getPlayers()) {
 			int fantype = gameData.mPlayerHandResult.playDetail[p.position].fanType;
 			GameOperPlayerSettle.Builder bb = GameOperPlayerSettle.newBuilder();
-			bb.setFanNum(gameData.mPlayerHandResult.playDetail[p.position].fanNum);
+			int score = gameData.mPlayerHandResult.playDetail[p.position].getScore();
+			for(PlayerInfo tmp : (List<PlayerInfo>) desk.getPlayers()) {//结算收炮的分数。
+				if(tmp.playerId == p.playerId) {
+					score += gameData.shouPaoData[tmp.position].getScore();
+				} else {
+					score -= gameData.shouPaoData[tmp.position].getScore() / 3;
+				}
+			}
+			bb.setFanNum(score);
 			bb.setFanType(fantype);
 			if(p.getTablePos() == gameData.mGameHu.paoPosition) { //点炮的额外显示点炮两字。
 				bb.addFanDetail("点炮 ");
 			}
+			
 			List<String> fanlst = MJHelper.getFanDescList(fantype);
 			for(String fan : fanlst) {
 				bb.addFanDetail(fan);
 			}
+			
+			if(gameData.shouPaoData[p.position].getCnt() > 0){
+				bb.addFanDetail("收炮x" + gameData.shouPaoData[p.position].getCnt());
+			}
+			
 			bb.setPosition(p.position);
 			for (byte card : gameData.getCardsInHand(p.position)) {
 				bb.addHandcard(card);
@@ -160,7 +174,7 @@ public class MJStateFinish extends MJStateCommon {
 			gb.addDetail(bb);
 		}
 		gb.setSkipHuSettle(skipHuSettle);
-				
+		
 		for (PlayerInfo p : (List<PlayerInfo>) desk.getPlayers()) {
 			int resultType = MJHelper.getResultType(gameData.mPlayerHandResult.playDetail[p.position].fanType);
 			gb.setResultType(resultType);

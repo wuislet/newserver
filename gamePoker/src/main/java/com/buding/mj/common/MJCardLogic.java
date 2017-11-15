@@ -33,6 +33,7 @@ import com.buding.mj.model.ChuTingModel;
 import com.buding.mj.model.GamingData;
 import com.buding.mj.model.MjCheckContext;
 import com.buding.mj.model.PlayerCard;
+import com.buding.mj.model.ShouPaoModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.googlecode.protobuf.format.JsonFormat;
@@ -78,27 +79,32 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		
 		if(desk.canShouPao() && pao_pl != null && pl.playerId != pao_pl.playerId && gameData.mTingCards[position].tingCard) { //收炮 //TODO WXD 完善if分支逻辑。必须听牌了才能收炮 //TODO WXD 非泛用
 			if(!gameData.mTingCards[paoPosition].tingCard){ //没有报听的人打出的牌才能触发收炮
-				//游戏中的记录
+				//游戏中的记录 //TODO wxd record 收炮
 				gameData.recorder.recordPlayerAction(gameData.genSeq(), position, MJConstants.MAHJONG_OPERTAION_SHOUPAO, newCard, 0, "收炮", 1);
 		
 				// 结算番型和金币
-				settle(gameData, desk, pl, pao_pl, fanType, newCard);
-	
+				settle(gameData, desk, pl, null, fanType, newCard); //收炮的负分三家平台，这里pao_pl传null为了当成自摸算分。
+				
+				//存储收炮数据
+				int score = gameData.mPlayerHandResult.playDetail[pl.position].getScore();
+				gameData.shouPaoData[position].addPaoScore(score);
+//				ShouPaoModel model = new ShouPaoModel();
+//				model.setWinPosition(position);
+//				model.setPaoPosition(paoPosition);
+//				model.setScore(score);
+//				model.setCard(newCard);
+//				gameData.shouPaoData.add(model);
+				
+				//发送协议通知客户端
 				GameOperPlayerHuSyn.Builder gb = GameOperPlayerHuSyn.newBuilder();
 				gb.setCard(newCard);
 				gb.setPosition(position);
 				gb.setPaoPosition(paoPosition);
-				gb.setSkipHuSettle(false);
-				gb.setWinType(MJHelper.getHuType(gameData.mPlayerHandResult.playDetail[position].fanType) | MJConstants.MAHJONG_HU_CODE_SHOUPAO);
-				
-				for (PlayerInfo p : (List<PlayerInfo>) desk.getPlayers()) {
-					int resultType = MJHelper.getResultType(gameData.mPlayerHandResult.playDetail[p.getTablePos()].fanType);
-					gb.setResultType(resultType);
-					
-					logger.info("huMsg:"+JsonFormat.printToString(gb.build()));
-	
-					PokerPushHelper.pushPlayerHuMsg(desk, p.getTablePos(), gb, MJConstants.SEND_TYPE_SINGLE);	
-				}
+				gb.setSkipHuSettle(true);
+				gb.setWinType(MJConstants.MAHJONG_HU_CODE_SHOUPAO);
+				gb.setResultType(MJConstants.MAHJONG_HU_CODE_SHOUPAO);
+				logger.info(" shouPaoMsg:"+JsonFormat.printToString(gb.build()));
+				PokerPushHelper.pushPlayerHuMsg(desk, -100, gb, MJConstants.SEND_TYPE_ALL);
 			}
 			
 			// 下个玩家进行摸牌动作
@@ -535,8 +541,8 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			logger.info("finalRes:" + new GsonBuilder().setPrettyPrinting().create().toJson(finalRes));
 
 			//记录玩家的手牌,方便日后查
-			gameData.mPlayerHandResult.playDetail[position].downcards = new Gson().toJson(gameData.getCardsDown(position));
-			gameData.mPlayerHandResult.playDetail[position].handcards = new Gson().toJson(gameData.getCardsInHand(position));
+			handRes.downcards = new Gson().toJson(gameData.getCardsDown(position));
+			handRes.handcards = new Gson().toJson(gameData.getCardsInHand(position));
 			if (handRes.result == PlayHandResult.GAME_RESULT_WIN) {
 				handRes.fanDesc = MJHelper.getResultTypeDesc(gameData.mPlayerHandResult.playDetail[p.position].fanType);
 			}

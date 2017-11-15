@@ -26,7 +26,7 @@ public interface Desk<MsgType> {
     String getDeskID();
     
     int getBasePoint();//低分，底注
-		
+    
     void onGameOver(); //游戏结束
     
     void finalSettle(GameContext context); //总结算

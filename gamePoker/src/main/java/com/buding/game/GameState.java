@@ -16,11 +16,11 @@ public abstract class GameState<T extends Desk> {
 	protected T mDesk = null;
 	protected GameTimerMgr mGameTimer = null;
 	protected GameStateDispatcher mDispatcher = null;
-	protected GameData  mGameData = null;
+	protected GameData mGameData = null;
 	protected ICardLogic mCardLogic = null;
 	protected GameCardDealer mCardDealer = null;
-		
-	public void Init(T desk, GameTimerMgr mgr , GameStateDispatcher dispatcher, GameData  data, ICardLogic logic,GameCardDealer dealer){
+	
+	public void Init(T desk, GameTimerMgr mgr, GameStateDispatcher dispatcher, GameData data, ICardLogic logic,GameCardDealer dealer){
 		this.mDesk = desk;
 		this.mGameTimer = mgr;
 		this.mDispatcher = dispatcher;
@@ -28,7 +28,7 @@ public abstract class GameState<T extends Desk> {
 		this.mCardLogic = logic;
 		this.mCardDealer = dealer;
 	}
-		
+	
 	public abstract void onEnter();////在onEnter里面禁止进行状态跳转，且需要启动定时器驱动
 
 	public abstract void onPlayer(PlayerEvent event);
