@@ -288,27 +288,44 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 
 	@Override
 	public void selectBanker(GameData data, MJDesk desk) {
-		// 看看胡牌玩家是否就是庄家（连胡或者流局不换庄）
-		if ((data.mGameHu.position != -1) && (data.mPublic.mbankerPos != data.mGameHu.position)) {
-			int dealerPos = data.mPublic.mbankerPos + 1;
-			if (isFinishQuan(data, desk)) {
-				data.quanNum++;
-				dealerPos = 0;
-			}
-			PlayerInfo playerInfo = desk.getDeskPlayer(dealerPos);
-			if (playerInfo == null) {
-				logger.error("act=selectBanker;error=playerMiss;pos={};deskId={};", dealerPos, desk.getDeskID());
-				return;
-			}
-			data.mPublic.mbankerPos = dealerPos;
-			data.mPublic.mBankerUserId = playerInfo.playerId;
-		}
-
+		//没有庄家
 		if (data.mPublic.mbankerPos == -1) {
 			PlayerInfo playerInfo = desk.getDeskPlayer(0);
 			data.mPublic.mbankerPos = playerInfo.position;
 			data.mPublic.mBankerUserId = playerInfo.playerId;
+			return;
 		}
+		
+		if(true) {//金昌系列的麻将都按这个换庄规则。//TODO wxd 非泛用，需特殊化。
+			int banker = data.mGameHu.position;
+			if(banker != -1) { //谁胡谁庄。
+				PlayerInfo playerInfo = desk.getDeskPlayer(banker);
+				if (playerInfo == null) {
+					logger.error("act=selectBanker;error=playerMiss;pos={};deskId={};", banker, desk.getDeskID());
+					return;
+				}
+				data.mPublic.mbankerPos = banker;
+				data.mPublic.mBankerUserId = playerInfo.playerId;
+			}
+			//没人胡不变庄
+			return;
+		}
+		
+		// 看看胡牌玩家是否就是庄家（连胡或者流局不换庄）
+//		if ((data.mGameHu.position != -1) && (data.mPublic.mbankerPos != data.mGameHu.position)) {
+//			int dealerPos = data.mPublic.mbankerPos + 1;
+//			if (isFinishQuan(data, desk)) {
+//				data.quanNum++;
+//				dealerPos = 0;
+//			}
+//			PlayerInfo playerInfo = desk.getDeskPlayer(dealerPos);
+//			if (playerInfo == null) {
+//				logger.error("act=selectBanker;error=playerMiss;pos={};deskId={};", dealerPos, desk.getDeskID());
+//				return;
+//			}
+//			data.mPublic.mbankerPos = dealerPos;
+//			data.mPublic.mBankerUserId = playerInfo.playerId;
+//		}
 	}
 	
 	@Override
