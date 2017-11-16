@@ -1095,10 +1095,12 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 
 	private void player_op_shuaijiuyao(GameData gameData, MJDesk desk, GameOperPlayerActionSyn.Builder msg, PlayerInfo pl) {
 		pl.shuaiCnt = msg.getCardValueList().size();
-		for(int i = 0; i < msg.getCardValueList().size(); i++) {
+		for(int i = 0; i < pl.shuaiCnt; i++) {
 			int cardpoint = msg.getCardValue(i);
 			gameData.removeCardInHand(cardpoint, pl.getTablePos(), CardChangeReason.SHUAI_JIU_YAO);
+			System.out.print(cardpoint + " , ");
 		}
+		PokerPushHelper.pushActionSyn(desk, -100, msg, MJConstants.SEND_TYPE_ALL);
 	}
 
 	private void reset4NextPlayerOperation(GameData gameData, MJDesk desk) {
@@ -1462,7 +1464,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 	public void playerOperation(GameData gameData, MJDesk gt, GameOperPlayerActionSyn.Builder msg, PlayerInfo pl) {
 		if (msg == null || pl == null)
 			return;
-
+		
 		logger.info("act=playerOperation;code={};position={};deskId={};", msg.getAction(), pl.position, gt.getDeskID());
 
 		// 玩家出牌
