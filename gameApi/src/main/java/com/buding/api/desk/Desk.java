@@ -29,6 +29,8 @@ public interface Desk<MsgType> {
     
     void onGameOver(); //游戏结束
     
+    int endWithQuanOrJu(); //游戏结束是按圈数算还是局数算。0-圈数 1-局数
+    
     void finalSettle(GameContext context); //总结算
     
     void handSettle(GameContext context); //一局结算

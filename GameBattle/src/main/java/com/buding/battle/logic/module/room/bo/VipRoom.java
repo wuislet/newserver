@@ -62,5 +62,4 @@ public class VipRoom extends RoomImpl {
 		desk.setUserRoom(ur);
 		return desk;
 	}
-	
 }

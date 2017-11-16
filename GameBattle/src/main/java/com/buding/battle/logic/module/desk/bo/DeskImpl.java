@@ -813,6 +813,11 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 			logger.error("act=onGameFinishError;deskId=" + getDeskID(), e);
 		}
 	}
+	
+	@Override
+	public int endWithQuanOrJu() {
+		return 0;
+	}
 
 	protected synchronized void playerReady(int playerId, int state, int phase) {
 		logger.info("act=playerReady;playerId={};state={};phase={};deskId={};", playerId, state, phase, getDeskID());

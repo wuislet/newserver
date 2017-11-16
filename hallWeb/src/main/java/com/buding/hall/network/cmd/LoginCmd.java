@@ -60,12 +60,20 @@ public class LoginCmd extends HallCmd {
 	public void execute(CmdData data) throws Exception {	
 		PacketBase packet = data.packet;
 		LoginRequest ur = LoginRequest.parseFrom(packet.getData());
+		
+		logger.info("login cmd, username={}; passwd={};", ur.getUsername(), ur.getPassward());
+
+		if (StringUtils.isBlank(ur.getUsername()) || StringUtils.isBlank(ur.getPassward())) {
+			pushHelper.pushErrorMsg(data.session, packet.getPacketType(), "缺少参数");
+			return;
+		}
+		
 		User user = null;
 		
 		//微信登录
 		if (ur.getType() == ClientType.WEIXIN) {
 			logger.info("wx login ");
-			UserWeiXin wxUser = OAuthService.getUserInfoNetPackage(ur);
+			UserWeiXin wxUser = OAuthService.getUserInfoOauth(ur.getPassward(), ur.getUsername());
 			if(wxUser == null) {
 				logger.info("wx user is null ");
 				pushHelper.pushErrorMsg(data.session, packet.getPacketType(), "微信登录失败,用户不存在");
@@ -75,7 +83,7 @@ public class LoginCmd extends HallCmd {
 			if(user == null) {//微信首次登陆的注册
 				user = userService.initUser();
 				user.setUserName(wxUser.getOpenid());
-				user.setPasswd("");
+				user.setPasswd(ur.getPassward());
 				user.setUserType(UserType.WX_USER);
 				user.setNickname("微信用户");
 				user.setDeviceType(ur.getDeviceFlag());
@@ -85,37 +93,28 @@ public class LoginCmd extends HallCmd {
 				if(wxUser.getSex() != 0) {
 					user.setGender(wxUser.getSex());
 				}
-				if(StringUtils.isNotBlank(wxUser.getNickname())) {				
-					user.setNickname(wxUser.getNickname());
-				}
 				Result result = userService.register(user);
 				if(result.isFail()) {
 					logger.info("register wx user null ");
 					pushHelper.pushErrorMsg(data.session, packet.getPacketType(), "微信登录失败,用户不存在");
 					return;
 				}
-				logger.info("login register wx ok");
-			} else {
-				if(StringUtils.isNotBlank(wxUser.getHeadimgurl())) {
-					user.setHeadImg(wxUser.getHeadimgurl());
-				}
-				if(wxUser.getSex() != 0) {
-					user.setGender(wxUser.getSex());
-				}
-				if(StringUtils.isNotBlank(wxUser.getNickname())) {				
-					user.setNickname(wxUser.getNickname());
-				}
-				userService.updateUser(user);
-				logger.info("login wx ok");
 			}
+			if(StringUtils.isNotBlank(wxUser.getHeadimgurl())) {
+				user.setHeadImg(wxUser.getHeadimgurl());
+			}
+			if(wxUser.getSex() != 0) {
+				user.setGender(wxUser.getSex());
+			}
+			if(StringUtils.isNotBlank(wxUser.getNickname())) {				
+				user.setNickname(wxUser.getNickname());
+			}
+			userService.updateUser(user);
+			logger.info("login wx ok");
 		} else {
 			//用户名密码登录
 			String name = ur.getUsername();
 			String pwd = ur.getPassward();
-			if (StringUtils.isBlank(name) || StringUtils.isBlank(pwd)) {
-				pushHelper.pushErrorMsg(data.session, packet.getPacketType(), "缺少 ？ 参数");
-				return;
-			}
 			
 			user = userService.login(name, pwd);
 			if (user == null) {

@@ -273,13 +273,18 @@ public class VipDesk extends MJDeskImpl {
 	
 	@Override
 	public boolean hasNextGame(GameContext context) {
-		if (vipRoomType == 2) { // 2人麻将
-			return context.nextHandNum <= 24; //这里的quanNum存的是局数
-		}
-		if (vipRoomType == 4) { //4人麻将
+		if(endWithQuanOrJu() == 0) {
+			return context.nextHandNum <= quanNum;
+		} else {
 			return context.nextQuanNum <= quanNum;
 		}
-		return false;
+//		if (vipRoomType == 2) { // 2人麻将
+//			return context.nextHandNum <= 24; //这里的quanNum存的是局数
+//		}
+//		if (vipRoomType == 4) { //4人麻将
+//			return context.nextQuanNum <= quanNum;
+//		}
+//		return false;
 	}
 
 	@Override
