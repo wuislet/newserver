@@ -309,6 +309,21 @@ public class GameData extends GameDataBase {
 		}
 	}
 
+	//移除玩家手中的牌，优先移除新摸的牌。
+	public Byte removeCardInHandAndNewCard(int in_card, int position, CardChangeReason reason)
+	{
+		if(in_card == 0) {
+			return 0;
+		}
+		
+		if (mPlayerAction[position].cardGrab == (byte)in_card) {//优先移除新摸的牌。
+			log.info("act=removeCardInNew;reason={};position={};card={}", reason, position, in_card);
+			mPlayerAction[position].cardGrab = 0;
+			return (byte)in_card;
+		}
+		return removeCardInHand(in_card, position, reason);
+	}
+
 	// 玩家手里有几张牌
 	public int getCardNumInHand(int position) {
 		return getCardsInHand(position).size();

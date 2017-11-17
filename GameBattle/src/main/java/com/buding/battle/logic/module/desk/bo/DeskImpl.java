@@ -1073,7 +1073,7 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 		onPlayerAfterAway(player);
 	}
 	
-	protected synchronized void playerTryExit(int playerId, PlayerExitType reason) {
+	protected synchronized void playerTryExit(int playerId, PlayerExitType reason) {//TODO WXD exit 退出游戏流程
 		BattleSession session = ServiceRepo.sessionManager.getIoSession(playerId);
 		if (session == null) {
 			logger.error("act=playerTryExit;error=sessionMiss;reason={};playerId={};deskId={};", reason, playerId, getDeskID());
@@ -1277,16 +1277,10 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 			ServiceRepo.robotManager.robotSettle(p, this.getParent().getParent().getMatchConfig().matchID, res.getScore());
 		}
 
-		int playerid = p.playerId;
-
 		User user = ServiceRepo.hallPortalService.getUser(p.playerId);
 		if (user == null) {
 			logger.error("act=settleInternal;error=userMiss;playerId={};deskId={};", p.playerId, getDeskID());
 			return;
-		}
-
-		if (res.getScore() < 0) {
-			logger.error("ErrorRankPoint,userId:{},point:{};", playerid, res.getScore());
 		}
 
 		GamePlayingVo ret = new GamePlayingVo();

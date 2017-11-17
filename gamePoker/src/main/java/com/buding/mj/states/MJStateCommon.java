@@ -30,7 +30,7 @@ public abstract class MJStateCommon extends GameState<Desk<byte[]>> {
 		case GameLogicEvent.Player_Agree: {
 			int position = event.info.position;
 			if (position < MJConstants.MJPlayerCount) {
-				this.mGameData.mPlayers[position] = event.info;
+				this.mGameData.mPlayers[position] = event.info; //TODO wxd ready phase 看看子类要不要做这个操作。
 			} else {
 				this.logger.error("player postion is bigger than 3");
 			}

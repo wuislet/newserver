@@ -145,6 +145,7 @@ public class MJStateFinish extends MJStateCommon {
 				}
 			}
 			bb.setFanNum(score);
+			gameData.mPlayerHandResult.playDetail[p.position].setScore(score); //额外计算总分。
 			bb.setFanType(fantype);
 			if(p.getTablePos() == gameData.mGameHu.paoPosition) { //点炮的额外显示点炮两字。
 				bb.addFanDetail("点炮 ");
@@ -181,7 +182,7 @@ public class MJStateFinish extends MJStateCommon {
 			
 			logger.info("huMsg:"+JsonFormat.printToString(gb.build()));
 
-			PokerPushHelper.pushPlayerHuMsg(desk, p.position, gb, MJConstants.SEND_TYPE_SINGLE);	
+			PokerPushHelper.pushPlayerHuMsg(desk, p.position, gb, MJConstants.SEND_TYPE_SINGLE);
 		}
 	}
 

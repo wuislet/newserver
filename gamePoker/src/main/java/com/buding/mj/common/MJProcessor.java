@@ -37,14 +37,14 @@ public class MJProcessor {
 	}
 	
 	// 暗杠
-	public ActionWaitingModel check_an_gang(GameData gameData, int position) {
+	public ActionWaitingModel check_an_gang(GameData gameData, byte newCard, int position) {
 		ActionWaitingModel result = null;
-		
+
 		List<Byte> cardsInHand = gameData.getCardsInHand(position);
 		for (int i = 0; i < cardsInHand.size(); i++) {
 			byte card = cardsInHand.get(i);
 			int same_card_num = gameData.getXCardNumInHand(card, position);
-			if (same_card_num >= 4) {
+			if ((same_card_num >= 4) || (same_card_num == 3 && card == newCard)) {//手里有4张 || 手里有3张跟新摸的牌一样点数的牌。
 				if(result == null) {
 					result = new ActionWaitingModel();
 					result.playerTableIndex = position;
@@ -57,10 +57,14 @@ public class MJProcessor {
 	}
 	
 	// 补杠
-	public ActionWaitingModel check_bu_gang(GameData gameData, int position) {
+	public ActionWaitingModel check_bu_gang(GameData gameData, byte newCard, int position) {
 		ActionWaitingModel result = null;
-		
-		List<Byte> cardsInHand = gameData.getCardsInHand(position);
+
+		List<Byte> cardsInHand = new ArrayList<Byte>();
+		cardsInHand.addAll(gameData.getCardsInHand(position));
+		if(newCard > 0) {
+			cardsInHand.add(newCard);
+		}
 		for (int i = 0; i < cardsInHand.size(); i++) {
 			byte card = cardsInHand.get(i);
 			if (gameData.isPengCard(card, position)) {

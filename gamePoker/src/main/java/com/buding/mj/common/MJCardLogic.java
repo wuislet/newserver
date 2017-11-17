@@ -250,8 +250,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			boolean isOperTimeout = playerActionTimeOut > 0 && (ctt - gameData.mPlayerAction[currentPl.position].opStartTime) > (playerActionTimeOut * 1000);
 			boolean isNeedTrustGame = isOperTimeout && gameData.mGameParam.autoOperWhenTimeout;
 			boolean isActionTime = (ctt - gameData.mPlayerAction[currentPl.position].opStartTime) > gameData.mGameParam.thinkMills4AutoOper;
-			if (isNeedTrustGame || (isAutoOper && isActionTime))// 玩家超时或处于托管状态
-			{
+			if (isNeedTrustGame || (isAutoOper && isActionTime)) { // 玩家超时或处于托管状态
 				this.autoPlay(gameData, desk, currentPl, waiting);
 				if (gameData.mPlayerAction[currentPl.position].autoOperation == 0) {
 					gameData.mPlayerAction[currentPl.position].autoOperation = 1;
@@ -644,7 +643,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 				gameData.setWaitingPlayerOperate(result2);
 			}
 			
-			ActionWaitingModel gangResult = mjProc.check_an_gang(gameData, plx.getTablePos());
+			ActionWaitingModel gangResult = mjProc.check_an_gang(gameData, newCard, plx.getTablePos());
 			if(gangResult != null && gangResult.opertaion > 0){
 				result2.opertaion |= (MJConstants.MAHJONG_OPERTAION_AN_GANG | MJConstants.MAHJONG_OPERTAION_CHU);
 				result2.gangList = gangResult.gangList;
@@ -652,7 +651,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 				gameData.setWaitingPlayerOperate(result2);
 			}
 			
-			gangResult = mjProc.check_bu_gang(gameData, plx.getTablePos());
+			gangResult = mjProc.check_bu_gang(gameData, newCard, plx.getTablePos());
 			if(gangResult != null && gangResult.opertaion > 0){
 				result2.opertaion |= (MJConstants.MAHJONG_OPERTAION_BU_GANG | MJConstants.MAHJONG_OPERTAION_CHU);
 				result2.gangList = gangResult.gangList;
@@ -839,10 +838,10 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		
 		//暗杠逻辑
 		if((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_AN_GANG) != 0){
-			gameData.removeCardInHand(v1, pl.getTablePos(), CardChangeReason.GANG);
-			gameData.removeCardInHand(v1, pl.getTablePos(), CardChangeReason.GANG);
-			gameData.removeCardInHand(v1, pl.getTablePos(), CardChangeReason.GANG);
-			gameData.removeCardInHand(v1, pl.getTablePos(), CardChangeReason.GANG);
+			gameData.removeCardInHandAndNewCard(v1, pl.getTablePos(), CardChangeReason.GANG);
+			gameData.removeCardInHandAndNewCard(v1, pl.getTablePos(), CardChangeReason.GANG);
+			gameData.removeCardInHandAndNewCard(v1, pl.getTablePos(), CardChangeReason.GANG);
+			gameData.removeCardInHandAndNewCard(v1, pl.getTablePos(), CardChangeReason.GANG);
 			gameData.add_Down_cards((byte) v1);
 			gameData.add_Down_cards((byte) v1);
 			gameData.add_Down_cards((byte) v1);
@@ -856,7 +855,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 				logger.error("act=gang;stage=gaming;error=gangCardInvalid;expect={};actual={};position={};deskId={};", waiting.gangList, v1, pl.getTablePos(), gt.getDeskID());
 				return;
 			}
-			gameData.removeCardInHand(v1, pl.getTablePos(), CardChangeReason.GANG);
+			gameData.removeCardInHandAndNewCard(v1, pl.getTablePos(), CardChangeReason.GANG);
 			gameData.add_Down_cards((byte) v1);
 			//gameData.addCardDown(v1, 0, 0, 3, pl.getTablePos());
 		}
@@ -1094,11 +1093,11 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 	}
 
 	private void player_op_shuaijiuyao(GameData gameData, MJDesk desk, GameOperPlayerActionSyn.Builder msg, PlayerInfo pl) {
+		//TODO 验证九幺牌的点数。
 		pl.shuaiCnt = msg.getCardValueList().size();
 		for(int i = 0; i < pl.shuaiCnt; i++) {
 			int cardpoint = msg.getCardValue(i);
 			gameData.removeCardInHand(cardpoint, pl.getTablePos(), CardChangeReason.SHUAI_JIU_YAO);
-			System.out.print(cardpoint + " , ");
 		}
 		PokerPushHelper.pushActionSyn(desk, -100, msg, MJConstants.SEND_TYPE_ALL);
 	}
@@ -1231,7 +1230,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			player_check_mo(gameData, desk);
 			return;
 		} else {
-			throw new RuntimeException("大件事了,摸错牌啦!!!!!!!!!!!!!!!!!;position="+plx.position+";deskId="+desk.getDeskID());
+			throw new RuntimeException("大件事了,摸错牌啦!!!!!!!!!!!!!!!!!;position="+plx.position+";deskId="+desk.getDeskID()+";numinhand="+gameData.getCardNumInHand(plx.position));
 		}
 	}
 
