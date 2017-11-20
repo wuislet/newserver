@@ -361,8 +361,8 @@ public class MJHelper {
 				list.add("单吊 ");
 			}
 			
-			if ((fanType & MJConstants.MAHJONG_HU_CODE_JUE_ZHANG) != 0) {
-				list.add("绝张 ");
+			if ((fanType & MJConstants.MAHJONG_HU_CODE_JIA_BIAN) != 0) {
+				list.add("夹边 ");
 			}
 
 			if (list.size() == 0) {
@@ -451,8 +451,8 @@ public class MJHelper {
 			fanDesc += "单吊 ";
 		}
 
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_JUE_ZHANG) != 0) {
-			fanDesc += "绝张 ";
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_JIA_BIAN) != 0) {
+			fanDesc += "夹边 ";
 		}
 
 		return fanDesc;
@@ -489,7 +489,7 @@ public class MJHelper {
 		if ((fanType & MJConstants.MAHJONG_HU_CODE_DAN_DIAO) != 0) {
 			fanNum *= 2;
 		}
-		if ((fanType & MJConstants.MAHJONG_HU_CODE_JUE_ZHANG) != 0) {
+		if ((fanType & MJConstants.MAHJONG_HU_CODE_JIA_BIAN) != 0) {
 			fanNum *= 2;
 		}
 		if ((fanType & MJConstants.MAHJONG_HU_CODE_ZI_MO) != 0) {

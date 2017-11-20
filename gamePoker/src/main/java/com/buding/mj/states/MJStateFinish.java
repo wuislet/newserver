@@ -137,13 +137,7 @@ public class MJStateFinish extends MJStateCommon {
 			int fantype = gameData.mPlayerHandResult.playDetail[p.position].fanType;
 			GameOperPlayerSettle.Builder bb = GameOperPlayerSettle.newBuilder();
 			int score = gameData.mPlayerHandResult.playDetail[p.position].getScore();
-			for(PlayerInfo tmp : (List<PlayerInfo>) desk.getPlayers()) {//结算收炮的分数。
-				if(tmp.playerId == p.playerId) {
-					score += gameData.shouPaoData[tmp.position].getScore();
-				} else {
-					score -= gameData.shouPaoData[tmp.position].getScore() / 3;
-				}
-			}
+			score += gameData.shouPaoData[p.position].getScore();
 			bb.setFanNum(score);
 			gameData.mPlayerHandResult.playDetail[p.position].setScore(score); //额外计算总分。
 			bb.setFanType(fantype);
@@ -158,6 +152,10 @@ public class MJStateFinish extends MJStateCommon {
 			
 			if(gameData.shouPaoData[p.position].getCnt() > 0){
 				bb.addFanDetail("收炮x" + gameData.shouPaoData[p.position].getCnt());
+			}
+			
+			if(gameData.shouPaoData[p.position].getPaoCnt() > 0){
+				bb.addFanDetail("点炮x" + gameData.shouPaoData[p.position].getPaoCnt());
 			}
 			
 			bb.setPosition(p.position);

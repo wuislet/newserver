@@ -13,6 +13,7 @@ public class ShouPaoModel {
 	private int score = 0;
 	private byte card = 0;
 	private int cnt = 0;
+	private int paoCnt = 0;
 	public int getWinPosition() {
 		return winPosition;
 	}
@@ -43,8 +44,18 @@ public class ShouPaoModel {
 	public void setCnt(int cnt) {
 		this.cnt = cnt;
 	}
+	public int getPaoCnt() {
+		return paoCnt;
+	}
+	public void setPaoCnt(int paoCnt) {
+		this.paoCnt = paoCnt;
+	}
 	public void addPaoScore(int score) { //这个类本意不是用做总统计的，所以这个方法应该要去掉。
 		this.score += score;
-		this.cnt ++;
+		if(score > 0) {
+			this.cnt++;
+		} else {
+			this.paoCnt++;
+		}
 	}
 }

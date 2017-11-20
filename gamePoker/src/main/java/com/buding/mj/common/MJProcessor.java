@@ -204,19 +204,20 @@ public class MJProcessor {
 		return mjRule.canHu(handCards, (int)ctx.gameData.guiCards.get(0)); //TODO wxd 目前只验证第一张鬼牌，须扩展多个鬼牌的情况。
 	}
 	
-	// =============== 胡型检查相关 ===============
+	// =============== 胡型检查相关 =============== 胡型检查的都是已经添加新牌的。
+	private boolean canHuWithout(List<Byte> handcards, byte card1, byte card2, byte card3) {
+		List<Byte> cards = new ArrayList<Byte>();
+		cards.addAll(handcards);
+		if (cards.remove((Byte)card1) && cards.remove((Byte)card2) && cards.remove((Byte)card3)) {
+			return mjRule.canHu(cards, -1);
+		}
+		return false;
+	}
 	/**
 	 * 判断是否是夹胡
 	 */
 	public boolean isJiaHu(List<Byte> handcards, byte card) {
-		List<Byte> cards = new ArrayList<Byte>();
-		cards.addAll(handcards);
-		Byte card1 = (byte) (card + 1);
-		Byte card2 = (byte) (card - 1);
-		if (cards.remove(card1) && cards.remove(card2)) {
-			return mjRule.canHu(cards, -1);
-		}
-		return false;
+		return canHuWithout(handcards, (byte)card, (byte) (card + 1), (byte) (card - 1));
 	}
 	
 	/**
@@ -224,9 +225,21 @@ public class MJProcessor {
 	 */
 	public boolean isDanDiao(List<Byte> handcards, byte card) {
 		List<Byte> cards = new ArrayList<Byte>();
-		cards.addAll(handcards);
 		if (cards.remove((Byte)card) && cards.remove((Byte)card)) {
 			return mjRule.canChengPai(cards); //TODO WXd hutype 改成不使用成牌的方法。成牌不是对外接口。
+		}
+		return false;
+	}
+	
+	/**
+	 * 判断是否是3,7夹
+	 */
+	public boolean isJiaBian(List<Byte> handcards, byte card) {
+		int num = MJHelper.getCardNum(card);
+		if(num == 3) {
+			return canHuWithout(handcards, (byte)card, (byte) (card - 1), (byte) (card - 2));
+		} else if (num == 7) {
+			return canHuWithout(handcards, (byte)card, (byte) (card + 1), (byte) (card + 2));
 		}
 		return false;
 	}

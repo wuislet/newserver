@@ -73,7 +73,8 @@ public class MJConstants {
 	public static final int MAHJONG_HU_CODE_DUI_DUI_HU=0x2000;//对对胡
 	public static final int MAHJONG_HU_CODE_JIA_HU=0x008;//夹胡
 	public static final int MAHJONG_HU_CODE_DAN_DIAO=0x4000;//单吊(吊独将)
-	public static final int MAHJONG_HU_CODE_JUE_ZHANG=0x8000;//绝张
+	public static final int MAHJONG_HU_CODE_JIA_BIAN=0x8000;//夹边
+	//绝张
 
 	public static final int MAHJONG_HU_CODE_YI_TIAO_LONG=0x10000;//一条龙
 	public static final int MAHJONG_HU_CODE_SHUAI_JIU_ZHANG=0x20000;//甩九张
