@@ -198,10 +198,11 @@ public class MJProcessor {
 	 * @return
 	 */
 	private boolean finalCheckHu(List<Byte> handCards, MjCheckContext ctx) {
-		if(ctx.desk.canQiXiaoDui() && mjRule.canHuQiXiaoDui(handCards)){
+		int gui = ctx.gameData.guiCards.get(0); //TODO wxd 目前只验证第一张鬼牌，须扩展多个鬼牌的情况。
+		if(ctx.desk.canQiXiaoDui() && mjRule.canHuQiXiaoDui(handCards, gui)){
 			return true;
 		}
-		return mjRule.canHu(handCards, (int)ctx.gameData.guiCards.get(0)); //TODO wxd 目前只验证第一张鬼牌，须扩展多个鬼牌的情况。
+		return mjRule.canHu(handCards, gui); 
 	}
 	
 	// =============== 胡型检查相关 =============== 胡型检查的都是已经添加新牌的。
@@ -248,8 +249,8 @@ public class MJProcessor {
 		return cardsDown.size() <= 0;
 	}
 	
-	public boolean isQiXiaoDui(List<Byte> handcards){
-		return mjRule.canHuQiXiaoDui(handcards);
+	public boolean isQiXiaoDui(List<Byte> handcards, int gui){
+		return mjRule.canHuQiXiaoDui(handcards, gui);
 	}
 	
 	// 有没有“幺”或“九”。

@@ -80,7 +80,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			if(!gameData.mTingCards[paoPosition].tingCard){ //没有报听的人打出的牌才能触发收炮
 				//游戏中的记录 //TODO wxd record 收炮
 				gameData.recorder.recordPlayerAction(gameData.genSeq(), position, MJConstants.MAHJONG_OPERTAION_SHOUPAO, newCard, 0, "收炮", 1);
-		
+				
 				// 结算番型和金币
 				settle(gameData, desk, pl, pao_pl, fanType, newCard);
 				
@@ -155,7 +155,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 //		if(mjProc.isMenQing(gameData.getCardsDown(position))){
 //			hutype |= MJConstants.MAHJONG_HU_CODE_MEN_QING;
 //		}
-		if(mjProc.isQiXiaoDui(handCards)){
+		if(mjProc.isQiXiaoDui(handCards, gameData.guiCards.get(0))){
 			hutype |= MJConstants.MAHJONG_HU_CODE_QI_XIAO_DUI;
 			hutype -= MJConstants.MAHJONG_HU_CODE_MEN_QING; //七小对不算门清
 		}
@@ -1402,7 +1402,6 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		if(paoPosition != -1 && gameData.guiCards.contains((Integer)(int)card)) { //特殊判断：别人打出的万能牌不能点炮 //TODO wxd 想办法去掉特判？
 			flag = false;
 		}
-		System.out.println("    check  hu " + flag + " mdoel " + desk.getTingType() + " card " + card + " ting " + new Gson().toJson(tingModel.cards));
 		if(flag) {
 			gameData.mGameHu.position = position;
 			gameData.mGameHu.paoPosition = paoPosition;

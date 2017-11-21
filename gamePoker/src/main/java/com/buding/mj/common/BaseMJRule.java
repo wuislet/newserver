@@ -22,8 +22,12 @@ public class BaseMJRule implements MJRule {
 		return false; //TODO WXD
 	}
 
-	public boolean canHuQiXiaoDui(List<Byte> list) { //唯一对外接口！
-		return canHuQiXiaoDui(list, new MjCheckResult());
+	public boolean canHuQiXiaoDui(List<Byte> list, int guiCard) { //唯一对外接口！
+		if(guiCard == -1) {
+			return canHuQiXiaoDui(list, new MjCheckResult());
+		} else {
+			return testHuQiXiaoDui(list, guiCard);
+		}
 	}
 	
 	public boolean canHuQiXiaoDui(List<Byte> list, MjCheckResult result) { // 常规特殊胡型：七小对
@@ -118,6 +122,22 @@ public class BaseMJRule implements MJRule {
 	}
 	
 	// ================ 鬼牌，万能牌 ================
+    public static boolean testHuQiXiaoDui(List<Byte> list, int guiPai){ //入口
+        int guiCount = 0;
+        int singleCount = 0;
+    	boolean[] paiList = new boolean[127];
+    	for(Byte card : list) {
+    		if(card == guiPai) {
+    			guiCount += 1;
+    		} else {
+    			paiList[card] = !paiList[card];
+    			singleCount += (paiList[card]?1:-1);
+    		}
+    	}
+    	int diff = guiCount - singleCount;
+    	return (diff >= 0) && ((diff & 1) == 0);
+    }
+	
 	// 收集有问题的数据：
 	// 1,1,1,6,6,9,9,9,17,17,17,19,57; gui=57; canting=[19,18,21,20,6,57]; 17本该能听。
     private static HashMap<Integer,List<CheckObjectVO>> shengCard = new HashMap<>(); //剩余牌数:[当时的牌型数据结构, ...]
@@ -142,7 +162,6 @@ public class BaseMJRule implements MJRule {
     			paiList[changeCardPoint(card)] += 1;
     		}
     	}
-		//System.out.println("  [[[>>> testHuPai    - list: " + new Gson().toJson(paiList) + " gui " + guiPai + " cnt " + guiCount);
     	return getNeedHunNum(paiList, guiCount);
     }
 
