@@ -121,15 +121,4 @@ public class LoginService {
 		//TODO oldSession需要摘机销毁掉 //TODO wxd
 		Util.userHasLogin(session);
 	}
-
-	private User registerUser() {
-		int playerId = idGen.getAndIncrement();
-		User user = hallService.initUser();
-		user.setId(playerId);
-		user.setCtime(new Date());
-		user.setUserType(0);
-		user.setGender((int) (System.currentTimeMillis() % 2));
-		user.setNickname(randomNameService.randomName(user.getGender()));
-		return user;
-	}
 }

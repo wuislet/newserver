@@ -25,13 +25,13 @@ public class MJStateOriginCard extends MJStateCommon {
 
 	@Override
 	public void handleReconnectFor(int position) {
-		logger.info("act=handleReconnectFor;state=ready;position={}", position);
+		logger.info("act=handleReconnectFor;state=originCard;position={}", position);
 	}
 
 	@Override
 	public void onEnter() {
 		System.out.println(" S=〉  enter  OriginCard");
-		this.mGameTimer.SetDeskTimer(20000);
+		this.mGameTimer.SetDeskTimer(60000);
 	}
 	
 	@Override

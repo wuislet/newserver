@@ -109,6 +109,9 @@ public class MJStateFinish extends MJStateCommon {
 			if(r.playerId <= 0) {
 				continue;
 			}
+			if(gameData.mPlayers[r.pos] == null) {
+				continue;
+			}
 			PlayerFinalResult.Builder pb = PlayerFinalResult.newBuilder();
 			pb.setBankerCount(r.bankerCount);
 			pb.setBaoZhongBaoCount(r.baoZhongBaoCount);

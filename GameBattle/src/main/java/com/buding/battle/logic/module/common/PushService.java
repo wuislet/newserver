@@ -133,6 +133,7 @@ public class PushService implements InitializingBean {
 			pb.setOnline(session.onlineStatus == OnlineStatus.ONLINE ? 1 : 0);
 			pb.setAway(session.awayStatus == AwayStatus.AWAY? 1 : 0);
 			pb.setHeadImg(user.getHeadImg());
+			pb.setIp(user.getIp() == null ? "未知" : user.getIp());
 			pushPBMsg(toPushPlayerId, PacketType.PlayerSitSyn, pb.build().toByteString());
 		}
 	}

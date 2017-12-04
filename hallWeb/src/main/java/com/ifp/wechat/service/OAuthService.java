@@ -135,27 +135,4 @@ public class OAuthService {
 		}
 		return user;
 	}
-
-	/**
-	 * 通过解析字符串获取用户详细信息
-	 * 
-	 * @param token
-	 * @param openid
-	 * @return UserWeiXin对象
-	 */
-	public static UserWeiXin getUserInfoNetPackage(LoginRequest data) {
-		if(data == null){
-			return null;
-		}
-
-		UserWeiXin user = new UserWeiXin();
-		user.setOpenid(data.getOpenid());
-		user.setNickname(data.getNickname());
-		user.setHeadimgurl(data.getHeadimgurl());
-		user.setUnionid(data.getUnionid());
-		user.setProvince(data.getProvince());
-		user.setCity(data.getCity());
-		user.setSex(data.getSex());
-		return user;
-	}
 }

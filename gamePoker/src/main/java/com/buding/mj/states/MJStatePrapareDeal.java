@@ -19,7 +19,7 @@ public class MJStatePrapareDeal extends MJStateCommon {
 
 	@Override
 	public void handleReconnectFor(int position) {
-		logger.info("act=handleReconnectFor;state=ready;position={}", position);
+		logger.info("act=handleReconnectFor;state=prapareDeal;position={}", position);
 	}
 
 	@Override

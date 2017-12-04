@@ -23,13 +23,13 @@ public class BattleSessionManager extends SessionManager<BattleSession> {
 
 	@Override
 	public boolean cleanSession(BattleSession session) {
-		if(session.channel.isOpen() == false && session.getStatus() != PlayerStatus.GAMING) {
+		if(session.channel.isOpen() == false && session.getStatus() != PlayerStatus.GAMING &&session.getStatus() != PlayerStatus.READY && session.getStatus() != PlayerStatus.PRAPARE_DEAL && session.getStatus() != PlayerStatus.ORIGIN_CARD) {
 			if(session.getMatch() != null) {
 				session.getMatch().playerExit(session.userId, PlayerExitType.SESSION_CLOSE_KICK);
 			}
 			
 			return super.cleanSession(session);
-		} else if(session.channel.isOpen() == false && session.getStatus() == PlayerStatus.GAMING) {			
+		} else if(session.channel.isOpen() == false && session.getStatus() == PlayerStatus.GAMING && session.getStatus() == PlayerStatus.READY && session.getStatus() == PlayerStatus.PRAPARE_DEAL && session.getStatus() == PlayerStatus.ORIGIN_CARD) {
 			CommonDesk desk = session.getDesk();
 			if(desk != null) {
 				desk.onPlayerOfflinePacketReceived(session.userId); //告知游戏相关模块，玩家已掉线

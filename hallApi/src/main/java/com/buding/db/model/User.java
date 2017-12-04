@@ -14,6 +14,8 @@ public class User extends BaseModel<Integer> implements Serializable {
     private String passwd;
 
     private String nickname;
+    
+    private String ip;
 
     private Integer gender;
 
@@ -99,7 +101,15 @@ public class User extends BaseModel<Integer> implements Serializable {
         this.nickname = nickname == null ? null : nickname.trim();
     }
 
-    public Integer getGender() {
+    public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public Integer getGender() {
         return gender;
     }
 
@@ -284,6 +294,7 @@ public class User extends BaseModel<Integer> implements Serializable {
             && (this.getUserName() == null ? other.getUserName() == null : this.getUserName().equals(other.getUserName()))
             && (this.getPasswd() == null ? other.getPasswd() == null : this.getPasswd().equals(other.getPasswd()))
             && (this.getNickname() == null ? other.getNickname() == null : this.getNickname().equals(other.getNickname()))
+            && (this.getIp() == null ? other.getIp() == null : this.getIp().equals(other.getIp()))
             && (this.getGender() == null ? other.getGender() == null : this.getGender().equals(other.getGender()))
             && (this.getLastLogin() == null ? other.getLastLogin() == null : this.getLastLogin().equals(other.getLastLogin()))
             && (this.getLastOffline() == null ? other.getLastOffline() == null : this.getLastOffline().equals(other.getLastOffline()))
@@ -316,6 +327,7 @@ public class User extends BaseModel<Integer> implements Serializable {
         result = prime * result + ((getUserName() == null) ? 0 : getUserName().hashCode());
         result = prime * result + ((getPasswd() == null) ? 0 : getPasswd().hashCode());
         result = prime * result + ((getNickname() == null) ? 0 : getNickname().hashCode());
+        result = prime * result + ((getIp() == null) ? 0 : getIp().hashCode());
         result = prime * result + ((getGender() == null) ? 0 : getGender().hashCode());
         result = prime * result + ((getLastLogin() == null) ? 0 : getLastLogin().hashCode());
         result = prime * result + ((getLastOffline() == null) ? 0 : getLastOffline().hashCode());

@@ -415,7 +415,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		
 		// 把牌下发给客户端
 		GameOperStartSyn.Builder msg = GameOperStartSyn.newBuilder();
-		msg.setQuanNum(this.desk.getPlayerCount() == 2 ? gameData.handNum : gameData.quanNum);// 当前圈数(2人麻将显示局数)
+		msg.setQuanNum(this.desk.endWithQuanOrJu() == 0 ? gameData.handNum : gameData.quanNum);// 当前圈数(2人麻将显示局数)
 		msg.setBankerPos(gameData.mPublic.mbankerPos);
 		msg.setServiceGold((int) desk.getFee());// 本局服务费
 		msg.setBankerContinue(gameData.mPublic.isContinueBanker); // 1:连庄，0：不是连庄
@@ -1754,17 +1754,18 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		logger.info("act=repushGameData; position={};deskId={};", position, desk.getDeskID());
 		// 把牌下发给客户端
 		GameOperStartSyn.Builder msg = GameOperStartSyn.newBuilder();
-		msg.setQuanNum(desk.getPlayerCount() == 2 ? gameData.handNum : gameData.quanNum);// 当前圈数
+		msg.setQuanNum(desk.endWithQuanOrJu() == 0 ? gameData.handNum : gameData.quanNum);// 当前圈数
 		msg.setBankerPos(gameData.mPublic.mbankerPos);
 		msg.setServiceGold((int) desk.getFee());// 本局服务费
 		msg.setBankerContinue(gameData.mPublic.isContinueBanker); // 1:连庄，0：不是连庄
 		msg.setDice1(gameData.dice1);
 		msg.setDice2(gameData.dice2);
 		msg.setSeq(gameData.gameSeq);
-		msg.setCardLeft(gameData.getCardLeftNum());
 		msg.addAllGuiCards(gameData.guiCards);
 		msg.setReconnect(true);
 
+		int totalCardNumber = gameData.getCardLeftNum();
+		
 		gameData.recorder.seq = msg.getSeq(); // 记录序列号
 
 		byte moCard = gameData.mPlayerAction[position].cardGrab;
@@ -1793,7 +1794,11 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			}
 			handCardBuilder.setPosition(p.position);// 玩家的桌子位置
 			msg.addPlayerHandCards(handCardBuilder);
+			totalCardNumber += (handCardBuilder.getCardsBeforeCount()
+								 + handCardBuilder.getHandCardsCount() 
+								 + handCardBuilder.getDownCardsCount());
 		}
+		msg.setCardLeft(totalCardNumber);
 
 		GameOperation.Builder gb = GameOperation.newBuilder();
 		gb.setOperType(GameOperType.GameOperStartSyn);

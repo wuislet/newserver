@@ -8749,6 +8749,33 @@ public final class MsgGame {
      * </pre>
      */
     int getAway();
+
+    // optional string ip = 11;
+    /**
+     * <code>optional string ip = 11;</code>
+     *
+     * <pre>
+     *ip
+     * </pre>
+     */
+    boolean hasIp();
+    /**
+     * <code>optional string ip = 11;</code>
+     *
+     * <pre>
+     *ip
+     * </pre>
+     */
+    java.lang.String getIp();
+    /**
+     * <code>optional string ip = 11;</code>
+     *
+     * <pre>
+     *ip
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getIpBytes();
   }
   /**
    * Protobuf type {@code packet.game.PlayerSitSyn}
@@ -8853,6 +8880,11 @@ public final class MsgGame {
             case 80: {
               bitField0_ |= 0x00000200;
               away_ = input.readInt32();
+              break;
+            }
+            case 90: {
+              bitField0_ |= 0x00000400;
+              ip_ = input.readBytes();
               break;
             }
           }
@@ -9197,6 +9229,61 @@ public final class MsgGame {
       return away_;
     }
 
+    // optional string ip = 11;
+    public static final int IP_FIELD_NUMBER = 11;
+    private java.lang.Object ip_;
+    /**
+     * <code>optional string ip = 11;</code>
+     *
+     * <pre>
+     *ip
+     * </pre>
+     */
+    public boolean hasIp() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional string ip = 11;</code>
+     *
+     * <pre>
+     *ip
+     * </pre>
+     */
+    public java.lang.String getIp() {
+      java.lang.Object ref = ip_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          ip_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string ip = 11;</code>
+     *
+     * <pre>
+     *ip
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getIpBytes() {
+      java.lang.Object ref = ip_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        ip_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       position_ = 0;
       nickName_ = "";
@@ -9208,6 +9295,7 @@ public final class MsgGame {
       sex_ = 0;
       score_ = 0;
       away_ = 0;
+      ip_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -9275,6 +9363,9 @@ public final class MsgGame {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeInt32(10, away_);
       }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeBytes(11, getIpBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -9323,6 +9414,10 @@ public final class MsgGame {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(10, away_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(11, getIpBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -9464,6 +9559,8 @@ public final class MsgGame {
         bitField0_ = (bitField0_ & ~0x00000100);
         away_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
+        ip_ = "";
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -9532,6 +9629,10 @@ public final class MsgGame {
           to_bitField0_ |= 0x00000200;
         }
         result.away_ = away_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.ip_ = ip_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -9581,6 +9682,11 @@ public final class MsgGame {
         }
         if (other.hasAway()) {
           setAway(other.getAway());
+        }
+        if (other.hasIp()) {
+          bitField0_ |= 0x00000400;
+          ip_ = other.ip_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -10217,6 +10323,104 @@ public final class MsgGame {
       public Builder clearAway() {
         bitField0_ = (bitField0_ & ~0x00000200);
         away_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string ip = 11;
+      private java.lang.Object ip_ = "";
+      /**
+       * <code>optional string ip = 11;</code>
+       *
+       * <pre>
+       *ip
+       * </pre>
+       */
+      public boolean hasIp() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional string ip = 11;</code>
+       *
+       * <pre>
+       *ip
+       * </pre>
+       */
+      public java.lang.String getIp() {
+        java.lang.Object ref = ip_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          ip_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string ip = 11;</code>
+       *
+       * <pre>
+       *ip
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getIpBytes() {
+        java.lang.Object ref = ip_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          ip_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string ip = 11;</code>
+       *
+       * <pre>
+       *ip
+       * </pre>
+       */
+      public Builder setIp(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        ip_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ip = 11;</code>
+       *
+       * <pre>
+       *ip
+       * </pre>
+       */
+      public Builder clearIp() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        ip_ = getDefaultInstance().getIp();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ip = 11;</code>
+       *
+       * <pre>
+       *ip
+       * </pre>
+       */
+      public Builder setIpBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        ip_ = value;
         onChanged();
         return this;
       }
@@ -21091,34 +21295,35 @@ public final class MsgGame {
       "EnrollResponse\"\206\001\n\017PlayerGamingSyn\022\016\n\006ga" +
       "meId\030\001 \002(\t\022\017\n\007matchId\030\002 \002(\t\022\016\n\006roomId\030\003 " +
       "\002(\t\022\016\n\006deskId\030\004 \002(\t\022\r\n\005wanfa\030\005 \002(\005\022\020\n\010ro" +
-      "omType\030\006 \001(\021\022\021\n\ttotalQuan\030\007 \001(\021\"\254\001\n\014Play",
+      "omType\030\006 \001(\021\022\021\n\ttotalQuan\030\007 \001(\021\"\270\001\n\014Play",
       "erSitSyn\022\020\n\010position\030\001 \002(\005\022\020\n\010nickName\030\002" +
       " \002(\t\022\020\n\010playerId\030\003 \002(\005\022\014\n\004coin\030\004 \002(\005\022\r\n\005" +
       "state\030\005 \002(\005\022\016\n\006online\030\006 \002(\005\022\017\n\007headImg\030\007" +
       " \001(\t\022\013\n\003sex\030\010 \001(\021\022\r\n\005score\030\t \001(\021\022\014\n\004away" +
-      "\030\n \001(\005\"!\n\rPlayerAwaySyn\022\020\n\010playerId\030\001 \002(" +
-      "\021\"$\n\020PlayerOfflineSyn\022\020\n\010playerId\030\001 \002(\021\"" +
-      "%\n\021PlayerComebackSyn\022\020\n\010playerId\030\001 \002(\021\"&" +
-      "\n\022PlayerReconnectSyn\022\020\n\010playerId\030\001 \002(\021\"!" +
-      "\n\rPlayerExitSyn\022\020\n\010playerId\030\001 \002(\021\"3\n\020Sta" +
-      "rtDealRequest\022\020\n\010position\030\001 \002(\005\022\r\n\005state",
-      "\030\002 \002(\005\"%\n\021ChangeDeskRequest\022\020\n\010playerId\030" +
-      "\001 \002(\005\"\024\n\022ChangeDeskResponse\",\n\014ReadyRequ" +
-      "est\022\r\n\005state\030\002 \002(\021\022\r\n\005phase\030\003 \002(\021\":\n\010Rea" +
-      "dySyn\022\020\n\010playerId\030\001 \002(\021\022\r\n\005state\030\002 \002(\021\022\r" +
-      "\n\005phase\030\003 \002(\021\"\036\n\014GameStartSyn\022\016\n\006deskId\030" +
-      "\001 \002(\t\"&\n\024GameStartDealCardSyn\022\016\n\006deskId\030" +
-      "\001 \002(\t\"\"\n\020GameStartPlaySyn\022\016\n\006deskId\030\001 \002(" +
-      "\t\"H\n\nGameMsgSyn\022\014\n\004flag\030\001 \002(\005\022\016\n\006gameId\030" +
-      "\002 \002(\t\022\017\n\007matchId\030\003 \001(\t\022\013\n\003msg\030\004 \001(\t\":\n\022G" +
-      "ameChatMsgRequest\022\017\n\007content\030\001 \001(\014\022\023\n\013co",
-      "ntentType\030\002 \001(\005\"U\n\016GameChatMsgSyn\022\016\n\006des" +
-      "kId\030\001 \001(\t\022\020\n\010position\030\002 \001(\005\022\014\n\004data\030\003 \001(" +
-      "\014\022\023\n\013contentType\030\004 \001(\005\"-\n\tHangupSyn\022\020\n\010p" +
-      "osition\030\001 \001(\005\022\016\n\006status\030\002 \001(\005\" \n\016DeskDes" +
-      "torySyn\022\016\n\006deskId\030\001 \001(\t\"2\n\017DissmissVoteS" +
-      "yn\022\020\n\010position\030\001 \001(\005\022\r\n\005agree\030\002 \001(\010\"*\n\026P" +
-      "layerGamingSynInquire\022\020\n\010isGaming\030\001 \001(\010"
+      "\030\n \001(\005\022\n\n\002ip\030\013 \001(\t\"!\n\rPlayerAwaySyn\022\020\n\010p" +
+      "layerId\030\001 \002(\021\"$\n\020PlayerOfflineSyn\022\020\n\010pla" +
+      "yerId\030\001 \002(\021\"%\n\021PlayerComebackSyn\022\020\n\010play" +
+      "erId\030\001 \002(\021\"&\n\022PlayerReconnectSyn\022\020\n\010play" +
+      "erId\030\001 \002(\021\"!\n\rPlayerExitSyn\022\020\n\010playerId\030" +
+      "\001 \002(\021\"3\n\020StartDealRequest\022\020\n\010position\030\001 ",
+      "\002(\005\022\r\n\005state\030\002 \002(\005\"%\n\021ChangeDeskRequest\022" +
+      "\020\n\010playerId\030\001 \002(\005\"\024\n\022ChangeDeskResponse\"" +
+      ",\n\014ReadyRequest\022\r\n\005state\030\002 \002(\021\022\r\n\005phase\030" +
+      "\003 \002(\021\":\n\010ReadySyn\022\020\n\010playerId\030\001 \002(\021\022\r\n\005s" +
+      "tate\030\002 \002(\021\022\r\n\005phase\030\003 \002(\021\"\036\n\014GameStartSy" +
+      "n\022\016\n\006deskId\030\001 \002(\t\"&\n\024GameStartDealCardSy" +
+      "n\022\016\n\006deskId\030\001 \002(\t\"\"\n\020GameStartPlaySyn\022\016\n" +
+      "\006deskId\030\001 \002(\t\"H\n\nGameMsgSyn\022\014\n\004flag\030\001 \002(" +
+      "\005\022\016\n\006gameId\030\002 \002(\t\022\017\n\007matchId\030\003 \001(\t\022\013\n\003ms" +
+      "g\030\004 \001(\t\":\n\022GameChatMsgRequest\022\017\n\007content",
+      "\030\001 \001(\014\022\023\n\013contentType\030\002 \001(\005\"U\n\016GameChatM" +
+      "sgSyn\022\016\n\006deskId\030\001 \001(\t\022\020\n\010position\030\002 \001(\005\022" +
+      "\014\n\004data\030\003 \001(\014\022\023\n\013contentType\030\004 \001(\005\"-\n\tHa" +
+      "ngupSyn\022\020\n\010position\030\001 \001(\005\022\016\n\006status\030\002 \001(" +
+      "\005\" \n\016DeskDestorySyn\022\016\n\006deskId\030\001 \001(\t\"2\n\017D" +
+      "issmissVoteSyn\022\020\n\010position\030\001 \001(\005\022\r\n\005agre" +
+      "e\030\002 \001(\010\"*\n\026PlayerGamingSynInquire\022\020\n\010isG" +
+      "aming\030\001 \001(\010"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -21190,7 +21395,7 @@ public final class MsgGame {
           internal_static_packet_game_PlayerSitSyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_game_PlayerSitSyn_descriptor,
-              new java.lang.String[] { "Position", "NickName", "PlayerId", "Coin", "State", "Online", "HeadImg", "Sex", "Score", "Away", });
+              new java.lang.String[] { "Position", "NickName", "PlayerId", "Coin", "State", "Online", "HeadImg", "Sex", "Score", "Away", "Ip", });
           internal_static_packet_game_PlayerAwaySyn_descriptor =
             getDescriptor().getMessageTypes().get(11);
           internal_static_packet_game_PlayerAwaySyn_fieldAccessorTable = new

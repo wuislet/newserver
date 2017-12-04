@@ -345,6 +345,8 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 			return;
 		}
 
+		System.out.println("   desk Event  " + event.key);
+		
 		switch (event.key) {
 		case GAME_MSG: {
 			GameMsgEvent e = (GameMsgEvent) event;
@@ -777,6 +779,7 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 
 			List<PlayerInfo> players = guard.getPlayerList();
 			for (PlayerInfo player : players) {
+				player.cleanReadyPhase(0);//清空准备状态
 				BattleSession session = ServiceRepo.sessionManager.getIoSession(player.playerId);
 				if (session != null) {
 					session.setStatus(PlayerStatus.UNREADY, StatusChangeReason.GAME_FINISH);
@@ -1064,7 +1067,7 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 		
 		//广播离开状态
 		game.playerAway(player);
-				
+		
 		session.awayStatus = AwayStatus.AWAY;
 		for(PlayerInfo p : guard.getPlayerList()) {
 			PushService.instance.pushPlayerAwaySyn(player.position, playerId, p.playerId);

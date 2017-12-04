@@ -20,7 +20,7 @@ public class MJStateOver extends MJStateCommon {
 
 	@Override
 	public void handleReconnectFor(int position) {
-		logger.info("act=handleReconnectFor;state=finish;position={}", position);
+		logger.info("act=handleReconnectFor;state=over;position={}", position);
 	}
 
 	@Override

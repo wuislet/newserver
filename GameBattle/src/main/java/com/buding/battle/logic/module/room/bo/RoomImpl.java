@@ -97,10 +97,6 @@ public class RoomImpl extends BaseParent<Match> implements Room, DeskListener, D
 				return EnterRoomResult.fail("桌子已满");
 			}
 			
-//			//推送正在游戏的消息
-//			int wanfa = desk instanceof MJDesk ? ((MJDesk)desk).getWanfa() : 0; //TODO 不好的设计
-//			PushService.instance.pushPlayerGamingInfo(ctx.session.userId, ctx.gameId, ctx.matchId, ctx.getRoomId(), desk.getDeskID()+"", wanfa);
-			
 			ctx.setDeskId(desk.getDeskID());
 			
 			return EnterRoomResult.ok(desk.getDeskID(), position);

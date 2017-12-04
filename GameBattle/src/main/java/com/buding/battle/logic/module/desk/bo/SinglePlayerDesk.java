@@ -28,7 +28,7 @@ import com.google.gson.Gson;
 public class SinglePlayerDesk extends MJDeskImpl {
 	public SinglePlayerDesk(DeskListener listener, Room room, DeskConfig deskConf, String deskId) {
 		super(listener, room, deskConf, deskId);
-		wanfa = MJWanfa.ALL - MJWanfa.ZI_MO_TYPE - MJWanfa.HAS_GUI - MJWanfa.CAN_CHI;
+		wanfa = MJWanfa.ALL - MJWanfa.ZI_MO_TYPE - MJWanfa.HAS_GUI;
 	}
 
 	@Override
