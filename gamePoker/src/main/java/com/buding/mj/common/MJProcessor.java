@@ -310,7 +310,7 @@ public class MJProcessor {
 
 	// 是否有3张连在一起的“顺”牌
 	public boolean hasShun(List<Byte> cardsInHand, List<Integer> cardsDown) {
-		for (int i = 0; i < cardsInHand.size() - 2; i++) {//TODO WXD 前置条件是排好序。
+		for (int i = 0; i < cardsInHand.size() - 2; i++) {
 			Byte card = cardsInHand.get(i);
 			if(!MJHelper.isNormalCard(card)){
 				continue;
@@ -362,7 +362,7 @@ public class MJProcessor {
 		return numFlag == 511; //(1 << 9 - 1)
 	}
 
-	public int getColorNumber(List<Byte> cardsInHand, List<Integer> cardsDown) { //TODO WXD 区分清混
+	public int getColorNumber(List<Byte> cardsInHand, List<Integer> cardsDown) {
 		int colorFlag = 0;
 		for (int i = 0; i < cardsInHand.size(); i++) {
 			byte card = cardsInHand.get(i);

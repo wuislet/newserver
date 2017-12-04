@@ -76,7 +76,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		PlayerInfo pao_pl = desk.getDeskPlayer(paoPosition);
 		System.out.println("    胡牌了   " + " newCard [" + newCard + "]" + " position [" + position + "]" + "Info [" + pl + "]" + " paoPosition [" + paoPosition + "]" + " paoInfo [" + pao_pl + "]");
 		
-		if(desk.canShouPao() && pao_pl != null && pl.playerId != pao_pl.playerId && gameData.mTingCards[position].tingCard) { //收炮 //TODO WXD 完善if分支逻辑。必须听牌了才能收炮 //TODO WXD 非泛用
+		if(desk.canShouPao() && pao_pl != null && pl.playerId != pao_pl.playerId && gameData.mTingCards[position].tingCard) { //收炮 //TODO WXD 非泛用
 			if(!gameData.mTingCards[paoPosition].tingCard){ //没有报听的人打出的牌才能触发收炮
 				//游戏中的记录 //TODO wxd record 收炮
 				gameData.recorder.recordPlayerAction(gameData.genSeq(), position, MJConstants.MAHJONG_OPERTAION_SHOUPAO, newCard, 0, "收炮", 1);

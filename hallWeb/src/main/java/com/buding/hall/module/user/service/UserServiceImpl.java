@@ -195,19 +195,8 @@ public class UserServiceImpl implements InitializingBean, UserService {
 		try {
 			User user = this.userDao.getUserByUserName(username);
 			if(user == null) {
-				//插入一个. 测试期间用
-//				user = initUser();
-//				user.setUserName(username);
-//				user.setPasswd(password);
-//				user.setUserType(UserType.VISITOR);
-//				user.setNickname(user.getUserName());
-//				Result result = register(user);
-//				if(result.isFail()) {
-//					return null;	
-//				}
 				return null;
 			}
-//			user = this.userDao.getUserByUserName(username);
 			if(!user.getPasswd().equals(DesUtil.md5(password, 16))) {
 				return null;
 			}			

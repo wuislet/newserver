@@ -19,6 +19,7 @@ import com.buding.db.model.User;
 import com.buding.hall.helper.HallPushHelper;
 import com.buding.hall.module.common.constants.ClientType;
 import com.buding.hall.module.common.constants.UserType;
+import com.buding.hall.module.item.type.ItemChangeReason;
 import com.buding.hall.module.user.dao.UserDao;
 import com.buding.hall.module.user.helper.UserSecurityHelper;
 import com.buding.hall.module.user.service.UserService;
