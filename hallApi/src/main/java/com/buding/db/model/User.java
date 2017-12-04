@@ -58,6 +58,8 @@ public class User extends BaseModel<Integer> implements Serializable {
     private Date mtime;
 
     private Date authTime;
+    
+    private Date shareTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -276,8 +278,16 @@ public class User extends BaseModel<Integer> implements Serializable {
     public void setAuthTime(Date authTime) {
         this.authTime = authTime;
     }
-
-    @Override
+    
+    public Date getShareTime() {
+		return shareTime;
+	}
+    
+	public void setShareTime(Date shareTime) {
+		this.shareTime = shareTime;
+	}
+	
+	@Override
     public boolean equals(Object that) {
         if (this == that) {
             return true;
@@ -315,7 +325,8 @@ public class User extends BaseModel<Integer> implements Serializable {
             && (this.getRole() == null ? other.getRole() == null : this.getRole().equals(other.getRole()))
             && (this.getCtime() == null ? other.getCtime() == null : this.getCtime().equals(other.getCtime()))
             && (this.getMtime() == null ? other.getMtime() == null : this.getMtime().equals(other.getMtime()))
-            && (this.getAuthTime() == null ? other.getAuthTime() == null : this.getAuthTime().equals(other.getAuthTime()));
+            && (this.getAuthTime() == null ? other.getAuthTime() == null : this.getAuthTime().equals(other.getAuthTime()))
+            && (this.getShareTime() == null ? other.getShareTime() == null : this.getShareTime().equals(other.getShareTime()));
     }
 
     @Override
@@ -349,6 +360,7 @@ public class User extends BaseModel<Integer> implements Serializable {
         result = prime * result + ((getCtime() == null) ? 0 : getCtime().hashCode());
         result = prime * result + ((getMtime() == null) ? 0 : getMtime().hashCode());
         result = prime * result + ((getAuthTime() == null) ? 0 : getAuthTime().hashCode());
+        result = prime * result + ((getShareTime() == null) ? 0 : getShareTime().hashCode());
         return result;
     }
 
@@ -384,6 +396,7 @@ public class User extends BaseModel<Integer> implements Serializable {
         sb.append(", ctime=").append(ctime);
         sb.append(", mtime=").append(mtime);
         sb.append(", authTime=").append(authTime);
+        sb.append(", shareTime=").append(shareTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -9,6 +9,7 @@ public enum ItemChangeReason {
 	GAME_WIN_LOSE, //每局输赢
 	BANK_ASSIST, // 破产救济
 	LOGIN_AWARD, //登录奖励
+	SHARE_AWARD, //分享奖励
 	CREATE_ROOM, //开房销毁
 	ADMIN_CHANGE, //后台更改
 	ADMIN_MAIL_ATTACH, //邮件附件赠送

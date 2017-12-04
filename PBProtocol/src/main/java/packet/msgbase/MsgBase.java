@@ -94,13 +94,21 @@ public final class MsgBase {
      */
     ModifyUserInfoRequest(10, 1010),
     /**
+     * <code>ShareRequest = 1011;</code>
+     *
+     * <pre>
+     *用户分享
+     * </pre>
+     */
+    ShareRequest(11, 1011),
+    /**
      * <code>EnrollRequest = 2001;</code>
      *
      * <pre>
      ***********游戏相关*********&#47;/
      * </pre>
      */
-    EnrollRequest(11, 2001),
+    EnrollRequest(12, 2001),
     /**
      * <code>ReadyRequest = 2002;</code>
      *
@@ -108,7 +116,7 @@ public final class MsgBase {
      *准备游戏
      * </pre>
      */
-    ReadyRequest(12, 2002),
+    ReadyRequest(13, 2002),
     /**
      * <code>ChangeDeskRequest = 2003;</code>
      *
@@ -116,7 +124,7 @@ public final class MsgBase {
      *换桌
      * </pre>
      */
-    ChangeDeskRequest(13, 2003),
+    ChangeDeskRequest(14, 2003),
     /**
      * <code>KickOutSyn = 2004;</code>
      *
@@ -124,7 +132,7 @@ public final class MsgBase {
      *强制下线, 同一个帐号不能多处登录、房主踢人
      * </pre>
      */
-    KickOutSyn(14, 2004),
+    KickOutSyn(15, 2004),
     /**
      * <code>ChatRequest = 2005;</code>
      *
@@ -132,7 +140,7 @@ public final class MsgBase {
      *聊天
      * </pre>
      */
-    ChatRequest(15, 2005),
+    ChatRequest(16, 2005),
     /**
      * <code>Back2HallRequest = 2006;</code>
      *
@@ -140,7 +148,7 @@ public final class MsgBase {
      *返回大厅
      * </pre>
      */
-    Back2HallRequest(16, 2006),
+    Back2HallRequest(17, 2006),
     /**
      * <code>PlayerGamingSyn = 2007;</code>
      *
@@ -148,7 +156,7 @@ public final class MsgBase {
      *推送当前玩家正在游戏的消息
      * </pre>
      */
-    PlayerGamingSyn(17, 2007),
+    PlayerGamingSyn(18, 2007),
     /**
      * <code>PlayerSitSyn = 2008;</code>
      *
@@ -156,7 +164,7 @@ public final class MsgBase {
      *有玩家进入桌子
      * </pre>
      */
-    PlayerSitSyn(18, 2008),
+    PlayerSitSyn(19, 2008),
     /**
      * <code>AwayGameRequest = 2009;</code>
      *
@@ -164,7 +172,7 @@ public final class MsgBase {
      *离开房间
      * </pre>
      */
-    AwayGameRequest(19, 2009),
+    AwayGameRequest(20, 2009),
     /**
      * <code>PlayerAwaySyn = 2010;</code>
      *
@@ -172,7 +180,7 @@ public final class MsgBase {
      *有玩家离开桌子
      * </pre>
      */
-    PlayerAwaySyn(20, 2010),
+    PlayerAwaySyn(21, 2010),
     /**
      * <code>PlayerComebackSyn = 2011;</code>
      *
@@ -180,7 +188,7 @@ public final class MsgBase {
      *玩家回来
      * </pre>
      */
-    PlayerComebackSyn(21, 2011),
+    PlayerComebackSyn(22, 2011),
     /**
      * <code>PlayerOfflineSyn = 2012;</code>
      *
@@ -188,7 +196,7 @@ public final class MsgBase {
      *有玩家掉线
      * </pre>
      */
-    PlayerOfflineSyn(22, 2012),
+    PlayerOfflineSyn(23, 2012),
     /**
      * <code>PlayerReconnectSyn = 2013;</code>
      *
@@ -196,7 +204,7 @@ public final class MsgBase {
      *有玩家重连		
      * </pre>
      */
-    PlayerReconnectSyn(23, 2013),
+    PlayerReconnectSyn(24, 2013),
     /**
      * <code>ExitGameRequest = 2014;</code>
      *
@@ -204,7 +212,7 @@ public final class MsgBase {
      *退出游戏
      * </pre>
      */
-    ExitGameRequest(24, 2014),
+    ExitGameRequest(25, 2014),
     /**
      * <code>PlayerExitSyn = 2015;</code>
      *
@@ -212,7 +220,7 @@ public final class MsgBase {
      *有玩家退出游戏
      * </pre>
      */
-    PlayerExitSyn(25, 2015),
+    PlayerExitSyn(26, 2015),
     /**
      * <code>ReadySyn = 2016;</code>
      *
@@ -220,7 +228,7 @@ public final class MsgBase {
      *告知客户端某玩家已经准备好
      * </pre>
      */
-    ReadySyn(26, 2016),
+    ReadySyn(27, 2016),
     /**
      * <code>GameStartSyn = 2017;</code>
      *
@@ -228,7 +236,7 @@ public final class MsgBase {
      *告知客户端所有人都准备好了
      * </pre>
      */
-    GameStartSyn(27, 2017),
+    GameStartSyn(28, 2017),
     /**
      * <code>GameStartDealCardSyn = 2118;</code>
      *
@@ -236,7 +244,7 @@ public final class MsgBase {
      *告知客户端开始发牌
      * </pre>
      */
-    GameStartDealCardSyn(28, 2118),
+    GameStartDealCardSyn(29, 2118),
     /**
      * <code>GameStartPlaySyn = 2119;</code>
      *
@@ -244,7 +252,7 @@ public final class MsgBase {
      *告知客户端游戏已开始
      * </pre>
      */
-    GameStartPlaySyn(29, 2119),
+    GameStartPlaySyn(30, 2119),
     /**
      * <code>CreateVipRoomRequest = 2018;</code>
      *
@@ -252,7 +260,7 @@ public final class MsgBase {
      *创建vip房间
      * </pre>
      */
-    CreateVipRoomRequest(30, 2018),
+    CreateVipRoomRequest(31, 2018),
     /**
      * <code>EnterVipRoomRequest = 2019;</code>
      *
@@ -260,7 +268,7 @@ public final class MsgBase {
      *加入vip房间
      * </pre>
      */
-    EnterVipRoomRequest(31, 2019),
+    EnterVipRoomRequest(32, 2019),
     /**
      * <code>KickPlayerRequest = 2020;</code>
      *
@@ -268,7 +276,7 @@ public final class MsgBase {
      *vip房间踢人
      * </pre>
      */
-    KickPlayerRequest(32, 2020),
+    KickPlayerRequest(33, 2020),
     /**
      * <code>VipRoomListReuqest = 2021;</code>
      *
@@ -276,7 +284,7 @@ public final class MsgBase {
      *请求拉取vip房间列表
      * </pre>
      */
-    VipRoomListReuqest(33, 2021),
+    VipRoomListReuqest(34, 2021),
     /**
      * <code>VipRoomListSyn = 2022;</code>
      *
@@ -284,7 +292,7 @@ public final class MsgBase {
      *推送vip房间列表
      * </pre>
      */
-    VipRoomListSyn(34, 2022),
+    VipRoomListSyn(35, 2022),
     /**
      * <code>DismissVipRoomRequest = 2023;</code>
      *
@@ -292,7 +300,7 @@ public final class MsgBase {
      *解散vip房间	
      * </pre>
      */
-    DismissVipRoomRequest(35, 2023),
+    DismissVipRoomRequest(36, 2023),
     /**
      * <code>GameChatMsgRequest = 2024;</code>
      *
@@ -300,35 +308,35 @@ public final class MsgBase {
      *聊天信息
      * </pre>
      */
-    GameChatMsgRequest(36, 2024),
+    GameChatMsgRequest(37, 2024),
     /**
      * <code>GameChatMsgSyn = 2025;</code>
      */
-    GameChatMsgSyn(37, 2025),
+    GameChatMsgSyn(38, 2025),
     /**
      * <code>HangupRequest = 2026;</code>
      */
-    HangupRequest(38, 2026),
+    HangupRequest(39, 2026),
     /**
      * <code>HangupSyn = 2027;</code>
      */
-    HangupSyn(39, 2027),
+    HangupSyn(40, 2027),
     /**
      * <code>CancelHangupRequest = 2028;</code>
      */
-    CancelHangupRequest(40, 2028),
+    CancelHangupRequest(41, 2028),
     /**
      * <code>DeskDestorySyn = 2029;</code>
      */
-    DeskDestorySyn(41, 2029),
+    DeskDestorySyn(42, 2029),
     /**
      * <code>LogoutSyn = 2030;</code>
      */
-    LogoutSyn(42, 2030),
+    LogoutSyn(43, 2030),
     /**
      * <code>DissmissVoteSyn = 2031;</code>
      */
-    DissmissVoteSyn(43, 2031),
+    DissmissVoteSyn(44, 2031),
     /**
      * <code>PlayerGamingSynInquire = 2032;</code>
      *
@@ -336,7 +344,7 @@ public final class MsgBase {
      *查询是否有进行中的游戏
      * </pre>
      */
-    PlayerGamingSynInquire(44, 2032),
+    PlayerGamingSynInquire(45, 2032),
     /**
      * <code>BackGameRequest = 2033;</code>
      *
@@ -344,7 +352,7 @@ public final class MsgBase {
      *返回游戏
      * </pre>
      */
-    BackGameRequest(45, 2033),
+    BackGameRequest(46, 2033),
     /**
      * <code>GameOperation = 3001;</code>
      *
@@ -352,7 +360,7 @@ public final class MsgBase {
      ***********游戏逻辑相关*********&#47;/
      * </pre>
      */
-    GameOperation(46, 3001),
+    GameOperation(47, 3001),
     /**
      * <code>ReadMailMsgRequest = 4001;</code>
      *
@@ -360,7 +368,7 @@ public final class MsgBase {
      ***********消息相关*********&#47;/
      * </pre>
      */
-    ReadMailMsgRequest(47, 4001),
+    ReadMailMsgRequest(48, 4001),
     /**
      * <code>MarqueeMsgSyn = 4002;</code>
      *
@@ -368,15 +376,15 @@ public final class MsgBase {
      *推送跑马灯消息	
      * </pre>
      */
-    MarqueeMsgSyn(48, 4002),
+    MarqueeMsgSyn(49, 4002),
     /**
      * <code>NewMailMsgSyn = 4005;</code>
      */
-    NewMailMsgSyn(49, 4005),
+    NewMailMsgSyn(50, 4005),
     /**
      * <code>ReceiveMailAttachRequest = 4006;</code>
      */
-    ReceiveMailAttachRequest(50, 4006),
+    ReceiveMailAttachRequest(51, 4006),
     /**
      * <code>ActAndNoticeMsgSyn = 4008;</code>
      *
@@ -384,7 +392,7 @@ public final class MsgBase {
      *活动与公告
      * </pre>
      */
-    ActAndNoticeMsgSyn(51, 4008),
+    ActAndNoticeMsgSyn(52, 4008),
     /**
      * <code>RoomResultRequest = 5001;</code>
      *
@@ -392,7 +400,7 @@ public final class MsgBase {
      ***********战绩相关*********&#47;/
      * </pre>
      */
-    RoomResultRequest(52, 5001),
+    RoomResultRequest(53, 5001),
     /**
      * <code>RoomResultResponse = 5002;</code>
      *
@@ -400,7 +408,7 @@ public final class MsgBase {
      *战绩列表
      * </pre>
      */
-    RoomResultResponse(53, 5002),
+    RoomResultResponse(54, 5002),
     /**
      * <code>GenOrderRequest = 6001;</code>
      *
@@ -408,7 +416,7 @@ public final class MsgBase {
      ***********商城相关*********&#47;/
      * </pre>
      */
-    GenOrderRequest(54, 6001),
+    GenOrderRequest(55, 6001),
     /**
      * <code>GenOrderResponse = 6002;</code>
      *
@@ -416,7 +424,7 @@ public final class MsgBase {
      *生成订单
      * </pre>
      */
-    GenOrderResponse(55, 6002),
+    GenOrderResponse(56, 6002),
     /**
      * <code>ConfirmOrderRequest = 6003;</code>
      *
@@ -424,7 +432,7 @@ public final class MsgBase {
      *提交支付结果
      * </pre>
      */
-    ConfirmOrderRequest(56, 6003),
+    ConfirmOrderRequest(57, 6003),
     /**
      * <code>ConfirmOrderReqsponse = 6004;</code>
      *
@@ -432,7 +440,7 @@ public final class MsgBase {
      *提交支付结果
      * </pre>
      */
-    ConfirmOrderReqsponse(57, 6004),
+    ConfirmOrderReqsponse(58, 6004),
     /**
      * <code>MallProductRequest = 6005;</code>
      *
@@ -440,7 +448,7 @@ public final class MsgBase {
      *请求商品列表
      * </pre>
      */
-    MallProductRequest(58, 6005),
+    MallProductRequest(59, 6005),
     /**
      * <code>MallProductResponse = 6006;</code>
      *
@@ -448,7 +456,7 @@ public final class MsgBase {
      *返回商品列表
      * </pre>
      */
-    MallProductResponse(59, 6006),
+    MallProductResponse(60, 6006),
     /**
      * <code>RankRequest = 7001;</code>
      *
@@ -456,7 +464,7 @@ public final class MsgBase {
      ***********排行榜*********&#47;/
      * </pre>
      */
-    RankRequest(60, 7001),
+    RankRequest(61, 7001),
     /**
      * <code>RankSyn = 7002;</code>
      *
@@ -464,7 +472,7 @@ public final class MsgBase {
      *排行榜数据返回
      * </pre>
      */
-    RankSyn(61, 7002),
+    RankSyn(62, 7002),
     /**
      * <code>RoomConfigRequest = 8001;</code>
      *
@@ -472,15 +480,15 @@ public final class MsgBase {
      ***********配置相关************&#47;/
      * </pre>
      */
-    RoomConfigRequest(62, 8001),
+    RoomConfigRequest(63, 8001),
     /**
      * <code>RoomConfigResponse = 8002;</code>
      */
-    RoomConfigResponse(63, 8002),
+    RoomConfigResponse(64, 8002),
     /**
      * <code>ServerChangeSyn = 8003;</code>
      */
-    ServerChangeSyn(64, 8003),
+    ServerChangeSyn(65, 8003),
     ;
 
     /**
@@ -563,6 +571,14 @@ public final class MsgBase {
      * </pre>
      */
     public static final int ModifyUserInfoRequest_VALUE = 1010;
+    /**
+     * <code>ShareRequest = 1011;</code>
+     *
+     * <pre>
+     *用户分享
+     * </pre>
+     */
+    public static final int ShareRequest_VALUE = 1011;
     /**
      * <code>EnrollRequest = 2001;</code>
      *
@@ -968,6 +984,7 @@ public final class MsgBase {
         case 1008: return RegisterResponse;
         case 1009: return UserInfoSyn;
         case 1010: return ModifyUserInfoRequest;
+        case 1011: return ShareRequest;
         case 2001: return EnrollRequest;
         case 2002: return ReadyRequest;
         case 2003: return ChangeDeskRequest;
@@ -1944,43 +1961,44 @@ public final class MsgBase {
       "\n\rMsgBase.proto\022\016packet.msgbase\"e\n\nPacke" +
       "tBase\022.\n\npacketType\030\001 \002(\0162\032.packet.msgba" +
       "se.PacketType\022\014\n\004code\030\002 \001(\021\022\013\n\003msg\030\003 \001(\t" +
-      "\022\014\n\004data\030\004 \001(\014*\260\013\n\nPacketType\022\010\n\004Dump\020\001\022" +
+      "\022\014\n\004data\030\004 \001(\014*\303\013\n\nPacketType\022\010\n\004Dump\020\001\022" +
       "\016\n\tHEARTBEAT\020\351\007\022\021\n\014LoginRequest\020\352\007\022\020\n\013Au" +
       "thRequest\020\353\007\022\021\n\014GlobalMsgSyn\020\354\007\022\032\n\025Visto" +
       "rRegisterRequest\020\355\007\022\033\n\026VistorRegisterRes" +
       "ponse\020\356\007\022\024\n\017RegisterRequest\020\357\007\022\025\n\020Regist" +
       "erResponse\020\360\007\022\020\n\013UserInfoSyn\020\361\007\022\032\n\025Modif" +
-      "yUserInfoRequest\020\362\007\022\022\n\rEnrollRequest\020\321\017\022",
-      "\021\n\014ReadyRequest\020\322\017\022\026\n\021ChangeDeskRequest\020" +
-      "\323\017\022\017\n\nKickOutSyn\020\324\017\022\020\n\013ChatRequest\020\325\017\022\025\n" +
-      "\020Back2HallRequest\020\326\017\022\024\n\017PlayerGamingSyn\020" +
-      "\327\017\022\021\n\014PlayerSitSyn\020\330\017\022\024\n\017AwayGameRequest" +
-      "\020\331\017\022\022\n\rPlayerAwaySyn\020\332\017\022\026\n\021PlayerComebac" +
-      "kSyn\020\333\017\022\025\n\020PlayerOfflineSyn\020\334\017\022\027\n\022Player" +
-      "ReconnectSyn\020\335\017\022\024\n\017ExitGameRequest\020\336\017\022\022\n" +
-      "\rPlayerExitSyn\020\337\017\022\r\n\010ReadySyn\020\340\017\022\021\n\014Game" +
-      "StartSyn\020\341\017\022\031\n\024GameStartDealCardSyn\020\306\020\022\025" +
-      "\n\020GameStartPlaySyn\020\307\020\022\031\n\024CreateVipRoomRe",
-      "quest\020\342\017\022\030\n\023EnterVipRoomRequest\020\343\017\022\026\n\021Ki" +
-      "ckPlayerRequest\020\344\017\022\027\n\022VipRoomListReuqest" +
-      "\020\345\017\022\023\n\016VipRoomListSyn\020\346\017\022\032\n\025DismissVipRo" +
-      "omRequest\020\347\017\022\027\n\022GameChatMsgRequest\020\350\017\022\023\n" +
-      "\016GameChatMsgSyn\020\351\017\022\022\n\rHangupRequest\020\352\017\022\016" +
-      "\n\tHangupSyn\020\353\017\022\030\n\023CancelHangupRequest\020\354\017" +
-      "\022\023\n\016DeskDestorySyn\020\355\017\022\016\n\tLogoutSyn\020\356\017\022\024\n" +
-      "\017DissmissVoteSyn\020\357\017\022\033\n\026PlayerGamingSynIn" +
-      "quire\020\360\017\022\024\n\017BackGameRequest\020\361\017\022\022\n\rGameOp" +
-      "eration\020\271\027\022\027\n\022ReadMailMsgRequest\020\241\037\022\022\n\rM",
-      "arqueeMsgSyn\020\242\037\022\022\n\rNewMailMsgSyn\020\245\037\022\035\n\030R" +
-      "eceiveMailAttachRequest\020\246\037\022\027\n\022ActAndNoti" +
-      "ceMsgSyn\020\250\037\022\026\n\021RoomResultRequest\020\211\'\022\027\n\022R" +
-      "oomResultResponse\020\212\'\022\024\n\017GenOrderRequest\020" +
-      "\361.\022\025\n\020GenOrderResponse\020\362.\022\030\n\023ConfirmOrde" +
-      "rRequest\020\363.\022\032\n\025ConfirmOrderReqsponse\020\364.\022" +
-      "\027\n\022MallProductRequest\020\365.\022\030\n\023MallProductR" +
-      "esponse\020\366.\022\020\n\013RankRequest\020\3316\022\014\n\007RankSyn\020" +
-      "\3326\022\026\n\021RoomConfigRequest\020\301>\022\027\n\022RoomConfig" +
-      "Response\020\302>\022\024\n\017ServerChangeSyn\020\303>"
+      "yUserInfoRequest\020\362\007\022\021\n\014ShareRequest\020\363\007\022\022",
+      "\n\rEnrollRequest\020\321\017\022\021\n\014ReadyRequest\020\322\017\022\026\n" +
+      "\021ChangeDeskRequest\020\323\017\022\017\n\nKickOutSyn\020\324\017\022\020" +
+      "\n\013ChatRequest\020\325\017\022\025\n\020Back2HallRequest\020\326\017\022" +
+      "\024\n\017PlayerGamingSyn\020\327\017\022\021\n\014PlayerSitSyn\020\330\017" +
+      "\022\024\n\017AwayGameRequest\020\331\017\022\022\n\rPlayerAwaySyn\020" +
+      "\332\017\022\026\n\021PlayerComebackSyn\020\333\017\022\025\n\020PlayerOffl" +
+      "ineSyn\020\334\017\022\027\n\022PlayerReconnectSyn\020\335\017\022\024\n\017Ex" +
+      "itGameRequest\020\336\017\022\022\n\rPlayerExitSyn\020\337\017\022\r\n\010" +
+      "ReadySyn\020\340\017\022\021\n\014GameStartSyn\020\341\017\022\031\n\024GameSt" +
+      "artDealCardSyn\020\306\020\022\025\n\020GameStartPlaySyn\020\307\020",
+      "\022\031\n\024CreateVipRoomRequest\020\342\017\022\030\n\023EnterVipR" +
+      "oomRequest\020\343\017\022\026\n\021KickPlayerRequest\020\344\017\022\027\n" +
+      "\022VipRoomListReuqest\020\345\017\022\023\n\016VipRoomListSyn" +
+      "\020\346\017\022\032\n\025DismissVipRoomRequest\020\347\017\022\027\n\022GameC" +
+      "hatMsgRequest\020\350\017\022\023\n\016GameChatMsgSyn\020\351\017\022\022\n" +
+      "\rHangupRequest\020\352\017\022\016\n\tHangupSyn\020\353\017\022\030\n\023Can" +
+      "celHangupRequest\020\354\017\022\023\n\016DeskDestorySyn\020\355\017" +
+      "\022\016\n\tLogoutSyn\020\356\017\022\024\n\017DissmissVoteSyn\020\357\017\022\033" +
+      "\n\026PlayerGamingSynInquire\020\360\017\022\024\n\017BackGameR" +
+      "equest\020\361\017\022\022\n\rGameOperation\020\271\027\022\027\n\022ReadMai",
+      "lMsgRequest\020\241\037\022\022\n\rMarqueeMsgSyn\020\242\037\022\022\n\rNe" +
+      "wMailMsgSyn\020\245\037\022\035\n\030ReceiveMailAttachReque" +
+      "st\020\246\037\022\027\n\022ActAndNoticeMsgSyn\020\250\037\022\026\n\021RoomRe" +
+      "sultRequest\020\211\'\022\027\n\022RoomResultResponse\020\212\'\022" +
+      "\024\n\017GenOrderRequest\020\361.\022\025\n\020GenOrderRespons" +
+      "e\020\362.\022\030\n\023ConfirmOrderRequest\020\363.\022\032\n\025Confir" +
+      "mOrderReqsponse\020\364.\022\027\n\022MallProductRequest" +
+      "\020\365.\022\030\n\023MallProductResponse\020\366.\022\020\n\013RankReq" +
+      "uest\020\3316\022\014\n\007RankSyn\020\3326\022\026\n\021RoomConfigReque" +
+      "st\020\301>\022\027\n\022RoomConfigResponse\020\302>\022\024\n\017Server",
+      "ChangeSyn\020\303>"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

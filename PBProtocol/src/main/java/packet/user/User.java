@@ -5394,6 +5394,323 @@ public final class User {
     // @@protoc_insertion_point(class_scope:packet.user.AuthRequest)
   }
 
+  public interface ShareRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code packet.user.ShareRequest}
+   *
+   * <pre>
+   *玩家分享了连接
+   * </pre>
+   */
+  public static final class ShareRequest extends
+      com.google.protobuf.GeneratedMessage
+      implements ShareRequestOrBuilder {
+    // Use ShareRequest.newBuilder() to construct.
+    private ShareRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ShareRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ShareRequest defaultInstance;
+    public static ShareRequest getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ShareRequest getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ShareRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return packet.user.User.internal_static_packet_user_ShareRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return packet.user.User.internal_static_packet_user_ShareRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              packet.user.User.ShareRequest.class, packet.user.User.ShareRequest.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ShareRequest> PARSER =
+        new com.google.protobuf.AbstractParser<ShareRequest>() {
+      public ShareRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ShareRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ShareRequest> getParserForType() {
+      return PARSER;
+    }
+
+    private void initFields() {
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static packet.user.User.ShareRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static packet.user.User.ShareRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static packet.user.User.ShareRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static packet.user.User.ShareRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static packet.user.User.ShareRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static packet.user.User.ShareRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static packet.user.User.ShareRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static packet.user.User.ShareRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static packet.user.User.ShareRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static packet.user.User.ShareRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(packet.user.User.ShareRequest prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code packet.user.ShareRequest}
+     *
+     * <pre>
+     *玩家分享了连接
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements packet.user.User.ShareRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return packet.user.User.internal_static_packet_user_ShareRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return packet.user.User.internal_static_packet_user_ShareRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                packet.user.User.ShareRequest.class, packet.user.User.ShareRequest.Builder.class);
+      }
+
+      // Construct using packet.user.User.ShareRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return packet.user.User.internal_static_packet_user_ShareRequest_descriptor;
+      }
+
+      public packet.user.User.ShareRequest getDefaultInstanceForType() {
+        return packet.user.User.ShareRequest.getDefaultInstance();
+      }
+
+      public packet.user.User.ShareRequest build() {
+        packet.user.User.ShareRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public packet.user.User.ShareRequest buildPartial() {
+        packet.user.User.ShareRequest result = new packet.user.User.ShareRequest(this);
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof packet.user.User.ShareRequest) {
+          return mergeFrom((packet.user.User.ShareRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(packet.user.User.ShareRequest other) {
+        if (other == packet.user.User.ShareRequest.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        packet.user.User.ShareRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (packet.user.User.ShareRequest) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:packet.user.ShareRequest)
+    }
+
+    static {
+      defaultInstance = new ShareRequest(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:packet.user.ShareRequest)
+  }
+
   public interface AuthResponseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
   }
@@ -6560,6 +6877,11 @@ public final class User {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_packet_user_AuthRequest_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_packet_user_ShareRequest_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_packet_user_ShareRequest_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_packet_user_AuthResponse_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -6592,9 +6914,10 @@ public final class User {
       "xFanType\030\n \001(\t\022\020\n\010handcard\030\013 \003(\021\022\020\n\010down" +
       "card\030\014 \003(\021\022\027\n\017createMultiRoom\030\r \001(\010\022\013\n\003s" +
       "ex\030\016 \001(\021\"=\n\013AuthRequest\022\016\n\006userId\030\001 \002(\021\022" +
-      "\r\n\005token\030\002 \002(\t\022\017\n\007version\030\003 \001(\t\"\016\n\014AuthR" +
-      "esponse\"G\n\025ModifyUserInfoRequest\022\017\n\007head" +
-      "Img\030\001 \001(\t\022\020\n\010nickName\030\002 \001(\t\022\013\n\003sex\030\003 \001(\021"
+      "\r\n\005token\030\002 \002(\t\022\017\n\007version\030\003 \001(\t\"\016\n\014Share" +
+      "Request\"\016\n\014AuthResponse\"G\n\025ModifyUserInf" +
+      "oRequest\022\017\n\007headImg\030\001 \001(\t\022\020\n\010nickName\030\002 " +
+      "\001(\t\022\013\n\003sex\030\003 \001(\021"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6625,14 +6948,20 @@ public final class User {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_user_AuthRequest_descriptor,
               new java.lang.String[] { "UserId", "Token", "Version", });
-          internal_static_packet_user_AuthResponse_descriptor =
+          internal_static_packet_user_ShareRequest_descriptor =
             getDescriptor().getMessageTypes().get(4);
+          internal_static_packet_user_ShareRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_packet_user_ShareRequest_descriptor,
+              new java.lang.String[] { });
+          internal_static_packet_user_AuthResponse_descriptor =
+            getDescriptor().getMessageTypes().get(5);
           internal_static_packet_user_AuthResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_user_AuthResponse_descriptor,
               new java.lang.String[] { });
           internal_static_packet_user_ModifyUserInfoRequest_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_packet_user_ModifyUserInfoRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_user_ModifyUserInfoRequest_descriptor,

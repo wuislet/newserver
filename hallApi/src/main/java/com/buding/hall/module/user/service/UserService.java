@@ -71,5 +71,8 @@ public interface UserService {
 	public Result resetPasswd(int userId, String passwd);
 	
 	//改变用户类型
-	public Result changeUserType(int userId, int type) ;
+	public Result changeUserType(int userId, int type);
+	
+	//用户分享
+	public Result doShare(int userId);
 }

@@ -28,6 +28,7 @@
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
     <result column="mtime" jdbcType="TIMESTAMP" property="mtime" />
     <result column="auth_time" jdbcType="TIMESTAMP" property="authTime" />
+    <result column="sharetime" jdbcType="TIMESTAMP" property="shareTime" />
   </resultMap>
   <sql id="Base_Column_List">
     id, user_type, user_name, passwd, nickname, gender, last_login, last_offline, continue_login, 
@@ -58,7 +59,7 @@
       #{bindedMatch,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, #{wxopenid,jdbcType=VARCHAR}, 
       #{qqopenid,jdbcType=VARCHAR}, #{deviceId,jdbcType=VARCHAR}, #{deviceType,jdbcType=INTEGER}, 
       #{role,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, 
-      #{authTime,jdbcType=TIMESTAMP})
+      #{authTime,jdbcType=TIMESTAMP}, #{shareTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.buding.db.model.User">
     update user
@@ -86,7 +87,8 @@
       role = #{role,jdbcType=INTEGER},
       ctime = #{ctime,jdbcType=TIMESTAMP},
       mtime = #{mtime,jdbcType=TIMESTAMP},
-      auth_time = #{authTime,jdbcType=TIMESTAMP}
+      auth_time = #{authTime,jdbcType=TIMESTAMP},
+      sharetime = #{shareTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

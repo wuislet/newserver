@@ -144,8 +144,8 @@ public class LoginCmd extends HallCmd {
 		Set<String> battleServer = redisClient.zrange("serverSet_battle", 0, 0);
 		
 		String hallAddr = hallServer.iterator().next();
-		String msgAddr ="default_192.168.10.100:4000" ;//msgServer.iterator().next();
-		String battleAddr ="default_192.168.10.100:7000";battleServer.iterator().next();
+		String msgAddr ="default_192.168.0.100:4000" ;//msgServer.iterator().next();
+		String battleAddr ="default_192.168.0.100:7000";battleServer.iterator().next();
 		pushHelper.pushLoginRsp(data.session, user, token, msgAddr.split("_")[1], battleAddr.split("_")[1]);
 
 		pushHelper.pushUserInfoSyn(user.getId());

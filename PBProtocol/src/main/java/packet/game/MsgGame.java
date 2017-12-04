@@ -12656,563 +12656,6 @@ public final class MsgGame {
     // @@protoc_insertion_point(class_scope:packet.game.PlayerExitSyn)
   }
 
-  public interface StartDealRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 position = 1;
-    /**
-     * <code>required int32 position = 1;</code>
-     *
-     * <pre>
-     *位置
-     * </pre>
-     */
-    boolean hasPosition();
-    /**
-     * <code>required int32 position = 1;</code>
-     *
-     * <pre>
-     *位置
-     * </pre>
-     */
-    int getPosition();
-
-    // required int32 state = 2;
-    /**
-     * <code>required int32 state = 2;</code>
-     *
-     * <pre>
-     *状态 0 取消准备，1准备
-     * </pre>
-     */
-    boolean hasState();
-    /**
-     * <code>required int32 state = 2;</code>
-     *
-     * <pre>
-     *状态 0 取消准备，1准备
-     * </pre>
-     */
-    int getState();
-  }
-  /**
-   * Protobuf type {@code packet.game.StartDealRequest}
-   */
-  public static final class StartDealRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements StartDealRequestOrBuilder {
-    // Use StartDealRequest.newBuilder() to construct.
-    private StartDealRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private StartDealRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final StartDealRequest defaultInstance;
-    public static StartDealRequest getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public StartDealRequest getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private StartDealRequest(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              position_ = input.readInt32();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              state_ = input.readInt32();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return packet.game.MsgGame.internal_static_packet_game_StartDealRequest_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return packet.game.MsgGame.internal_static_packet_game_StartDealRequest_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              packet.game.MsgGame.StartDealRequest.class, packet.game.MsgGame.StartDealRequest.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<StartDealRequest> PARSER =
-        new com.google.protobuf.AbstractParser<StartDealRequest>() {
-      public StartDealRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new StartDealRequest(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<StartDealRequest> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 position = 1;
-    public static final int POSITION_FIELD_NUMBER = 1;
-    private int position_;
-    /**
-     * <code>required int32 position = 1;</code>
-     *
-     * <pre>
-     *位置
-     * </pre>
-     */
-    public boolean hasPosition() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 position = 1;</code>
-     *
-     * <pre>
-     *位置
-     * </pre>
-     */
-    public int getPosition() {
-      return position_;
-    }
-
-    // required int32 state = 2;
-    public static final int STATE_FIELD_NUMBER = 2;
-    private int state_;
-    /**
-     * <code>required int32 state = 2;</code>
-     *
-     * <pre>
-     *状态 0 取消准备，1准备
-     * </pre>
-     */
-    public boolean hasState() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required int32 state = 2;</code>
-     *
-     * <pre>
-     *状态 0 取消准备，1准备
-     * </pre>
-     */
-    public int getState() {
-      return state_;
-    }
-
-    private void initFields() {
-      position_ = 0;
-      state_ = 0;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasPosition()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasState()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, position_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, state_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, position_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, state_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static packet.game.MsgGame.StartDealRequest parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static packet.game.MsgGame.StartDealRequest parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static packet.game.MsgGame.StartDealRequest parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static packet.game.MsgGame.StartDealRequest parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static packet.game.MsgGame.StartDealRequest parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static packet.game.MsgGame.StartDealRequest parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static packet.game.MsgGame.StartDealRequest parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static packet.game.MsgGame.StartDealRequest parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static packet.game.MsgGame.StartDealRequest parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static packet.game.MsgGame.StartDealRequest parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(packet.game.MsgGame.StartDealRequest prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code packet.game.StartDealRequest}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements packet.game.MsgGame.StartDealRequestOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return packet.game.MsgGame.internal_static_packet_game_StartDealRequest_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return packet.game.MsgGame.internal_static_packet_game_StartDealRequest_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                packet.game.MsgGame.StartDealRequest.class, packet.game.MsgGame.StartDealRequest.Builder.class);
-      }
-
-      // Construct using packet.game.MsgGame.StartDealRequest.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        position_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        state_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return packet.game.MsgGame.internal_static_packet_game_StartDealRequest_descriptor;
-      }
-
-      public packet.game.MsgGame.StartDealRequest getDefaultInstanceForType() {
-        return packet.game.MsgGame.StartDealRequest.getDefaultInstance();
-      }
-
-      public packet.game.MsgGame.StartDealRequest build() {
-        packet.game.MsgGame.StartDealRequest result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public packet.game.MsgGame.StartDealRequest buildPartial() {
-        packet.game.MsgGame.StartDealRequest result = new packet.game.MsgGame.StartDealRequest(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.position_ = position_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.state_ = state_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof packet.game.MsgGame.StartDealRequest) {
-          return mergeFrom((packet.game.MsgGame.StartDealRequest)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(packet.game.MsgGame.StartDealRequest other) {
-        if (other == packet.game.MsgGame.StartDealRequest.getDefaultInstance()) return this;
-        if (other.hasPosition()) {
-          setPosition(other.getPosition());
-        }
-        if (other.hasState()) {
-          setState(other.getState());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasPosition()) {
-          
-          return false;
-        }
-        if (!hasState()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        packet.game.MsgGame.StartDealRequest parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (packet.game.MsgGame.StartDealRequest) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 position = 1;
-      private int position_ ;
-      /**
-       * <code>required int32 position = 1;</code>
-       *
-       * <pre>
-       *位置
-       * </pre>
-       */
-      public boolean hasPosition() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 position = 1;</code>
-       *
-       * <pre>
-       *位置
-       * </pre>
-       */
-      public int getPosition() {
-        return position_;
-      }
-      /**
-       * <code>required int32 position = 1;</code>
-       *
-       * <pre>
-       *位置
-       * </pre>
-       */
-      public Builder setPosition(int value) {
-        bitField0_ |= 0x00000001;
-        position_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 position = 1;</code>
-       *
-       * <pre>
-       *位置
-       * </pre>
-       */
-      public Builder clearPosition() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        position_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 state = 2;
-      private int state_ ;
-      /**
-       * <code>required int32 state = 2;</code>
-       *
-       * <pre>
-       *状态 0 取消准备，1准备
-       * </pre>
-       */
-      public boolean hasState() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required int32 state = 2;</code>
-       *
-       * <pre>
-       *状态 0 取消准备，1准备
-       * </pre>
-       */
-      public int getState() {
-        return state_;
-      }
-      /**
-       * <code>required int32 state = 2;</code>
-       *
-       * <pre>
-       *状态 0 取消准备，1准备
-       * </pre>
-       */
-      public Builder setState(int value) {
-        bitField0_ |= 0x00000002;
-        state_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 state = 2;</code>
-       *
-       * <pre>
-       *状态 0 取消准备，1准备
-       * </pre>
-       */
-      public Builder clearState() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        state_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:packet.game.StartDealRequest)
-    }
-
-    static {
-      defaultInstance = new StartDealRequest(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:packet.game.StartDealRequest)
-  }
-
   public interface ChangeDeskRequestOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -21193,11 +20636,6 @@ public final class MsgGame {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_packet_game_PlayerExitSyn_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_packet_game_StartDealRequest_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_packet_game_StartDealRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_packet_game_ChangeDeskRequest_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -21305,25 +20743,23 @@ public final class MsgGame {
       "yerId\030\001 \002(\021\"%\n\021PlayerComebackSyn\022\020\n\010play" +
       "erId\030\001 \002(\021\"&\n\022PlayerReconnectSyn\022\020\n\010play" +
       "erId\030\001 \002(\021\"!\n\rPlayerExitSyn\022\020\n\010playerId\030" +
-      "\001 \002(\021\"3\n\020StartDealRequest\022\020\n\010position\030\001 ",
-      "\002(\005\022\r\n\005state\030\002 \002(\005\"%\n\021ChangeDeskRequest\022" +
-      "\020\n\010playerId\030\001 \002(\005\"\024\n\022ChangeDeskResponse\"" +
-      ",\n\014ReadyRequest\022\r\n\005state\030\002 \002(\021\022\r\n\005phase\030" +
-      "\003 \002(\021\":\n\010ReadySyn\022\020\n\010playerId\030\001 \002(\021\022\r\n\005s" +
-      "tate\030\002 \002(\021\022\r\n\005phase\030\003 \002(\021\"\036\n\014GameStartSy" +
-      "n\022\016\n\006deskId\030\001 \002(\t\"&\n\024GameStartDealCardSy" +
-      "n\022\016\n\006deskId\030\001 \002(\t\"\"\n\020GameStartPlaySyn\022\016\n" +
-      "\006deskId\030\001 \002(\t\"H\n\nGameMsgSyn\022\014\n\004flag\030\001 \002(" +
-      "\005\022\016\n\006gameId\030\002 \002(\t\022\017\n\007matchId\030\003 \001(\t\022\013\n\003ms" +
-      "g\030\004 \001(\t\":\n\022GameChatMsgRequest\022\017\n\007content",
-      "\030\001 \001(\014\022\023\n\013contentType\030\002 \001(\005\"U\n\016GameChatM" +
-      "sgSyn\022\016\n\006deskId\030\001 \001(\t\022\020\n\010position\030\002 \001(\005\022" +
-      "\014\n\004data\030\003 \001(\014\022\023\n\013contentType\030\004 \001(\005\"-\n\tHa" +
-      "ngupSyn\022\020\n\010position\030\001 \001(\005\022\016\n\006status\030\002 \001(" +
-      "\005\" \n\016DeskDestorySyn\022\016\n\006deskId\030\001 \001(\t\"2\n\017D" +
-      "issmissVoteSyn\022\020\n\010position\030\001 \001(\005\022\r\n\005agre" +
-      "e\030\002 \001(\010\"*\n\026PlayerGamingSynInquire\022\020\n\010isG" +
-      "aming\030\001 \001(\010"
+      "\001 \002(\021\"%\n\021ChangeDeskRequest\022\020\n\010playerId\030\001",
+      " \002(\005\"\024\n\022ChangeDeskResponse\",\n\014ReadyReque" +
+      "st\022\r\n\005state\030\002 \002(\021\022\r\n\005phase\030\003 \002(\021\":\n\010Read" +
+      "ySyn\022\020\n\010playerId\030\001 \002(\021\022\r\n\005state\030\002 \002(\021\022\r\n" +
+      "\005phase\030\003 \002(\021\"\036\n\014GameStartSyn\022\016\n\006deskId\030\001" +
+      " \002(\t\"&\n\024GameStartDealCardSyn\022\016\n\006deskId\030\001" +
+      " \002(\t\"\"\n\020GameStartPlaySyn\022\016\n\006deskId\030\001 \002(\t" +
+      "\"H\n\nGameMsgSyn\022\014\n\004flag\030\001 \002(\005\022\016\n\006gameId\030\002" +
+      " \002(\t\022\017\n\007matchId\030\003 \001(\t\022\013\n\003msg\030\004 \001(\t\":\n\022Ga" +
+      "meChatMsgRequest\022\017\n\007content\030\001 \001(\014\022\023\n\013con" +
+      "tentType\030\002 \001(\005\"U\n\016GameChatMsgSyn\022\016\n\006desk",
+      "Id\030\001 \001(\t\022\020\n\010position\030\002 \001(\005\022\014\n\004data\030\003 \001(\014" +
+      "\022\023\n\013contentType\030\004 \001(\005\"-\n\tHangupSyn\022\020\n\010po" +
+      "sition\030\001 \001(\005\022\016\n\006status\030\002 \001(\005\" \n\016DeskDest" +
+      "orySyn\022\016\n\006deskId\030\001 \001(\t\"2\n\017DissmissVoteSy" +
+      "n\022\020\n\010position\030\001 \001(\005\022\r\n\005agree\030\002 \001(\010\"*\n\026Pl" +
+      "ayerGamingSynInquire\022\020\n\010isGaming\030\001 \001(\010"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -21426,92 +20862,86 @@ public final class MsgGame {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_game_PlayerExitSyn_descriptor,
               new java.lang.String[] { "PlayerId", });
-          internal_static_packet_game_StartDealRequest_descriptor =
-            getDescriptor().getMessageTypes().get(16);
-          internal_static_packet_game_StartDealRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_packet_game_StartDealRequest_descriptor,
-              new java.lang.String[] { "Position", "State", });
           internal_static_packet_game_ChangeDeskRequest_descriptor =
-            getDescriptor().getMessageTypes().get(17);
+            getDescriptor().getMessageTypes().get(16);
           internal_static_packet_game_ChangeDeskRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_game_ChangeDeskRequest_descriptor,
               new java.lang.String[] { "PlayerId", });
           internal_static_packet_game_ChangeDeskResponse_descriptor =
-            getDescriptor().getMessageTypes().get(18);
+            getDescriptor().getMessageTypes().get(17);
           internal_static_packet_game_ChangeDeskResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_game_ChangeDeskResponse_descriptor,
               new java.lang.String[] { });
           internal_static_packet_game_ReadyRequest_descriptor =
-            getDescriptor().getMessageTypes().get(19);
+            getDescriptor().getMessageTypes().get(18);
           internal_static_packet_game_ReadyRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_game_ReadyRequest_descriptor,
               new java.lang.String[] { "State", "Phase", });
           internal_static_packet_game_ReadySyn_descriptor =
-            getDescriptor().getMessageTypes().get(20);
+            getDescriptor().getMessageTypes().get(19);
           internal_static_packet_game_ReadySyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_game_ReadySyn_descriptor,
               new java.lang.String[] { "PlayerId", "State", "Phase", });
           internal_static_packet_game_GameStartSyn_descriptor =
-            getDescriptor().getMessageTypes().get(21);
+            getDescriptor().getMessageTypes().get(20);
           internal_static_packet_game_GameStartSyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_game_GameStartSyn_descriptor,
               new java.lang.String[] { "DeskId", });
           internal_static_packet_game_GameStartDealCardSyn_descriptor =
-            getDescriptor().getMessageTypes().get(22);
+            getDescriptor().getMessageTypes().get(21);
           internal_static_packet_game_GameStartDealCardSyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_game_GameStartDealCardSyn_descriptor,
               new java.lang.String[] { "DeskId", });
           internal_static_packet_game_GameStartPlaySyn_descriptor =
-            getDescriptor().getMessageTypes().get(23);
+            getDescriptor().getMessageTypes().get(22);
           internal_static_packet_game_GameStartPlaySyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_game_GameStartPlaySyn_descriptor,
               new java.lang.String[] { "DeskId", });
           internal_static_packet_game_GameMsgSyn_descriptor =
-            getDescriptor().getMessageTypes().get(24);
+            getDescriptor().getMessageTypes().get(23);
           internal_static_packet_game_GameMsgSyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_game_GameMsgSyn_descriptor,
               new java.lang.String[] { "Flag", "GameId", "MatchId", "Msg", });
           internal_static_packet_game_GameChatMsgRequest_descriptor =
-            getDescriptor().getMessageTypes().get(25);
+            getDescriptor().getMessageTypes().get(24);
           internal_static_packet_game_GameChatMsgRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_game_GameChatMsgRequest_descriptor,
               new java.lang.String[] { "Content", "ContentType", });
           internal_static_packet_game_GameChatMsgSyn_descriptor =
-            getDescriptor().getMessageTypes().get(26);
+            getDescriptor().getMessageTypes().get(25);
           internal_static_packet_game_GameChatMsgSyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_game_GameChatMsgSyn_descriptor,
               new java.lang.String[] { "DeskId", "Position", "Data", "ContentType", });
           internal_static_packet_game_HangupSyn_descriptor =
-            getDescriptor().getMessageTypes().get(27);
+            getDescriptor().getMessageTypes().get(26);
           internal_static_packet_game_HangupSyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_game_HangupSyn_descriptor,
               new java.lang.String[] { "Position", "Status", });
           internal_static_packet_game_DeskDestorySyn_descriptor =
-            getDescriptor().getMessageTypes().get(28);
+            getDescriptor().getMessageTypes().get(27);
           internal_static_packet_game_DeskDestorySyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_game_DeskDestorySyn_descriptor,
               new java.lang.String[] { "DeskId", });
           internal_static_packet_game_DissmissVoteSyn_descriptor =
-            getDescriptor().getMessageTypes().get(29);
+            getDescriptor().getMessageTypes().get(28);
           internal_static_packet_game_DissmissVoteSyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_game_DissmissVoteSyn_descriptor,
               new java.lang.String[] { "Position", "Agree", });
           internal_static_packet_game_PlayerGamingSynInquire_descriptor =
-            getDescriptor().getMessageTypes().get(30);
+            getDescriptor().getMessageTypes().get(29);
           internal_static_packet_game_PlayerGamingSynInquire_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_game_PlayerGamingSynInquire_descriptor,

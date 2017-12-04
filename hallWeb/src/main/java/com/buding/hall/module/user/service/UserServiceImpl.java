@@ -1,6 +1,7 @@
 package com.buding.hall.module.user.service;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -406,5 +407,24 @@ public class UserServiceImpl implements InitializingBean, UserService {
 		user.setUserType(type);
 		userDao.updateUser(user);
 		return Result.success();
-	}	
+	}
+	
+	@Override
+	public Result doShare(int userId){
+		User user = userDao.getUser(userId);
+		if(user == null) {
+			return Result.fail("用户不存在");
+		}
+		Date current = new Date();
+		DateFormat df = DateFormat.getDateInstance();
+		String str = (user.getShareTime() == null)?"nu_ll":df.format(user.getShareTime());
+		if(user.getShareTime() != null && df.format(user.getShareTime()).equals(df.format(current))) {
+			return Result.fail("一天之内不能多次获得奖励");
+		}
+		
+		user.setShareTime(current);
+		changeFangka(userId, 1, false, ItemChangeReason.SHARE_AWARD);
+		updateUser(user);
+		return Result.success();
+	}
 }

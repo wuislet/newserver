@@ -10,8 +10,9 @@ md.controller('MainCtrl', function ($scope, $http, uiTips, uiPager, Page) {
             operSubType:[
                 {code:'UserBuyItem',name:'商城购买'},{code:'TaskFinish',name:'任务奖励'},{code:'RankAward',name:'排行榜奖励'},
                 {code:'Exchange',name:'兑换所得'},{code:'ENROLL',name:'开局服务费'},{code:'GAME_WIN_LOSE',name:'游戏输赢'},
-                {code:'BANK_ASSIST',name:'破产救济'},{code:'LOGIN_AWARD',name:'登录奖励'},{code:'CREATE_ROOM',name:'开房消耗'},
-                {code:'ADMIN_CHANGE',name:'管理员修改'},{code:'MOVE',name:'转赠'}
+                {code:'BANK_ASSIST',name:'破产救济'},{code:'LOGIN_AWARD',name:'登录奖励'},{code:'SHARE_AWARD',name:'分享奖励'},
+                {code:'CREATE_ROOM',name:'开房消耗'},{code:'ADMIN_CHANGE',name:'管理员修改'},{code:'ADMIN_MAIL_ATTACH',name:'邮件附件赠送'},
+                {code:'MOVE',name:'转赠'},{code:'AGENT_CHARGE',name:'从代理商充值'},{code:'DESTORY_RET',name:'房间销毁退还'},{code:'OTHER',name:'其他'}
             ]}
 
         $scope.getOperMainType = function(type) {
