@@ -12464,9 +12464,23 @@ public final class MJ {
      */
     int getKaiPaiZhaCount();
 
-    // optional bool roomOwner = 12;
+    // repeated sint32 eachScore = 12;
     /**
-     * <code>optional bool roomOwner = 12;</code>
+     * <code>repeated sint32 eachScore = 12;</code>
+     */
+    java.util.List<java.lang.Integer> getEachScoreList();
+    /**
+     * <code>repeated sint32 eachScore = 12;</code>
+     */
+    int getEachScoreCount();
+    /**
+     * <code>repeated sint32 eachScore = 12;</code>
+     */
+    int getEachScore(int index);
+
+    // optional bool roomOwner = 13;
+    /**
+     * <code>optional bool roomOwner = 13;</code>
      *
      * <pre>
      *是否是否房主
@@ -12474,7 +12488,7 @@ public final class MJ {
      */
     boolean hasRoomOwner();
     /**
-     * <code>optional bool roomOwner = 12;</code>
+     * <code>optional bool roomOwner = 13;</code>
      *
      * <pre>
      *是否是否房主
@@ -12589,6 +12603,27 @@ public final class MJ {
               break;
             }
             case 96: {
+              if (!((mutable_bitField0_ & 0x00000800) == 0x00000800)) {
+                eachScore_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000800;
+              }
+              eachScore_.add(input.readSInt32());
+              break;
+            }
+            case 98: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000800) == 0x00000800) && input.getBytesUntilLimit() > 0) {
+                eachScore_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000800;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                eachScore_.add(input.readSInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+            case 104: {
               bitField0_ |= 0x00000800;
               roomOwner_ = input.readBool();
               break;
@@ -12601,6 +12636,9 @@ public final class MJ {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000800) == 0x00000800)) {
+          eachScore_ = java.util.Collections.unmodifiableList(eachScore_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -12863,11 +12901,34 @@ public final class MJ {
       return kaiPaiZhaCount_;
     }
 
-    // optional bool roomOwner = 12;
-    public static final int ROOMOWNER_FIELD_NUMBER = 12;
+    // repeated sint32 eachScore = 12;
+    public static final int EACHSCORE_FIELD_NUMBER = 12;
+    private java.util.List<java.lang.Integer> eachScore_;
+    /**
+     * <code>repeated sint32 eachScore = 12;</code>
+     */
+    public java.util.List<java.lang.Integer>
+        getEachScoreList() {
+      return eachScore_;
+    }
+    /**
+     * <code>repeated sint32 eachScore = 12;</code>
+     */
+    public int getEachScoreCount() {
+      return eachScore_.size();
+    }
+    /**
+     * <code>repeated sint32 eachScore = 12;</code>
+     */
+    public int getEachScore(int index) {
+      return eachScore_.get(index);
+    }
+
+    // optional bool roomOwner = 13;
+    public static final int ROOMOWNER_FIELD_NUMBER = 13;
     private boolean roomOwner_;
     /**
-     * <code>optional bool roomOwner = 12;</code>
+     * <code>optional bool roomOwner = 13;</code>
      *
      * <pre>
      *是否是否房主
@@ -12877,7 +12938,7 @@ public final class MJ {
       return ((bitField0_ & 0x00000800) == 0x00000800);
     }
     /**
-     * <code>optional bool roomOwner = 12;</code>
+     * <code>optional bool roomOwner = 13;</code>
      *
      * <pre>
      *是否是否房主
@@ -12899,6 +12960,7 @@ public final class MJ {
       moBaoCount_ = 0;
       baoZhongBaoCount_ = 0;
       kaiPaiZhaCount_ = 0;
+      eachScore_ = java.util.Collections.emptyList();
       roomOwner_ = false;
     }
     private byte memoizedIsInitialized = -1;
@@ -12946,8 +13008,11 @@ public final class MJ {
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         output.writeSInt32(11, kaiPaiZhaCount_);
       }
+      for (int i = 0; i < eachScore_.size(); i++) {
+        output.writeSInt32(12, eachScore_.get(i));
+      }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
-        output.writeBool(12, roomOwner_);
+        output.writeBool(13, roomOwner_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -13002,9 +13067,18 @@ public final class MJ {
         size += com.google.protobuf.CodedOutputStream
           .computeSInt32Size(11, kaiPaiZhaCount_);
       }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < eachScore_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeSInt32SizeNoTag(eachScore_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getEachScoreList().size();
+      }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(12, roomOwner_);
+          .computeBoolSize(13, roomOwner_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -13144,8 +13218,10 @@ public final class MJ {
         bitField0_ = (bitField0_ & ~0x00000200);
         kaiPaiZhaCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000400);
-        roomOwner_ = false;
+        eachScore_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000800);
+        roomOwner_ = false;
+        bitField0_ = (bitField0_ & ~0x00001000);
         return this;
       }
 
@@ -13218,7 +13294,12 @@ public final class MJ {
           to_bitField0_ |= 0x00000400;
         }
         result.kaiPaiZhaCount_ = kaiPaiZhaCount_;
-        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+        if (((bitField0_ & 0x00000800) == 0x00000800)) {
+          eachScore_ = java.util.Collections.unmodifiableList(eachScore_);
+          bitField0_ = (bitField0_ & ~0x00000800);
+        }
+        result.eachScore_ = eachScore_;
+        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
           to_bitField0_ |= 0x00000800;
         }
         result.roomOwner_ = roomOwner_;
@@ -13274,6 +13355,16 @@ public final class MJ {
         }
         if (other.hasKaiPaiZhaCount()) {
           setKaiPaiZhaCount(other.getKaiPaiZhaCount());
+        }
+        if (!other.eachScore_.isEmpty()) {
+          if (eachScore_.isEmpty()) {
+            eachScore_ = other.eachScore_;
+            bitField0_ = (bitField0_ & ~0x00000800);
+          } else {
+            ensureEachScoreIsMutable();
+            eachScore_.addAll(other.eachScore_);
+          }
+          onChanged();
         }
         if (other.hasRoomOwner()) {
           setRoomOwner(other.getRoomOwner());
@@ -13750,20 +13841,86 @@ public final class MJ {
         return this;
       }
 
-      // optional bool roomOwner = 12;
+      // repeated sint32 eachScore = 12;
+      private java.util.List<java.lang.Integer> eachScore_ = java.util.Collections.emptyList();
+      private void ensureEachScoreIsMutable() {
+        if (!((bitField0_ & 0x00000800) == 0x00000800)) {
+          eachScore_ = new java.util.ArrayList<java.lang.Integer>(eachScore_);
+          bitField0_ |= 0x00000800;
+         }
+      }
+      /**
+       * <code>repeated sint32 eachScore = 12;</code>
+       */
+      public java.util.List<java.lang.Integer>
+          getEachScoreList() {
+        return java.util.Collections.unmodifiableList(eachScore_);
+      }
+      /**
+       * <code>repeated sint32 eachScore = 12;</code>
+       */
+      public int getEachScoreCount() {
+        return eachScore_.size();
+      }
+      /**
+       * <code>repeated sint32 eachScore = 12;</code>
+       */
+      public int getEachScore(int index) {
+        return eachScore_.get(index);
+      }
+      /**
+       * <code>repeated sint32 eachScore = 12;</code>
+       */
+      public Builder setEachScore(
+          int index, int value) {
+        ensureEachScoreIsMutable();
+        eachScore_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated sint32 eachScore = 12;</code>
+       */
+      public Builder addEachScore(int value) {
+        ensureEachScoreIsMutable();
+        eachScore_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated sint32 eachScore = 12;</code>
+       */
+      public Builder addAllEachScore(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureEachScoreIsMutable();
+        super.addAll(values, eachScore_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated sint32 eachScore = 12;</code>
+       */
+      public Builder clearEachScore() {
+        eachScore_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000800);
+        onChanged();
+        return this;
+      }
+
+      // optional bool roomOwner = 13;
       private boolean roomOwner_ ;
       /**
-       * <code>optional bool roomOwner = 12;</code>
+       * <code>optional bool roomOwner = 13;</code>
        *
        * <pre>
        *是否是否房主
        * </pre>
        */
       public boolean hasRoomOwner() {
-        return ((bitField0_ & 0x00000800) == 0x00000800);
+        return ((bitField0_ & 0x00001000) == 0x00001000);
       }
       /**
-       * <code>optional bool roomOwner = 12;</code>
+       * <code>optional bool roomOwner = 13;</code>
        *
        * <pre>
        *是否是否房主
@@ -13773,27 +13930,27 @@ public final class MJ {
         return roomOwner_;
       }
       /**
-       * <code>optional bool roomOwner = 12;</code>
+       * <code>optional bool roomOwner = 13;</code>
        *
        * <pre>
        *是否是否房主
        * </pre>
        */
       public Builder setRoomOwner(boolean value) {
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00001000;
         roomOwner_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional bool roomOwner = 12;</code>
+       * <code>optional bool roomOwner = 13;</code>
        *
        * <pre>
        *是否是否房主
        * </pre>
        */
       public Builder clearRoomOwner() {
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00001000);
         roomOwner_ = false;
         onChanged();
         return this;
@@ -13914,13 +14071,14 @@ public final class MJ {
       "\022\021\n\tfanDetail\030\006 \003(\t\022\014\n\004coin\030\007 \001(\021\022\r\n\005sco" +
       "re\030\010 \001(\021\"Z\n\026GameOperFinalSettleSyn\022\022\n\nse" +
       "ttleDate\030\001 \001(\t\022,\n\006detail\030\002 \003(\0132\034.packet." +
-      "mj.PlayerFinalResult\"\376\001\n\021PlayerFinalResu" +
+      "mj.PlayerFinalResult\"\221\002\n\021PlayerFinalResu" +
       "lt\022\020\n\010playerId\030\001 \001(\022\022\022\n\nplayerName\030\002 \001(\t" +
       "\022\020\n\010position\030\003 \001(\021\022\021\n\theadImage\030\004 \001(\t\022\r\n" +
       "\005score\030\005 \001(\021\022\023\n\013bankerCount\030\006 \001(\021\022\017\n\007huC" +
       "ount\030\007 \001(\021\022\020\n\010paoCount\030\010 \001(\021\022\022\n\nmoBaoCou",
       "nt\030\t \001(\021\022\030\n\020baoZhongBaoCount\030\n \001(\021\022\026\n\016ka" +
-      "iPaiZhaCount\030\013 \001(\021\022\021\n\troomOwner\030\014 \001(\010"
+      "iPaiZhaCount\030\013 \001(\021\022\021\n\teachScore\030\014 \003(\021\022\021\n" +
+      "\troomOwner\030\r \001(\010"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -13998,7 +14156,7 @@ public final class MJ {
           internal_static_packet_mj_PlayerFinalResult_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_packet_mj_PlayerFinalResult_descriptor,
-              new java.lang.String[] { "PlayerId", "PlayerName", "Position", "HeadImage", "Score", "BankerCount", "HuCount", "PaoCount", "MoBaoCount", "BaoZhongBaoCount", "KaiPaiZhaCount", "RoomOwner", });
+              new java.lang.String[] { "PlayerId", "PlayerName", "Position", "HeadImage", "Score", "BankerCount", "HuCount", "PaoCount", "MoBaoCount", "BaoZhongBaoCount", "KaiPaiZhaCount", "EachScore", "RoomOwner", });
           return null;
         }
       };

@@ -1,5 +1,8 @@
 package com.buding.api.context;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author tiny qq_381360993
  * @Description:
@@ -18,4 +21,5 @@ public class PlayFinalResult {
 	public int mobaoCount = 0;
 	public int baoZhongBaoCount = 0;
 	public int kaiPaiZhaCount = 0;
+	public List<Integer> eachScore = new ArrayList<Integer>();
 }

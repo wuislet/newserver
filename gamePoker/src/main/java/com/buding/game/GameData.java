@@ -456,6 +456,7 @@ public class GameData extends GameDataBase {
 	public void mergeHandResult(PlayFinalResult finalRes, PlayHandResult handRes) {
 		finalRes.pos = handRes.pos;
 		finalRes.score += handRes.getScore();
+		finalRes.eachScore.add(handRes.getScore());
 		if ((handRes.fanType & MJConstants.MAHJONG_HU_CODE_WIN) != 0) {
 			finalRes.huCount++;
 		}

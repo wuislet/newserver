@@ -126,6 +126,9 @@ public class MJStateFinish extends MJStateCommon {
 			pb.setRoomOwner(desk.getDeskOwner() == r.playerId);
 			pb.setScore(r.score);
 			pb.setHeadImage(r.headImg);
+			for(int i = 0; i < r.eachScore.size(); i++) {
+				pb.addEachScore(r.eachScore.get(i));
+			}
 			gb.addDetail(pb);
 		}
 		PokerPushHelper.pushFinalSettleInfo(desk, 0, gb, MJConstants.SEND_TYPE_ALL);
