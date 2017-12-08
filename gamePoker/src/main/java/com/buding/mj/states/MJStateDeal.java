@@ -77,7 +77,6 @@ public class MJStateDeal extends MJStateCommon {
 				this.mGameData.mPublic.isContinueBanker, this.mGameData.mPublic.mbankerPos,this.mGameData.mPublic.mBankerUserId,
 				this.mGameData.handStartTime, this.mGameData.handNum, this.mGameData.gameSeq);
 		
-		
 		//2秒后开始游戏
 		this.mGameTimer.KillDeskTimer();
 		this.mGameTimer.SetDeskTimer(10);

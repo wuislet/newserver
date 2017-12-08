@@ -90,6 +90,13 @@ public class RoomImpl extends BaseParent<Match> implements Room, DeskListener, D
 				return EnterRoomResult.fail("桌子状态出错");
 			}
 
+			BattleSession session = ServiceRepo.sessionManager.getIoSession(ctx.playerId);
+			int fangka = session.player.fanka;
+			if(desk.getFeeKa() > 0 && desk.getFeeKa() > fangka) {
+				logger.error("act=playerTrySit;error=NoEnoughFangKa;deskId={};", desk.getDeskID());
+				return EnterRoomResult.fail("房卡不足");
+			}
+
 			int position = desk.playerSit(ctx);
 
 			if (position == -1) {

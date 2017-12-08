@@ -47,6 +47,8 @@ public interface Desk<MsgType> {
     
     double getFee();
     
+    int getFeeKa();
+    
     String getReplyData();
     
     List<PlayerInfo> loopGetPlayer(int pos, int count, int includePos); //includePos: 0不包含pos玩家, 1:包含放在末尾 2包含放在开头

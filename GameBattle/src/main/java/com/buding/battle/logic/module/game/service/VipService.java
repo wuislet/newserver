@@ -125,8 +125,9 @@ public class VipService {
 			pushVipRoomList(playerId);
 		}
 		
-		//扣除房卡
-		hallService.changeFangka(playerId, -1*fee.itemCount, false, ItemChangeReason.CREATE_ROOM);
+//		if(!AA制){ //扣除房卡 TODO 保留非AA制的扣方法方案。
+//			hallService.changeFangka(playerId, -1*fee.itemCount, false, ItemChangeReason.CREATE_ROOM);
+//		}
 	}
 
 	public TResult<UserRoom> initRoom(String roomConfigId, UserRoom room) {

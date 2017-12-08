@@ -1,6 +1,10 @@
 package com.buding.battle.logic.module.room.bo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.buding.api.player.PlayerInfo;
 import com.buding.battle.logic.module.common.BattleContext;
+import com.buding.battle.logic.module.common.PushService;
 import com.buding.battle.logic.module.common.ServiceRepo;
 import com.buding.battle.logic.module.desk.bo.CommonDesk;
 import com.buding.battle.logic.module.desk.bo.VipDesk;
@@ -11,6 +15,9 @@ import com.buding.db.model.UserRoom;
 import com.buding.hall.config.DeskConfig;
 
 public class VipRoom extends RoomImpl {
+	@Autowired
+	PushService pushService;
+	
 	public VipRoom(Match parent) {
 		super(parent);
 	}
@@ -47,6 +54,14 @@ public class VipRoom extends RoomImpl {
 			return TResult.fail1("不能进入管理桌");
 		}
 		return TResult.sucess1(deskIns);
+	}
+
+	@Override
+	public void onPlayerReady(CommonDesk desk, PlayerInfo player) {
+		super.onPlayerReady(desk, player);
+		if(desk.getFeeKa() > 0 && desk.getFeeKa() > player.fanka) {
+			//pushService.pushCreateVipRoomRsp(player.playerId, false, "开房卡不足");
+		}
 	}
 
 	@Override

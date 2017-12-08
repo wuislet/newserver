@@ -17,6 +17,7 @@ import net.sf.json.JSONObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import packet.game.MsgGame.GameStartSyn;
 import packet.msgbase.MsgBase.PacketBase;
@@ -61,6 +62,7 @@ import com.buding.battle.logic.module.match.Match;
 import com.buding.battle.logic.module.room.bo.Room;
 import com.buding.battle.logic.util.IDUtil;
 import com.buding.common.monitor.Monitorable;
+import com.buding.common.result.Result;
 import com.buding.common.schedule.Job;
 import com.buding.common.schedule.WorkerPool;
 import com.buding.common.util.IOUtil;
@@ -72,12 +74,16 @@ import com.buding.hall.module.game.model.DeskModel;
 import com.buding.hall.module.item.type.ItemChangeReason;
 import com.buding.hall.module.task.vo.GamePlayingVo;
 import com.buding.hall.module.user.helper.UserHelper;
+import com.buding.hall.module.ws.HallPortalService;
 import com.buding.mj.helper.MJHelper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.protobuf.ByteString;
 
 public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDesk<byte[]> {
+	@Autowired
+	HallPortalService hallService;
+	
 	Logger logger = LoggerFactory.getLogger(getClass());
 	protected int ownerId = -1;
 
@@ -707,10 +713,15 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 		return id;
 	}
 
-	private void onGameBegin() {
+	private Result onGameBegin() {
 		this.gameCount++;
 		this.waitingGameStopTime = System.currentTimeMillis();
 		logger.info("act=onGameBegin;deskId={};", getDeskID());
+		
+		Result res = CheckSubUerviceFee();
+		if(res.isFail()){
+			return res;
+		}
 
 		for (PlayerInfo player : guard.getPlayerList()) {
 			BattleSession session = ServiceRepo.sessionManager.getIoSession(player.playerId);
@@ -728,6 +739,8 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 		if (listener != null) {
 			listener.onDeskGameStart(this, game);
 		}
+		
+		return Result.success();
 	}
 
 	public void addGameLog(GameContext ctx) {
@@ -765,10 +778,26 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 		ServiceRepo.hallPortalService.addGameLog(log);
 	}
 
+	protected Result CheckSubUerviceFee() {
+		if (getFeeKa() > 0) {
+			for (PlayerInfo player : guard.getPlayerList()) {
+				if(getFeeKa() > player.fanka) {
+					return Result.fail("玩家" + player.name + "房卡不足(需要" + getFeeKa() + "张，剩余" + player.fanka + "张)。");
+				}
+			}
+		}
+		return Result.success();
+	}
+
 	protected void subUerviceFee(PlayerInfo player) {
 		if (getFee() > 0) {
 			// 扣除台费
 			ServiceRepo.hallPortalService.changeCoin(player.playerId, -1 * (int) getFee(), false, ItemChangeReason.ENROLL);
+		}
+		
+		if(getFeeKa() > 0) {
+			// AA制扣房卡
+			ServiceRepo.hallPortalService.changeFangka(player.playerId, -1 * (int) getFeeKa(), false, ItemChangeReason.ENROLL);
 		}
 	}
 
@@ -864,7 +893,7 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 			session.setStatus(PlayerStatus.ORIGIN_CARD, StatusChangeReason.READY);
 		}
 		session.currentModule = ServiceRepo.gameModule;
-
+		
 		if (listener != null) {
 			listener.onPlayerReady(this, player);
 		}
@@ -928,12 +957,12 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 				logger.error("loadReplayDataError", e);
 			}
 		}
-
-		// 告知游戏模块开始事件
-		game.gameBegin();
 		
 		// 更新内部信息
-		onGameBegin();
+		if(onGameBegin().isOk()) {
+			// 告知游戏模块开始事件
+			game.gameBegin();
+		}
 	}
 
 	@Override
@@ -1650,6 +1679,11 @@ public class DeskImpl extends BaseParent<Room> implements Monitorable, CommonDes
 	@Override
 	public double getFee() {
 		return this.getParent().getRoomConfig().fee.get(0).currenceCount;
+	}
+
+	@Override
+	public int getFeeKa() {//一般房不付房卡
+		return 0;
 	}
 
 	@Override

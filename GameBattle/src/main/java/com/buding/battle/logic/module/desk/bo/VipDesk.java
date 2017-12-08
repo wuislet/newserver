@@ -39,7 +39,7 @@ public class VipDesk extends MJDeskImpl {
 	UserRoom userRoom = null;
 	private int vipRoomType;
 	private int quanNum;
-	private int fee;
+	private int feeka;
 
 	public VipDesk(DeskListener listener, Room room, DeskConfig deskConf, String deskId,int wanfa) {
 		super(listener, room, deskConf, deskId);
@@ -62,18 +62,30 @@ public class VipDesk extends MJDeskImpl {
 			UserRoom room = ServiceRepo.userRoomDao.getByCode(this.id);
 			room.setLastActiveTime(new Date());
 			room.setRoomState(RoomState.CLOSE);
-			if (gameCount == 0) {
-				//退房卡
-				ServiceRepo.hallPortalService.changeFangka(ownerId, fee, false, ItemChangeReason.DESTORY_RET);
+			if (gameCount == 0) { //退房卡
+				int feeka = getFeeKa();
+				if(feeka > 0) { //AA制
+					for(PlayerInfo p : guard.getPlayerList()) {
+						ServiceRepo.hallPortalService.changeFangka(p.playerId, feeka, false, ItemChangeReason.DESTORY_RET);
+					}
+				} else { //房主一人支付。
+					ServiceRepo.hallPortalService.changeFangka(ownerId, feeka, false, ItemChangeReason.DESTORY_RET);
+				}
 			}
 			ServiceRepo.userRoomDao.updateUserRoom(room);
 		} catch (Exception e) {
 			logger.error("act=destroy;error=exception", e);
 		}
 	}
-		
+	
+	@Override
 	public double getFee() {
 		return 0; //不扣除服务费
+	}
+
+	@Override
+	public int getFeeKa() {//第一局才要房卡
+		return (gameCount > 1)?0:feeka;
 	}
 
 	@Override
@@ -147,7 +159,7 @@ public class VipDesk extends MJDeskImpl {
 		JSONObject obj = JSONObject.fromObject(userRoom.getParams());
 		vipRoomType = obj.getInt("vipRoomType");
 		quanNum = obj.getInt("quanNum");
-		fee = obj.optInt("fee");
+		feeka = obj.optInt("fee");
 		wanfa = Integer.valueOf(userRoom.getWanfa());
 	}
 	
