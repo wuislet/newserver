@@ -69,7 +69,7 @@ h.get('/a/mj/match/publish') { req, resp, ctx ->
         }
         it.confJson = """
     {
-        "comment": "大庆麻将${it.roomName}",
+        "comment": "西凉麻将${it.roomName}",
         "matchID": "${it.matchId}",
         "gameID": "G_DQMJ",
         "matchClassFullName":"${it.matchClassFullName}",

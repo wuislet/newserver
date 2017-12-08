@@ -7,7 +7,7 @@ import com.buding.hall.config.DeskConfig;
 
 /**
  * @author tiny qq_381360993
- * @Description: 大庆麻将桌
+ * @Description: 金昌麻将桌
  * 
  */
 public class JCMJDeskImpl extends MJDeskImpl implements JCMJDesk<byte[]> {
