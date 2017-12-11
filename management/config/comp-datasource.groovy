@@ -7,7 +7,7 @@ String dsPrd = '''
 com.mysql.jdbc.Driver
 jdbc:mysql://127.0.0.1:3506/mj?useUnicode=true&characterEncoding=UTF-8&autoReconnectForPools=true&allowMultiQueries=true&connectTimeout=3000
 root
-123456
+djd1w5cj
 
 initialPoolSize=10
 maxPoolSize=100
@@ -18,7 +18,7 @@ String dsLocal = '''
 com.mysql.jdbc.Driver
 jdbc:mysql://127.0.0.1:3506/mj?useUnicode=true&characterEncoding=UTF-8&autoReconnectForPools=true&allowMultiQueries=true&connectTimeout=3000
 root
-123456
+djd1w5cj
 
 initialPoolSize=2
 maxPoolSize=5
