@@ -33,7 +33,7 @@
   <sql id="Base_Column_List">
     id, user_type, user_name, passwd, nickname, gender, last_login, last_offline, continue_login, 
     phone, weixin, coin, fanka, integral, head_img, binded_mobile, binded_match, token, 
-    wxopenid, qqopenid, device_id, device_type, role, ctime, mtime, auth_time
+    wxopenid, qqopenid, device_id, device_type, role, ctime, mtime, auth_time, sharetime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 'false' as QUERYID,
@@ -50,7 +50,7 @@
       binded_match, token, wxopenid, 
       qqopenid, device_id, device_type, 
       role, ctime, mtime, 
-      auth_time)
+      auth_time, sharetime)
     values (#{userType,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, 
       #{nickname,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{lastLogin,jdbcType=TIMESTAMP}, 
       #{lastOffline,jdbcType=TIMESTAMP}, #{continueLogin,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 

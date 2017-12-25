@@ -2,9 +2,11 @@ package com.buding.common.network.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -20,7 +22,7 @@ public class NettyServer implements InitializingBean, Runnable {
 
 	private int port;
 
-	private NettyServerInitializer protocolInitalizer;
+	private ChannelInitializer<SocketChannel> protocolInitalizer;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -35,7 +37,8 @@ public class NettyServer implements InitializingBean, Runnable {
 			EventLoopGroup workerGroup = new NioEventLoopGroup();
 			try {
 				ServerBootstrap b = new ServerBootstrap(); // (2)
-				b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class) // (3)
+				b.group(bossGroup, workerGroup)
+						.channel(NioServerSocketChannel.class) // (3)
 						.childHandler(protocolInitalizer) // (4)
 						.option(ChannelOption.SO_BACKLOG, 2048) // (5)
 						.childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
@@ -68,11 +71,11 @@ public class NettyServer implements InitializingBean, Runnable {
 		this.port = port;
 	}
 
-	public NettyServerInitializer getProtocolInitalizer() {
+	public ChannelInitializer<SocketChannel> getProtocolInitalizer() {
 		return protocolInitalizer;
 	}
 
-	public void setProtocolInitalizer(NettyServerInitializer protocolInitalizer) {
+	public void setProtocolInitalizer(ChannelInitializer<SocketChannel> protocolInitalizer) {
 		this.protocolInitalizer = protocolInitalizer;
 	}
 }

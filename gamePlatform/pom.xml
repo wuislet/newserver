@@ -42,6 +42,12 @@
 
 		<dependency>
 			<groupId>com.buding</groupId>
+			<artifactId>gameCharge</artifactId>
+			<version>${buding.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.buding</groupId>
 			<artifactId>hallWeb</artifactId>
 			<version>${buding.version}</version>
 		</dependency>

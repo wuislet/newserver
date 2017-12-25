@@ -78,19 +78,19 @@ message MallProductModel {
 }
 
 message GenOrderRequest {
-	optional int32 platformId = 1; //1 微信 2支付宝 3测试
+	optional int32 platformId = 1; //详见服务器hallwab->channel枚举
 	optional string productId = 2; //商品id
 }
 
 message GenOrderResponse {
 	optional string orderId = 1; //订单id
-	optional int32 platformId = 2; //1 微信 2支付宝 3测试
+	optional int32 platformId = 2; //详见服务器hallwab->channel枚举
 	optional bytes data = 3; //签名数据，平台相关
 }
 
 message ConfirmOrderRequest{
    optional string orderId = 1; //订单id
-   optional int32 platformId = 2; //1 微信 2支付宝 3测试
+   optional int32 platformId = 2; //详见服务器hallwab->channel枚举
    optional int32 result = 3; //结果 1 支付成功  2 支付失败 3 放弃
    optional bytes data = 4; //平台相关数据
 }
