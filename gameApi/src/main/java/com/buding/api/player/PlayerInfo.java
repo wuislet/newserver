@@ -35,6 +35,7 @@ public class PlayerInfo implements Serializable {
 	public transient int score = 0; //积分, 多局游戏计分用到
 
 	public int shuaiCnt = 0; //甩九幺的张数
+	public int liangCard = 0; //听牌后亮的牌点
 	public int kpzCount = 0; // 开牌炸的次数
 	public int mobaoCount = 0; // 摸宝的次数
 	public int baozhongbaoCount = 0; // 宝中宝次数

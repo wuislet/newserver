@@ -174,6 +174,7 @@ public class MJHelper {
 		act = convertAct(ret, act, MJConstants.MAHJONG_OPERTAION_CHNAGE_BAO, "换宝");
 		
 		//金昌麻将
+		act = convertAct(ret, act, MJConstants.MAHJONG_OPERTAION_TING_CHU_LIANG, "听亮");
 		act = convertAct(ret, act, MJConstants.MAHJONG_OPERTAION_SHOUPAO, "收炮");
 		act = convertAct(ret, act, MJConstants.MAHJONG_OPERTAION_SHUAIJIUYAO, "甩九幺");
 

@@ -77,7 +77,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		System.out.println("    胡牌了   " + " newCard [" + newCard + "]" + " position [" + position + "]" + "Info [" + pl + "]" + " paoPosition [" + paoPosition + "]" + " paoInfo [" + pao_pl + "]");
 		
 		if(desk.canShouPao() && pao_pl != null && pl.playerId != pao_pl.playerId && gameData.mTingCards[position].tingCard) { //收炮 //TODO WXD 非泛用
-			if(!gameData.mTingCards[paoPosition].tingCard){ //没有报听的人打出的牌才能触发收炮
+			if(!gameData.mTingCards[paoPosition].tingCard || gameData.mTingCards[paoPosition].tingFirstRound){ //没有报听的人打出的牌才能触发收炮 或者 临门一脚(即在刚刚报听的回合打出的牌)也能收炮。
 				//游戏中的记录 //TODO wxd record 收炮
 				gameData.recorder.recordPlayerAction(gameData.genSeq(), position, MJConstants.MAHJONG_OPERTAION_SHOUPAO, newCard, 0, "收炮", 1);
 				
@@ -182,9 +182,11 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 	{
 		int fanNum = 1;// 基础1翻
 		if(desk.canShuaiJiuYao()){ //甩九幺玩法算分。
-			if ((fanType & MJConstants.MAHJONG_HU_CODE_SHUAI_JIU_ZHANG) != 0
-					|| (fanType & MJConstants.MAHJONG_HU_CODE_QI_XIAO_DUI) != 0) {
+			if ((fanType & MJConstants.MAHJONG_HU_CODE_SHUAI_JIU_ZHANG) != 0) {
 				fanNum *= 2;
+			}
+			if ((fanType & MJConstants.MAHJONG_HU_CODE_QI_XIAO_DUI) != 0) { //七小对额外加单吊翻，因为单吊没处理七小对，所以这里直接再翻倍。
+				fanNum *= 4;
 			}
 			if ((fanType & MJConstants.MAHJONG_HU_CODE_DAN_DIAO) != 0
 					|| (fanType & MJConstants.MAHJONG_HU_CODE_JIA_HU) != 0
@@ -244,6 +246,14 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 				gameData.setPlaySubstate(MJConstants.GAME_TABLE_SUB_STATE_IDLE);// 玩家吃碰之类的操作，服务器等客户端播个动画
 				// 找找下个玩家
 				this.next_player_operation_notify(gameData, desk);
+			}
+		} else if (substate == MJConstants.GAME_TABLE_SUB_STATE_PLAYING_CHU_TING_ANIMATION) {
+			if (ctt - gameData.getWaitingStartTime() > gameData.mGameParam.chuPlayMills)// 等待动画播完的时间
+			{
+				// 清空子原因状态
+				gameData.setPlaySubstate(MJConstants.GAME_TABLE_SUB_STATE_IDLE);// 玩家吃碰之类的操作，服务器等客户端播个动画
+				//tingliang #2 进入选亮牌阶段。
+				this.chu_ting_liang_operation_notify(gameData, desk);
 			}
 		} else if (substate == MJConstants.GAME_TABLE_SUB_STATE_IDLE) {
 			// 普通房间，如果玩家时托管状态，则直接帮他操作，否则等他超时
@@ -636,7 +646,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		if (canOperSelfTurn) {
 			if(mjProc.canTing(new MjCheckContext(gameData, desk, newCard, position))) {
 				// 自己摸的牌导致了可听牌，可以选择听牌，也可以选择不听而出牌
-				result2.opertaion |= (MJConstants.MAHJONG_OPERTAION_TING | MJConstants.MAHJONG_OPERTAION_CHU);
+				result2.opertaion |= (MJConstants.MAHJONG_OPERTAION_TING);
 				result2.playerTableIndex = position;
 				result2.tingList.addAll(gameData.mTingCards[position].chuAndTingMap.keySet());
 				result2.chuAndTingModel = new ChuTingModel();
@@ -646,7 +656,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			
 			ActionWaitingModel gangResult = mjProc.check_an_gang(gameData, newCard, plx.getTablePos());
 			if(gangResult != null && gangResult.opertaion > 0){
-				result2.opertaion |= (MJConstants.MAHJONG_OPERTAION_AN_GANG | MJConstants.MAHJONG_OPERTAION_CHU);
+				result2.opertaion |= (MJConstants.MAHJONG_OPERTAION_AN_GANG);
 				result2.gangList = gangResult.gangList;
 				result2.playerTableIndex = position;
 				gameData.setWaitingPlayerOperate(result2);
@@ -654,7 +664,7 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			
 			gangResult = mjProc.check_bu_gang(gameData, newCard, plx.getTablePos());
 			if(gangResult != null && gangResult.opertaion > 0){
-				result2.opertaion |= (MJConstants.MAHJONG_OPERTAION_BU_GANG | MJConstants.MAHJONG_OPERTAION_CHU);
+				result2.opertaion |= (MJConstants.MAHJONG_OPERTAION_BU_GANG);
 				result2.gangList = gangResult.gangList;
 				result2.playerTableIndex = position;
 				gameData.setWaitingPlayerOperate(result2);
@@ -965,7 +975,8 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			msg.setLastActionPosition(gameData.getCardOpPlayerIndex());
 		}
 
-		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_CHU) != 0) {
+		if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_CHU) != 0
+				|| (waiting.opertaion & MJConstants.MAHJONG_OPERTAION_TING_CHU_LIANG) != 0) {
 			for (byte a : waiting.tingList) {
 				msg.addTingList(a); // 告诉客户端，你只能出这些牌
 			}
@@ -1024,6 +1035,20 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		PokerPushHelper.pushActionSyn(gt, -100, msg, MJConstants.SEND_TYPE_ALL);
 		waiting.opertaion = MJConstants.MAHJONG_OPERTAION_CHU; // 已听牌，下一步出牌
 		notifyPlayerWaitingOperation(gameData, gt, pl, waiting); //TODO WXD 听牌尽量调用出牌提示函数player_chu_notify()。
+	}
+
+	private void player_op_ting_liang(GameData gameData, MJDesk desk, GameOperPlayerActionSyn.Builder msg, PlayerInfo pl) {
+		//TODO 验证亮牌的合法。
+		pl.liangCard = msg.getCardValue(0); //#5 tingliang 记录玩家选的亮牌。
+		for(int i = 0; i < msg.getCardValueCount(); i++) { //TestPrint
+			System.out.println("   client  liang : " + msg.getCardValue(i));
+		}
+		
+		// 服务器清除等待玩家操作的数据
+		gameData.setWaitingPlayerOperate(null);
+		
+		PokerPushHelper.pushActionSyn(desk, -100, msg, MJConstants.SEND_TYPE_ALL);
+		reset4NextPlayerOperation(gameData, desk);
 	}
 
 	private void player_op_chu(GameData gameData, MJDesk desk, GameOperPlayerActionSyn.Builder msg, PlayerInfo pl) {
@@ -1089,6 +1114,15 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		// 玩家第一次听牌，设置要听的牌
 		if (tingModel.tingCard && tingModel.cards.size() == 0) {
 			tingModel.cards = waiting.chuAndTingModel.chuAndTingMap.get(card_v);
+			
+			boolean isTingLiang = (moCard != 0); //前提：自摸
+			if(isTingLiang) {
+				//tingliang #1 : 第一次听牌移入听亮牌动画
+				// 等待客户端播动画
+				gameData.setWaitingStartTime(System.currentTimeMillis());
+				gameData.setPlaySubstate(MJConstants.GAME_TABLE_SUB_STATE_PLAYING_CHU_TING_ANIMATION);// 设置玩家的子原因为客户端在播出牌动画
+				return;
+			}
 		}
 		reset4NextPlayerOperation(gameData, desk);
 	}
@@ -1100,6 +1134,10 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			int cardpoint = msg.getCardValue(i);
 			gameData.removeCardInHand(cardpoint, pl.getTablePos(), CardChangeReason.SHUAI_JIU_YAO);
 		}
+		
+		// 服务器清除等待玩家操作的数据
+		gameData.setWaitingPlayerOperate(null);
+		
 		PokerPushHelper.pushActionSyn(desk, -100, msg, MJConstants.SEND_TYPE_ALL);
 	}
 
@@ -1225,6 +1263,8 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			liuju(gameData, desk);
 			return;
 		}
+		
+		gameData.finishTingTurn(plx.position); //摸牌时清除这个人的临门一脚标记。
 
 		if (gameData.getCardNumInHand(plx.position) % 3 == 1) {
 			// 给玩家摸一张
@@ -1385,6 +1425,59 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		}
 		return true;
 	}
+
+	/**
+	 * 听了之后进入亮牌操作。
+	 * @param gameData
+	 * @param desk
+	 * @return
+	 */
+	public void chu_ting_liang_operation_notify(GameData gameData, MJDesk desk) {//tingliang #3 服务器发起开始亮牌协议。
+		//当前操作玩家
+		int position = gameData.getCurrentOpertaionPlayerIndex();
+		PlayerInfo plx = desk.getDeskPlayer(position);
+
+		if (plx == null) {
+			logger.error("act=chuTingLiangNotify;error=playerMiss;position={};deskId={};", gameData.getCurrentOpertaionPlayerIndex(), desk.getDeskID());
+			return;
+		}
+		
+		List<Byte> hand = gameData.getCardsInHand(position);
+		List<Byte> tingList = new ArrayList<Byte>();
+		tingList.addAll(gameData.mTingCards[position].cards);
+		
+		//tingliang #4 计算跟要听的牌不同花色的牌发送
+		int notAllowColor = -1;
+		if(plx.shuaiCnt > 0) { // 甩了九幺就没有亮牌限制。
+			notAllowColor = -1;
+		} else if(tingList.size() == 2 //两对子听也不没有亮牌限制。判断不严格
+				&& MJHelper.getCardCount(hand, tingList.get(0)) == 2 
+				&& MJHelper.getCardCount(hand, tingList.get(1)) == 2) {
+			notAllowColor = -1;
+		} else {
+			System.out.println("  check double   " + new Gson().toJson(tingList) + " , " + new Gson().toJson(hand));
+			notAllowColor = MJHelper.getCardColor(tingList.get(0));
+		}
+		
+		List<Byte> allowCards = new ArrayList<Byte>();
+		for(int i = 0; i < hand.size(); i++){
+			byte cardPoint = hand.get(i);
+			if(MJHelper.getCardColor(cardPoint) != notAllowColor) {
+				allowCards.add(cardPoint);
+			}
+		}
+		
+		// 游戏服务器通知客户端，轮到玩家操作了
+		ActionWaitingModel result = new ActionWaitingModel();
+		result.opertaion = MJConstants.MAHJONG_OPERTAION_TING_CHU_LIANG;
+		result.playerTableIndex = position;
+		result.tingList.addAll(allowCards);
+		gameData.setWaitingPlayerOperate(result);
+
+		//提醒当前玩家进行操作
+		notifyPlayerWaitingOperation(gameData, desk, plx, result);
+		return;
+	}
 	
 	private boolean checkPlayHu(GameData gameData, MJDesk desk, int position, int paoPosition, byte card){
 		boolean flag = false;
@@ -1400,6 +1493,12 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		}
 		
 		if(paoPosition != -1 && gameData.guiCards.contains((Integer)(int)card)) { //特殊判断：别人打出的万能牌不能点炮 //TODO wxd 想办法去掉特判？
+			flag = false;
+		}
+		System.out.println("  Check Hu dandiaofen " + card + " , " + new Gson().toJson(gameData.getCardsInHand(position)) + " : " + MJHelper.getCardCount(gameData.getCardsInHand(position), card));
+		if (paoPosition != -1 && !MJHelper.isNormalCard(card) 
+				&& MJHelper.getCardCount(gameData.getCardsInHand(position), card) < 2) {//特殊判断：不能单吊风牌 //TODO wxd 想办法去掉特判？
+			logger.info("不胡" + card + "。因为单吊风不能胡。");
 			flag = false;
 		}
 		if(flag) {
@@ -1515,6 +1614,11 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_TING) != 0) {
 			player_op_ting(gameData, gt, msg, pl);
 		}
+
+		// 玩家听亮牌
+		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_TING_CHU_LIANG) != 0) {
+			player_op_ting_liang(gameData, gt, msg, pl);
+		}
 		
 		// 玩家甩九幺
 		else if ((msg.getAction() & MJConstants.MAHJONG_OPERTAION_SHUAIJIUYAO) != 0) {
@@ -1589,6 +1693,13 @@ public class MJCardLogic implements ICardLogic<MJDesk> {
 			// 听
 			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_TING) != 0) {
 				msg.setAction(MJConstants.MAHJONG_OPERTAION_TING); //TODO WXD gang list 为什么不用设牌？
+				this.playerOperation(gt, desk, msg, pl);
+				return;
+			}
+			
+			if ((waiting.opertaion & MJConstants.MAHJONG_OPERTAION_TING_CHU_LIANG) != 0) {
+				msg.setAction(MJConstants.MAHJONG_OPERTAION_TING_CHU_LIANG);
+				msg.addCardValue(waiting.tingList.get(0));
 				this.playerOperation(gt, desk, msg, pl);
 				return;
 			}

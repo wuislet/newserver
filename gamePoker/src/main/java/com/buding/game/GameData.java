@@ -224,7 +224,14 @@ public class GameData extends GameDataBase {
 
 	public void addTingPl(PlayerInfo player) {
 		mTingCards[player.position].tingCard = true;
+		mTingCards[player.position].tingFirstRound = true;
 		tingpls.add(player);
+	}
+	
+	public void finishTingTurn(int position) {
+		if(mTingCards[position].tingFirstRound) {
+			mTingCards[position].tingFirstRound = false;
+		}
 	}
 
 	public void setCurrentOpertaionPlayerIndex(int currentOpertaionPlayerIndex) {

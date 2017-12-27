@@ -111,17 +111,4 @@
 			</bean>
 		</property>
 	</bean>
-
-	<bean id="chargeServer" class="com.buding.common.network.server.NettyServer">
-		<property name="port" value="${server.charge.port}"></property>
-		<property name="protocolInitalizer">
-			<bean class="com.buding.common.network.codec.NettyHttpServerInitializer">
-				<property name="handlers">
-					<list>
-						<bean class="com.buding.charge.network.ChargeServerHandler"></bean>
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
 </beans>

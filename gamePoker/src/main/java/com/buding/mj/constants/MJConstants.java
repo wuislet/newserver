@@ -40,6 +40,7 @@ public class MJConstants {
 	public static final int MAHJONG_OPERTAION_HU =0x40;//胡牌
 	public static final int MAHJONG_OPERTAION_TING =0x80;//听牌
 	public static final int MAHJONG_OPERTAION_CANCEL=0x100;//给玩家提示操作，玩家点取消
+	public static final int MAHJONG_OPERTAION_TING_CHU_LIANG =0x200;//听的时候出、亮牌
 
 	public static final int MAHJONG_OPERTAION_CHI_TING=0x40000;//吃了直接听，吃听
 	public static final int MAHJONG_OPERTAION_SHOUPAO=0x800000;//收炮
@@ -120,6 +121,7 @@ public class MJConstants {
 	public static final int GAME_TABLE_SUB_STATE_SHOW_CHANGE_BAO=6;//客户端在播换宝动画
 	public static final int GAME_TABLE_SUB_STATE_WAIT_CHANGE_BAO=7;//准备推送上宝/换宝动画
 	public static final int GAME_TABLE_SUB_STATE_PLAYING_GANG_ANIMATION=8;//客户端在播杠牌动画
+	public static final int GAME_TABLE_SUB_STATE_PLAYING_CHU_TING_ANIMATION=9;//客户端在播出亮牌动画
 		
 	public static final int SEND_TYPE_SINGLE = 1;//发给单人
 	public static final int SEND_TYPE_ALL = 2;//发给所有人

@@ -70,6 +70,7 @@ public class GamePacket {
 	}
 
 	static public class MyGame_Player_Ting_Cards {
+		public boolean tingFirstRound = false; //是否是报听的这一轮。
 		public boolean tingCard = false; // 是否已经上听
 		public Set<Byte> cards = new HashSet<Byte>();// 听的牌
 		//如果一手牌可以上听时，程序检测需要打出什么牌，然后听什么牌，将检测结果存入到这里

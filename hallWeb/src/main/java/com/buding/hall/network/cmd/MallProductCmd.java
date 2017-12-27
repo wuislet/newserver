@@ -1,5 +1,12 @@
 package com.buding.hall.network.cmd;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +50,18 @@ public class MallProductCmd extends HallCmd {
 			return;
 		}
 		
+		
 		MallProductResponse.Builder mb = MallProductResponse.newBuilder();
-		for(ProductConfig prd : configManager.shopItemConfMap.values()) {			
+		//排序
+		Set<Entry<String, ProductConfig>> entry = configManager.shopItemConfMap.entrySet();
+		List<Entry<String, ProductConfig>> list = new ArrayList<Entry<String, ProductConfig>>(entry);
+		Collections.sort(list, new Comparator<Entry<String, ProductConfig>>(){
+					public int compare(Entry<String, ProductConfig> o1, Entry<String, ProductConfig> o2){
+						return o1.getKey().compareTo(o2.getKey());
+					}
+				});
+		for(Entry<String, ProductConfig> mapping : list) {
+			ProductConfig prd = mapping.getValue();
 			if(prd.status == 1) {
 				MallProductModel.Builder m = MallProductModel.newBuilder();
 				m.setCategory(prd.category);
@@ -55,6 +72,7 @@ public class MallProductCmd extends HallCmd {
 				m.setPrice(prd.price.currenceCount);
 				mb.addProducts(m);
 			}
+			System.out.println("  for  shopitem  " + prd.name + " , " + prd.price.currenceCount + " , " + prd.cItemCount);
 		}
 		
 		pushHelper.pushPBMsg(data.session, PacketType.MallProductResponse, mb.build().toByteString());
